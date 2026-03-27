@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, KeyRound } from "lucide-react";
 import { Logo } from "@/components/ui/Logo";
 import { NAV_LINKS } from "@/lib/constants";
 
@@ -79,6 +79,15 @@ export function Nav() {
               코칭 문의
             </a>
           </li>
+          <li>
+            <a
+              href="/login"
+              className="text-text-light hover:text-primary transition-colors duration-250"
+              title="코치 로그인"
+            >
+              <KeyRound size={15} />
+            </a>
+          </li>
         </ul>
 
         <button
@@ -117,6 +126,13 @@ export function Nav() {
             onClick={() => setMenuOpen(false)}
           >
             코칭 문의
+          </a>
+          <a
+            href="/login"
+            className="text-[0.82rem] text-text-light hover:text-primary transition-colors text-center"
+            onClick={() => setMenuOpen(false)}
+          >
+            코치 로그인
           </a>
         </div>
       )}
