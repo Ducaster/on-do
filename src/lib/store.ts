@@ -1,10 +1,19 @@
 import type { Client, CoachingSession, Assessment } from "@/types/client";
 
-const USE_SHEETS = !!(
-  process.env.GOOGLE_SHEETS_SPREADSHEET_ID &&
-  process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL &&
-  process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY
-);
+const SHEET_ID = process.env.GOOGLE_SHEETS_SPREADSHEET_ID;
+const SA_EMAIL = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
+const SA_KEY = process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY;
+const USE_SHEETS = !!(SHEET_ID && SA_EMAIL && SA_KEY);
+
+// 서버 시작 시 환경변수 진단 로그
+console.log("[store] 환경변수 진단:", {
+  GOOGLE_SHEETS_SPREADSHEET_ID: SHEET_ID ? `✅ 설정됨 (${SHEET_ID.slice(0, 8)}...)` : "❌ 없음",
+  GOOGLE_SERVICE_ACCOUNT_EMAIL: SA_EMAIL ? `✅ 설정됨 (${SA_EMAIL})` : "❌ 없음",
+  GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY: SA_KEY
+    ? `✅ 설정됨 (길이: ${SA_KEY.length}, BEGIN 포함: ${SA_KEY.includes("BEGIN PRIVATE KEY")})`
+    : "❌ 없음",
+  USE_SHEETS,
+});
 
 // ─── Google Sheets Backend ───────────────────────────────
 
