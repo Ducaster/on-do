@@ -20,12 +20,26 @@ console.log("[store] 환경변수 진단:", {
 async function getSheetsClient() {
   const { google } = await import("googleapis");
 
-  // Handle private key: deployment platforms may store \n as literal
-  // or as actual newlines — normalize both cases
+  // Handle private key: normalize all possible formats
   let privateKey = process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY || "";
-  if (privateKey.includes("\\n")) {
-    privateKey = privateKey.replace(/\\n/g, "\n");
+
+  // 1. Strip surrounding quotes (Vercel UI에서 따옴표째 붙여넣은 경우)
+  if (
+    (privateKey.startsWith('"') && privateKey.endsWith('"')) ||
+    (privateKey.startsWith("'") && privateKey.endsWith("'"))
+  ) {
+    privateKey = privateKey.slice(1, -1);
   }
+
+  // 2. Replace literal \n with actual newlines
+  privateKey = privateKey.replace(/\\n/g, "\n");
+
+  console.log("[store] Private Key 진단:", {
+    길이: privateKey.length,
+    시작: privateKey.slice(0, 30),
+    끝: privateKey.slice(-30),
+    줄바꿈수: (privateKey.match(/\n/g) || []).length,
+  });
 
   const auth = new google.auth.GoogleAuth({
     credentials: {
