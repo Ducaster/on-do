@@ -10,10 +10,18 @@ const USE_SHEETS = !!(
 
 async function getSheetsClient() {
   const { google } = await import("googleapis");
+
+  // Handle private key: deployment platforms may store \n as literal
+  // or as actual newlines — normalize both cases
+  let privateKey = process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY || "";
+  if (privateKey.includes("\\n")) {
+    privateKey = privateKey.replace(/\\n/g, "\n");
+  }
+
   const auth = new google.auth.GoogleAuth({
     credentials: {
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-      private_key: process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY?.replace(/\\n/g, "\n"),
+      private_key: privateKey,
     },
     scopes: ["https://www.googleapis.com/auth/spreadsheets"],
   });
@@ -243,49 +251,29 @@ async function writeSheets(clients: Client[]): Promise<void> {
   await Promise.all(writes);
 }
 
-// ─── JSON File Backend (fallback) ────────────────────────
+// ─── Public API (with error handling) ────────────────────
 
-import fs from "fs";
-import path from "path";
-
-const DATA_DIR = path.join(process.cwd(), "data");
-const DATA_PATH = path.join(DATA_DIR, "clients.json");
-
-function ensureDataDir() {
-  if (!fs.existsSync(DATA_DIR)) {
-    fs.mkdirSync(DATA_DIR, { recursive: true });
-  }
-}
-
-function readJson(): Client[] {
-  ensureDataDir();
-  if (!fs.existsSync(DATA_PATH)) return [];
+export async function getClients(): Promise<Client[]> {
+  if (!USE_SHEETS) return [];
   try {
-    return JSON.parse(fs.readFileSync(DATA_PATH, "utf-8")).clients || [];
-  } catch {
+    return await readSheets();
+  } catch (err) {
+    console.error("[store] Google Sheets 읽기 실패:", err);
     return [];
   }
 }
 
-function writeJson(clients: Client[]): void {
-  ensureDataDir();
-  fs.writeFileSync(
-    DATA_PATH,
-    JSON.stringify({ clients }, null, 2),
-    "utf-8"
-  );
-}
-
-// ─── Public API (always async) ───────────────────────────
-
-export async function getClients(): Promise<Client[]> {
-  if (USE_SHEETS) return readSheets();
-  return readJson();
-}
-
 export async function saveClients(clients: Client[]): Promise<void> {
-  if (USE_SHEETS) return writeSheets(clients);
-  writeJson(clients);
+  if (!USE_SHEETS) {
+    console.warn("[store] Google Sheets 환경변수가 설정되지 않았습니다.");
+    return;
+  }
+  try {
+    await writeSheets(clients);
+  } catch (err) {
+    console.error("[store] Google Sheets 쓰기 실패:", err);
+    throw new Error("데이터 저장에 실패했습니다. 잠시 후 다시 시도해주세요.");
+  }
 }
 
 export async function getClient(
