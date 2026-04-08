@@ -390,6 +390,27 @@ export default function ClientDetail({ client }: { client: Client }) {
             )}
           </div>
 
+          {/* Assessment Curriculum Link */}
+          <Link
+            href={`/dashboard/clients/${client.id}/assessments`}
+            className="flex items-center justify-between p-5 bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)] border border-primary/15 hover:border-primary/40 hover:shadow-[var(--shadow-md)] transition-all group"
+          >
+            <div className="flex items-center gap-3">
+              <span className="w-10 h-10 rounded-full bg-primary flex items-center justify-center shrink-0">
+                <ClipboardList size={18} className="text-white" />
+              </span>
+              <div>
+                <h3 className="font-heading font-bold text-text group-hover:text-primary transition-colors">
+                  검사 커리큘럼
+                </h3>
+                <p className="text-xs text-text-muted">
+                  5개 검사 진행 &middot; {client.assessments.length}건 완료
+                </p>
+              </div>
+            </div>
+            <ChevronRight size={18} className="text-text-light group-hover:text-primary transition-colors" />
+          </Link>
+
           {/* Assessments */}
           <div className="bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)] p-6">
             <div className="flex items-center justify-between mb-5">

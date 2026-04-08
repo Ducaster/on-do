@@ -1,91 +1,88 @@
-import {
-  Candy,
-  Radio,
-  Sparkles,
-  Globe,
-  Trees,
-  Clock,
-  Calendar,
-  User,
-  Users,
-  type LucideIcon,
-} from "lucide-react";
 import { Container } from "@/components/ui/Container";
-import { SectionHeader } from "@/components/ui/SectionHeader";
-import { SectionOrnament } from "@/components/ui/SectionOrnament";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { programs } from "@/data/programs";
 
-const iconMap: Record<string, LucideIcon> = {
-  Candy,
-  Radio,
-  Sparkles,
-  Globe,
-  Trees,
-};
-
 export function Programs() {
-  return (
-    <section className="py-[120px] bg-bg-cream" id="programs">
-      <Container>
-        <SectionOrnament />
-        <SectionHeader
-          eyebrow="Coaching Programs"
-          title="코칭 프로그램"
-          description="지금 나에게 필요한 주제를 골라보세요"
-          center
-        />
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-5">
-          {programs.map((program, i) => {
-            const IconComponent = iconMap[program.icon];
-            const ParticipantIcon =
-              program.participantType === "개인" ? User : Users;
+  const featured = programs[0];
+  const rest = programs.slice(1);
 
-            return (
-              <ScrollReveal key={program.id} delay={i * 100} className="h-full">
-                <div className="bg-card rounded-lg overflow-hidden shadow-sm border border-border-light relative transition-all duration-300 hover:shadow-md hover:-translate-y-1 hover:border-border h-full flex flex-col">
+  return (
+    <section className="py-28 md:py-36 bg-bg-warm" id="programs">
+      <Container>
+        <ScrollReveal>
+          <div className="mb-14">
+            <h2 className="font-heading text-[clamp(1.6rem,3vw,2.2rem)] font-bold text-text mb-4">
+              코칭 프로그램
+            </h2>
+            <p className="text-[0.92rem] text-text-secondary max-w-[420px] leading-[1.85] break-keep">
+              지금 나에게 필요한 주제를 골라보세요. 각 프로그램은 1:1 맞춤으로
+              진행됩니다.
+            </p>
+          </div>
+        </ScrollReveal>
+
+        <ScrollReveal>
+          <div className="bg-card rounded-[var(--radius-lg)] p-8 md:p-10 mb-5 border border-border-lighter shadow-sm">
+            <div className="flex flex-col md:flex-row md:items-start md:gap-12">
+              <div className="flex-1">
+                <div
+                  className="w-3 h-3 rounded-full mb-5"
+                  style={{ background: featured.color }}
+                />
+                <h3 className="font-heading text-[1.3rem] font-bold text-text mb-2">
+                  {featured.name}
+                </h3>
+                <span className="text-[0.78rem] text-text-muted tracking-[0.04em] block mb-5">
+                  {featured.theme}
+                </span>
+                <p className="text-[0.92rem] text-text-secondary leading-[1.9] break-keep max-w-lg">
+                  {featured.description}
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-2.5 mt-6 md:mt-2 md:flex-col md:shrink-0">
+                <span className="text-[0.76rem] text-text-muted px-3.5 py-1.5 bg-bg-warm rounded-full">
+                  {featured.duration}
+                </span>
+                <span className="text-[0.76rem] text-text-muted px-3.5 py-1.5 bg-bg-warm rounded-full">
+                  {featured.frequency}
+                </span>
+                <span className="text-[0.76rem] text-text-muted px-3.5 py-1.5 bg-bg-warm rounded-full">
+                  {featured.participantType}
+                </span>
+              </div>
+            </div>
+          </div>
+        </ScrollReveal>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          {rest.map((program, i) => (
+            <ScrollReveal key={program.id} delay={i * 80}>
+              <div className="bg-card rounded-[var(--radius-md)] p-7 border border-border-lighter shadow-xs h-full flex flex-col">
+                <div className="flex items-center gap-3 mb-4">
                   <div
-                    className="h-[3px]"
-                    style={{
-                      background: `linear-gradient(to right, ${program.color}, ${program.gradientTo})`,
-                    }}
+                    className="w-2.5 h-2.5 rounded-full shrink-0"
+                    style={{ background: program.color }}
                   />
-                  <div className="p-7 flex flex-col flex-1">
-                    <div
-                      className="w-12 h-12 rounded-[12px] flex items-center justify-center mb-[18px] transition-transform duration-300"
-                      style={{
-                        background: `color-mix(in srgb, ${program.color} 6%, transparent)`,
-                        color: program.color,
-                      }}
-                    >
-                      {IconComponent && <IconComponent className="w-[22px] h-[22px]" />}
-                    </div>
-                    <div className="font-heading text-[1.05rem] font-bold mb-0.5">
-                      {program.name}
-                    </div>
-                    <div className="text-[0.76rem] text-text-muted mb-3.5 font-normal tracking-[0.04em]">
-                      {program.theme}
-                    </div>
-                    <p className="text-[0.86rem] text-text-secondary leading-[1.75] mb-[18px] break-keep flex-1">
-                      {program.description}
-                    </p>
-                    <div className="flex gap-3 pt-3.5 border-t border-border-lighter">
-                      <span className="text-[0.72rem] text-text-light flex items-center gap-1 tabular-nums">
-                        <Clock className="w-3 h-3" /> {program.duration}
-                      </span>
-                      <span className="text-[0.72rem] text-text-light flex items-center gap-1 tabular-nums">
-                        <Calendar className="w-3 h-3" /> {program.frequency}
-                      </span>
-                      <span className="text-[0.72rem] text-text-light flex items-center gap-1 tabular-nums">
-                        <ParticipantIcon className="w-3 h-3" />{" "}
-                        {program.participantType}
-                      </span>
-                    </div>
-                  </div>
+                  <h3 className="font-heading text-[1.02rem] font-bold text-text">
+                    {program.name}
+                  </h3>
                 </div>
-              </ScrollReveal>
-            );
-          })}
+                <span className="text-[0.74rem] text-text-muted tracking-[0.04em] block mb-3">
+                  {program.theme}
+                </span>
+                <p className="text-[0.86rem] text-text-secondary leading-[1.8] break-keep flex-1">
+                  {program.description}
+                </p>
+                <div className="flex gap-3 pt-4 mt-4 border-t border-border-lighter text-[0.74rem] text-text-light">
+                  <span>{program.duration}</span>
+                  <span className="text-border">·</span>
+                  <span>{program.frequency}</span>
+                  <span className="text-border">·</span>
+                  <span>{program.participantType}</span>
+                </div>
+              </div>
+            </ScrollReveal>
+          ))}
         </div>
       </Container>
     </section>

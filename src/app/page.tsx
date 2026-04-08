@@ -1,16 +1,14 @@
 import { Nav } from "@/components/layout/Nav";
-import { Footer } from "@/components/layout/Footer";
-import { EmergencyBanner } from "@/components/layout/EmergencyBanner";
 import { Hero } from "@/components/sections/Hero";
-import { Stats } from "@/components/sections/Stats";
 import { About } from "@/components/sections/About";
-import { Coaches } from "@/components/sections/Coaches";
 import { Programs } from "@/components/sections/Programs";
+import { Coaches } from "@/components/sections/Coaches";
 import { Process } from "@/components/sections/Process";
-import { Tools } from "@/components/sections/Tools";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { FAQ } from "@/components/sections/FAQ";
 import { Contact } from "@/components/sections/Contact";
+import { EmergencyBanner } from "@/components/layout/EmergencyBanner";
+import { Footer } from "@/components/layout/Footer";
 
 export default function Home() {
   return (
@@ -18,12 +16,10 @@ export default function Home() {
       <Nav />
       <main>
         <Hero />
-        <Stats />
         <About />
-        <Coaches />
         <Programs />
+        <Coaches />
         <Process />
-        <Tools />
         <Testimonials />
         <FAQ />
         <Contact />

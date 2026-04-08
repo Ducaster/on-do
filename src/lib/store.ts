@@ -100,6 +100,52 @@ async function ensureSheets() {
         "메모",
       ],
     },
+    {
+      title: "검사응답_성격유형",
+      headers: [
+        "assessmentId",
+        "clientId",
+        "날짜",
+        "응답JSON",
+        "주유형",
+        "날개",
+        "유형별점수JSON",
+      ],
+    },
+    {
+      title: "검사응답_애착유형",
+      headers: [
+        "assessmentId",
+        "clientId",
+        "날짜",
+        "응답JSON",
+        "애착유형",
+        "회피평균",
+        "불안평균",
+      ],
+    },
+    {
+      title: "검사응답_핵심감정",
+      headers: [
+        "assessmentId",
+        "clientId",
+        "날짜",
+        "선택항목JSON",
+        "주요유형JSON",
+        "총선택수",
+      ],
+    },
+    {
+      title: "검사응답_드로잉",
+      headers: [
+        "assessmentId",
+        "clientId",
+        "검사종류",
+        "날짜",
+        "이미지URL",
+        "메모",
+      ],
+    },
   ];
 
   for (const tab of tabs) {
@@ -310,4 +356,200 @@ export function generateId(): string {
   return (
     Date.now().toString(36) + Math.random().toString(36).slice(2, 7)
   );
+}
+
+// ─── 검사 상세 응답 저장 ────────────────────────────────
+
+/**
+ * 성격유형(에니어그램) 검사 응답 저장
+ */
+export async function savePersonalityResponse(data: {
+  assessmentId: string;
+  clientId: string;
+  date: string;
+  answers: number[];
+  mainType: number;
+  wing: number;
+  scores: Record<number, number>;
+}): Promise<void> {
+  if (!USE_SHEETS) return;
+  const sheets = await getSheetsClient();
+  const id = process.env.GOOGLE_SHEETS_SPREADSHEET_ID!;
+  await ensureSheets();
+
+  await sheets.spreadsheets.values.append({
+    spreadsheetId: id,
+    range: "'검사응답_성격유형'!A:G",
+    valueInputOption: "RAW",
+    requestBody: {
+      values: [[
+        data.assessmentId,
+        data.clientId,
+        data.date,
+        JSON.stringify(data.answers),
+        data.mainType.toString(),
+        data.wing.toString(),
+        JSON.stringify(data.scores),
+      ]],
+    },
+  });
+}
+
+/**
+ * 애착유형 검사 응답 저장
+ */
+export async function saveAttachmentResponse(data: {
+  assessmentId: string;
+  clientId: string;
+  date: string;
+  answers: number[];
+  type: string;
+  avoidanceMean: number;
+  anxietyMean: number;
+}): Promise<void> {
+  if (!USE_SHEETS) return;
+  const sheets = await getSheetsClient();
+  const id = process.env.GOOGLE_SHEETS_SPREADSHEET_ID!;
+  await ensureSheets();
+
+  await sheets.spreadsheets.values.append({
+    spreadsheetId: id,
+    range: "'검사응답_애착유형'!A:G",
+    valueInputOption: "RAW",
+    requestBody: {
+      values: [[
+        data.assessmentId,
+        data.clientId,
+        data.date,
+        JSON.stringify(data.answers),
+        data.type,
+        data.avoidanceMean.toString(),
+        data.anxietyMean.toString(),
+      ]],
+    },
+  });
+}
+
+/**
+ * 핵심감정 검사 응답 저장
+ */
+export async function saveCoreEmotionResponse(data: {
+  assessmentId: string;
+  clientId: string;
+  date: string;
+  selections: Record<number, string[]>;
+  dominantTypes: { typeId: number; title: string; count: number }[];
+  totalSelected: number;
+}): Promise<void> {
+  if (!USE_SHEETS) return;
+  const sheets = await getSheetsClient();
+  const id = process.env.GOOGLE_SHEETS_SPREADSHEET_ID!;
+  await ensureSheets();
+
+  await sheets.spreadsheets.values.append({
+    spreadsheetId: id,
+    range: "'검사응답_핵심감정'!A:F",
+    valueInputOption: "RAW",
+    requestBody: {
+      values: [[
+        data.assessmentId,
+        data.clientId,
+        data.date,
+        JSON.stringify(data.selections),
+        JSON.stringify(data.dominantTypes),
+        data.totalSelected.toString(),
+      ]],
+    },
+  });
+}
+
+/**
+ * 드로잉 검사 응답 저장 (6도형, 인생그래프)
+ */
+export async function saveDrawingResponse(data: {
+  assessmentId: string;
+  clientId: string;
+  slug: string;
+  date: string;
+  imageUrl: string;
+  notes: string;
+}): Promise<void> {
+  if (!USE_SHEETS) return;
+  const sheets = await getSheetsClient();
+  const id = process.env.GOOGLE_SHEETS_SPREADSHEET_ID!;
+  await ensureSheets();
+
+  await sheets.spreadsheets.values.append({
+    spreadsheetId: id,
+    range: "'검사응답_드로잉'!A:F",
+    valueInputOption: "RAW",
+    requestBody: {
+      values: [[
+        data.assessmentId,
+        data.clientId,
+        data.slug,
+        data.date,
+        data.imageUrl,
+        data.notes,
+      ]],
+    },
+  });
+}
+
+/**
+ * 특정 내담자의 검사 상세 응답 읽기
+ */
+export async function getAssessmentDetail(
+  assessmentId: string,
+  slug: string
+): Promise<Record<string, string> | null> {
+  if (!USE_SHEETS) return null;
+  const sheets = await getSheetsClient();
+  const id = process.env.GOOGLE_SHEETS_SPREADSHEET_ID!;
+  await ensureSheets();
+
+  const tabMap: Record<string, { range: string; headers: string[] }> = {
+    personality: {
+      range: "'검사응답_성격유형'!A:G",
+      headers: ["assessmentId", "clientId", "날짜", "응답JSON", "주유형", "날개", "유형별점수JSON"],
+    },
+    attachment: {
+      range: "'검사응답_애착유형'!A:G",
+      headers: ["assessmentId", "clientId", "날짜", "응답JSON", "애착유형", "회피평균", "불안평균"],
+    },
+    "core-emotion": {
+      range: "'검사응답_핵심감정'!A:F",
+      headers: ["assessmentId", "clientId", "날짜", "선택항목JSON", "주요유형JSON", "총선택수"],
+    },
+    "six-shapes": {
+      range: "'검사응답_드로잉'!A:F",
+      headers: ["assessmentId", "clientId", "검사종류", "날짜", "이미지URL", "메모"],
+    },
+    "life-graph": {
+      range: "'검사응답_드로잉'!A:F",
+      headers: ["assessmentId", "clientId", "검사종류", "날짜", "이미지URL", "메모"],
+    },
+  };
+
+  const tab = tabMap[slug];
+  if (!tab) return null;
+
+  const res = await sheets.spreadsheets.values.get({
+    spreadsheetId: id,
+    range: tab.range,
+  });
+
+  const rows = res.data.values || [];
+  // 헤더 스킵 (첫 행)
+  for (let i = 1; i < rows.length; i++) {
+    if (rows[i][0] === assessmentId) {
+      const record: Record<string, string> = {};
+      for (let j = 0; j < tab.headers.length; j++) {
+        record[tab.headers[j]] = rows[i][j] ?? "";
+      }
+      return record;
+    }
+  }
+
+  return null;
 }

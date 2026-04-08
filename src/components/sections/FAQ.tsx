@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { Container } from "@/components/ui/Container";
-import { SectionHeader } from "@/components/ui/SectionHeader";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { faqItems } from "@/data/faq";
 
@@ -11,42 +10,46 @@ export function FAQ() {
   const [openId, setOpenId] = useState<string | null>(null);
 
   return (
-    <section className="py-[120px] bg-bg" id="faq">
-      <Container>
-        <SectionHeader eyebrow="FAQ" title="자주 묻는 질문" center />
+    <section className="py-20 md:py-28 bg-bg-warm" id="faq">
+      <Container narrow>
         <ScrollReveal>
-          <div className="max-w-[700px] mx-auto flex flex-col gap-3">
+          <h2 className="font-heading text-[clamp(1.4rem,3vw,1.8rem)] font-bold text-text text-center mb-12">
+            자주 묻는 질문
+          </h2>
+        </ScrollReveal>
+
+        <ScrollReveal>
+          <div className="flex flex-col">
             {faqItems.map((item) => {
               const isOpen = openId === item.id;
               return (
                 <div
                   key={item.id}
-                  className={`bg-card rounded-lg overflow-hidden border transition-colors duration-250 ${
-                    isOpen ? "border-border" : "border-border-light"
-                  }`}
+                  className="border-b border-border-lighter last:border-none"
                 >
                   <button
-                    className={`w-full p-5 bg-transparent border-none flex items-center justify-between font-body text-[0.92rem] font-semibold cursor-pointer text-left transition-colors duration-250 tracking-[-0.01em] hover:text-primary ${
+                    className={`w-full py-5 flex items-center justify-between text-left cursor-pointer bg-transparent border-none transition-colors ${
                       isOpen ? "text-primary" : "text-text"
                     }`}
                     onClick={() => setOpenId(isOpen ? null : item.id)}
                   >
-                    {item.question}
+                    <span className="text-[0.92rem] font-medium">
+                      {item.question}
+                    </span>
                     <ChevronDown
-                      className={`w-[17px] h-[17px] shrink-0 ml-4 transition-transform duration-350 ${
-                        isOpen
-                          ? "rotate-180 text-primary"
-                          : "text-text-light"
+                      size={16}
+                      className={`shrink-0 ml-4 transition-transform duration-300 text-text-light ${
+                        isOpen ? "rotate-180" : ""
                       }`}
                     />
                   </button>
                   <div
-                    className="overflow-hidden transition-[max-height] duration-[450ms]"
-                    style={{ maxHeight: isOpen ? "300px" : "0" }}
+                    className="overflow-hidden transition-[max-height] duration-[400ms]"
+                    style={{ maxHeight: isOpen ? "200px" : "0" }}
                   >
-                    <div className="px-5 pb-5 text-[0.88rem] text-text-secondary leading-[1.9]">
+                    <p className="pb-5 text-[0.88rem] text-text-secondary leading-[1.9] break-keep">
                       {item.answer}
-                    </div>
+                    </p>
                   </div>
                 </div>
               );

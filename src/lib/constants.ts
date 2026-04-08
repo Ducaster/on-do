@@ -1,9 +1,8 @@
 export const NAV_LINKS = [
-  { label: "센터소개", href: "#about", section: "about" },
-  { label: "코치", href: "#coaches", section: "coaches" },
+  { label: "소개", href: "#about", section: "about" },
   { label: "프로그램", href: "#programs", section: "programs" },
-  { label: "검사도구", href: "#tools", section: "tools" },
-  { label: "이용안내", href: "#faq", section: "faq" },
+  { label: "코치", href: "#coaches", section: "coaches" },
+  { label: "FAQ", href: "#faq", section: "faq" },
 ] as const;
 
 export const CONTACT_INFO = {

@@ -35,36 +35,29 @@ export function Nav() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-100 backdrop-blur-[24px] backdrop-saturate-[1.3] transition-all duration-400 border-b ${
+      className={`fixed top-0 left-0 right-0 z-100 transition-all duration-400 ${
         scrolled
-          ? "bg-bg/92 border-border-light"
-          : "bg-bg/82 border-transparent"
+          ? "bg-bg/95 backdrop-blur-[20px] shadow-xs"
+          : "bg-transparent"
       }`}
     >
       <div className="flex items-center justify-between h-[72px] max-w-[1100px] mx-auto px-7">
-        <a href="#" className="flex items-center gap-2.5">
-          <Logo size={30} />
-          <div className="flex flex-col leading-none">
-            <span className="font-heading text-[1.05rem] font-bold tracking-[0.04em] text-text">
-              온도
-            </span>
-            <span className="font-caption text-[0.58rem] font-normal tracking-[0.22em] text-text-muted mt-px italic">
-              ON-DO
-            </span>
-          </div>
+        <a href="#" className="flex items-center gap-2">
+          <Logo size={28} />
+          <span className="font-heading text-[1rem] font-bold tracking-[0.03em] text-text">
+            온도
+          </span>
         </a>
 
-        <ul
-          className={`items-center gap-9 list-none max-[920px]:hidden flex`}
-        >
+        <ul className="items-center gap-8 list-none max-[920px]:hidden flex">
           {NAV_LINKS.map((link) => (
             <li key={link.section}>
               <a
                 href={link.href}
-                className={`text-[0.82rem] font-medium tracking-[0.02em] cursor-pointer transition-colors duration-250 relative after:content-[''] after:absolute after:bottom-[-6px] after:left-1/2 after:right-1/2 after:h-[1.5px] after:bg-primary after:transition-all after:duration-300 hover:text-text hover:after:left-0 hover:after:right-0 ${
+                className={`text-[0.82rem] font-medium transition-colors duration-250 ${
                   activeSection === link.section
-                    ? "text-primary after:left-0 after:right-0"
-                    : "text-text-muted"
+                    ? "text-primary"
+                    : "text-text-muted hover:text-text"
                 }`}
               >
                 {link.label}
@@ -74,9 +67,9 @@ export function Nav() {
           <li>
             <a
               href="#contact"
-              className="text-[0.78rem] font-semibold text-white bg-primary px-6 py-2.5 rounded-md transition-all duration-250 hover:bg-primary-dark hover:-translate-y-px tracking-[0.04em]"
+              className="text-[0.8rem] font-medium text-white bg-primary px-5 py-2 rounded-full transition-all duration-250 hover:bg-primary-dark"
             >
-              코칭 문의
+              문의하기
             </a>
           </li>
           <li>
@@ -103,9 +96,8 @@ export function Nav() {
         </button>
       </div>
 
-      {/* Mobile menu */}
       {menuOpen && (
-        <div className="min-[921px]:hidden flex flex-col absolute top-[72px] left-0 right-0 bg-bg/98 backdrop-blur-[24px] px-7 py-7 gap-5 border-b border-border-light shadow-lg">
+        <div className="min-[921px]:hidden flex flex-col absolute top-[72px] left-0 right-0 bg-bg/98 backdrop-blur-[20px] px-7 py-6 gap-4 border-b border-border-lighter">
           {NAV_LINKS.map((link) => (
             <a
               key={link.section}
@@ -122,14 +114,14 @@ export function Nav() {
           ))}
           <a
             href="#contact"
-            className="text-[0.82rem] font-semibold text-white bg-primary px-6 py-3 rounded-md text-center tracking-[0.04em]"
+            className="text-[0.84rem] font-medium text-white bg-primary px-5 py-3 rounded-full text-center mt-2"
             onClick={() => setMenuOpen(false)}
           >
-            코칭 문의
+            문의하기
           </a>
           <a
             href="/login"
-            className="text-[0.82rem] text-text-light hover:text-primary transition-colors text-center"
+            className="text-[0.82rem] text-text-light text-center"
             onClick={() => setMenuOpen(false)}
           >
             코치 로그인
