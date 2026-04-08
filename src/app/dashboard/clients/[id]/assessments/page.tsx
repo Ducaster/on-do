@@ -31,7 +31,9 @@ export default async function AssessmentsPage({
 
   if (!client) notFound();
 
-  const completedTools = new Set(client.assessments.map((a) => a.toolName));
+  const completedMap = new Map(
+    client.assessments.map((a) => [a.toolName, a])
+  );
 
   return (
     <div>
@@ -54,13 +56,17 @@ export default async function AssessmentsPage({
 
       <div className="space-y-3">
         {ASSESSMENTS.map((assessment) => {
-          const isDone = completedTools.has(SLUG_TO_TOOL[assessment.slug]);
+          const doneAssessment = completedMap.get(SLUG_TO_TOOL[assessment.slug]);
+          const isDone = !!doneAssessment;
           const Icon = TYPE_ICON[assessment.type] ?? FileQuestion;
+          const href = doneAssessment
+            ? `/dashboard/clients/${id}/assessments/${assessment.slug}/result?aid=${doneAssessment.id}`
+            : `/dashboard/clients/${id}/assessments/${assessment.slug}`;
 
           return (
             <Link
               key={assessment.slug}
-              href={`/dashboard/clients/${id}/assessments/${assessment.slug}`}
+              href={href}
               className={`group flex items-center gap-4 p-5 rounded-[var(--radius-md)] border transition-all ${
                 isDone
                   ? "bg-card border-border-lighter hover:border-primary/30"

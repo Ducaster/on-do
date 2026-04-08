@@ -7,9 +7,10 @@ import { submitDrawingTest } from "../actions";
 interface DrawingTestFormProps {
   clientId: string;
   slug: string;
+  template?: "six-shapes" | "life-graph";
 }
 
-export default function DrawingTestForm({ clientId, slug }: DrawingTestFormProps) {
+export default function DrawingTestForm({ clientId, slug, template }: DrawingTestFormProps) {
   const [notes, setNotes] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
@@ -28,7 +29,7 @@ export default function DrawingTestForm({ clientId, slug }: DrawingTestFormProps
 
   return (
     <div className="space-y-4">
-      <DrawingCanvas onExport={handleExport} />
+      <DrawingCanvas template={template} onExport={handleExport} />
 
       {submitting && (
         <div className="text-center py-4">

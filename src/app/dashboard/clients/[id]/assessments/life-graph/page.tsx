@@ -35,7 +35,7 @@ export default async function LifeGraphPage({
       </div>
 
       <div className="bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)] p-6">
-        <DrawingTestForm clientId={id} slug="life-graph" />
+        <DrawingTestForm clientId={id} slug="life-graph" template="life-graph" />
       </div>
     </div>
   );

@@ -187,5 +187,5 @@ export async function submitDrawingTest(formData: FormData) {
   });
 
   revalidatePath(`/dashboard/clients/${clientId}`);
-  redirect(`/dashboard/clients/${clientId}/assessments`);
+  redirect(`/dashboard/clients/${clientId}/assessments/${slug}/result?aid=${assessmentId}`);
 }

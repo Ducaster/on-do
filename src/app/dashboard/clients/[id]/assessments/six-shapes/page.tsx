@@ -30,12 +30,12 @@ export default async function SixShapesPage({
           6도형 검사
         </h1>
         <p className="text-sm text-text-muted">
-          {client.name}님 &mdash; 아래 캔버스에 자유롭게 6개의 도형을 그려주세요
+          {client.name}님 &mdash; 캔버스의 6개 도형을 활용하여 자유롭게 그림을 그려주세요
         </p>
       </div>
 
       <div className="bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)] p-6">
-        <DrawingTestForm clientId={id} slug="six-shapes" />
+        <DrawingTestForm clientId={id} slug="six-shapes" template="six-shapes" />
       </div>
     </div>
   );
