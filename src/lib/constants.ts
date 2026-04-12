@@ -1,7 +1,7 @@
 export const NAV_LINKS = [
   { label: "소개", href: "#about", section: "about" },
   { label: "프로그램", href: "#programs", section: "programs" },
-  { label: "코치", href: "#coaches", section: "coaches" },
+  { label: "멘토", href: "#mentors", section: "mentors" },
   { label: "FAQ", href: "#faq", section: "faq" },
 ] as const;
 

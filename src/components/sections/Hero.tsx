@@ -37,10 +37,10 @@ export function Hero() {
         </p>
 
         <a
-          href="#contact"
+          href="#about"
           className="inline-flex items-center px-10 py-4 bg-primary text-white rounded-full text-[0.9rem] font-medium tracking-[0.02em] transition-all duration-300 hover:bg-primary-dark hover:shadow-lg hover:-translate-y-0.5"
         >
-          코칭 시작하기
+          더 알아보기
         </a>
       </Container>
 

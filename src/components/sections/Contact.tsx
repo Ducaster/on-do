@@ -3,7 +3,7 @@
 import { useState, type FormEvent } from "react";
 import { Container } from "@/components/ui/Container";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
-import { CONTACT_INFO } from "@/lib/constants";
+
 
 export function Contact() {
   const [submitted, setSubmitted] = useState(false);
@@ -116,44 +116,6 @@ export function Contact() {
           </div>
         </ScrollReveal>
 
-        <ScrollReveal delay={150}>
-          <div className="max-w-xl mx-auto mt-16 pt-10 border-t border-border-lighter">
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
-              <div>
-                <span className="text-[0.7rem] text-text-light block mb-1">
-                  전화
-                </span>
-                <span className="text-[0.82rem] text-text-secondary">
-                  {CONTACT_INFO.phone}
-                </span>
-              </div>
-              <div>
-                <span className="text-[0.7rem] text-text-light block mb-1">
-                  카카오톡
-                </span>
-                <span className="text-[0.82rem] text-text-secondary">
-                  {CONTACT_INFO.kakao}
-                </span>
-              </div>
-              <div>
-                <span className="text-[0.7rem] text-text-light block mb-1">
-                  이메일
-                </span>
-                <span className="text-[0.82rem] text-text-secondary">
-                  {CONTACT_INFO.email}
-                </span>
-              </div>
-              <div>
-                <span className="text-[0.7rem] text-text-light block mb-1">
-                  운영시간
-                </span>
-                <span className="text-[0.82rem] text-text-secondary">
-                  평일 10–20시
-                </span>
-              </div>
-            </div>
-          </div>
-        </ScrollReveal>
       </Container>
     </section>
   );

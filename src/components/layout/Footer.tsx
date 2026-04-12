@@ -21,47 +21,29 @@ export function Footer() {
             </p>
           </div>
 
-          <div className="flex gap-16 max-[480px]:flex-col max-[480px]:gap-8">
-            <div>
-              <div className="text-[0.68rem] font-medium text-text-inverse/40 mb-3 tracking-[0.08em] uppercase">
-                연락처
-              </div>
-              <ul className="list-none flex flex-col gap-2">
-                <li className="text-[0.78rem] text-text-inverse/55">
-                  {CONTACT_INFO.phone}
-                </li>
-                <li className="text-[0.78rem] text-text-inverse/55">
-                  {CONTACT_INFO.kakao}
-                </li>
-                <li className="text-[0.78rem] text-text-inverse/55">
-                  {CONTACT_INFO.email}
-                </li>
-              </ul>
+          <div>
+            <div className="text-[0.68rem] font-medium text-text-inverse/40 mb-3 tracking-[0.08em] uppercase">
+              바로가기
             </div>
-            <div>
-              <div className="text-[0.68rem] font-medium text-text-inverse/40 mb-3 tracking-[0.08em] uppercase">
-                바로가기
-              </div>
-              <ul className="list-none flex flex-col gap-2">
-                {(
-                  [
-                    ["소개", "#about"],
-                    ["프로그램", "#programs"],
-                    ["코치", "#coaches"],
-                    ["FAQ", "#faq"],
-                  ] as const
-                ).map(([label, href]) => (
-                  <li key={href}>
-                    <a
-                      href={href}
-                      className="text-[0.78rem] text-text-inverse/55 hover:text-text-inverse/80 transition-opacity"
-                    >
-                      {label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <ul className="list-none flex flex-col gap-2">
+              {(
+                [
+                  ["소개", "#about"],
+                  ["프로그램", "#programs"],
+                  ["멘토", "#mentors"],
+                  ["FAQ", "#faq"],
+                ] as const
+              ).map(([label, href]) => (
+                <li key={href}>
+                  <a
+                    href={href}
+                    className="text-[0.78rem] text-text-inverse/55 hover:text-text-inverse/80 transition-opacity"
+                  >
+                    {label}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 
