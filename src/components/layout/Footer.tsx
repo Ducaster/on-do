@@ -1,6 +1,5 @@
 import { Logo } from "@/components/ui/Logo";
 import { Container } from "@/components/ui/Container";
-import { CONTACT_INFO } from "@/lib/constants";
 
 export function Footer() {
   return (
@@ -49,7 +48,7 @@ export function Footer() {
 
         <div className="border-t border-text-inverse/10 pt-6 flex flex-col sm:flex-row sm:justify-between gap-3">
           <div className="text-[0.68rem] text-text-inverse/35 leading-[1.8]">
-            온도 코칭센터 | {CONTACT_INFO.address}
+            온도 코칭센터
             <br />
             <a
               href="/privacy"
