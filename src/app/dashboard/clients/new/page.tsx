@@ -75,19 +75,18 @@ export default function NewClientPage() {
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label
-              htmlFor="birthYear"
+              htmlFor="birthDate"
               className="block text-sm font-medium text-text-secondary mb-2"
             >
-              출생연도
+              생년월일
             </label>
             <input
-              type="number"
-              id="birthYear"
-              name="birthYear"
-              min="1950"
-              max="2010"
+              type="date"
+              id="birthDate"
+              name="birthDate"
+              min="1950-01-01"
+              max="2010-12-31"
               className="w-full px-4 py-3 rounded-[var(--radius-sm)] border border-border-light bg-bg text-text placeholder:text-text-light focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-pale transition-colors"
-              placeholder="2000"
             />
           </div>
           <div>

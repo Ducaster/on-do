@@ -92,10 +92,10 @@ export default function ClientDetail({ client }: { client: Client }) {
                 />
                 <div className="grid grid-cols-2 gap-2">
                   <input
-                    name="birthYear"
-                    type="number"
-                    defaultValue={client.birthYear || ""}
-                    placeholder="출생연도"
+                    name="birthDate"
+                    type="date"
+                    defaultValue={client.birthDate || ""}
+                    placeholder="생년월일"
                     className="w-full px-3 py-2 text-sm rounded-[var(--radius-sm)] border border-border-light bg-bg focus:outline-none focus:border-primary"
                   />
                   <select
@@ -141,10 +141,10 @@ export default function ClientDetail({ client }: { client: Client }) {
                 {client.email && (
                   <InfoRow label="이메일" value={client.email} />
                 )}
-                {client.birthYear && (
+                {client.birthDate && (
                   <InfoRow
-                    label="출생연도"
-                    value={`${client.birthYear}년`}
+                    label="생년월일"
+                    value={client.birthDate}
                   />
                 )}
                 {client.gender && (

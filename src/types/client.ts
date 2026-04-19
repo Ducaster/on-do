@@ -3,7 +3,7 @@ export interface Client {
   name: string;
   phone: string;
   email: string;
-  birthYear: number | null;
+  birthDate: string | null;
   gender: string;
   program: string;
   registeredAt: string;

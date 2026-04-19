@@ -18,9 +18,7 @@ export async function addClient(formData: FormData) {
     name: formData.get("name") as string,
     phone: formData.get("phone") as string,
     email: (formData.get("email") as string) || "",
-    birthYear: formData.get("birthYear")
-      ? Number(formData.get("birthYear"))
-      : null,
+    birthDate: (formData.get("birthDate") as string) || null,
     gender: (formData.get("gender") as string) || "",
     program: (formData.get("program") as string) || "",
     registeredAt: new Date().toISOString(),
@@ -46,9 +44,7 @@ export async function updateClient(formData: FormData) {
     name: formData.get("name") as string,
     phone: formData.get("phone") as string,
     email: (formData.get("email") as string) || "",
-    birthYear: formData.get("birthYear")
-      ? Number(formData.get("birthYear"))
-      : null,
+    birthDate: (formData.get("birthDate") as string) || null,
     gender: (formData.get("gender") as string) || "",
     program: (formData.get("program") as string) || "",
     notes: (formData.get("notes") as string) || "",
