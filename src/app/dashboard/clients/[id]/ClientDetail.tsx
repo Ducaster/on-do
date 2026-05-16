@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import type { Client } from "@/types/client";
+import type { AssessmentSlug } from "@/data/assessments";
 import { GrowthStageCard } from "@/components/dashboard/GrowthStage";
 import {
   addSession,
@@ -24,7 +25,25 @@ import {
   ChevronDown,
   ChevronRight,
   ClipboardList,
+  Trash2,
 } from "lucide-react";
+
+const ASSESSMENT_RESULT_SLUG_BY_TOOL: Record<string, AssessmentSlug> = {
+  "6도형 검사": "six-shapes",
+  인생그래프: "life-graph",
+  "성격유형 검사": "personality",
+  "애착유형 검사": "attachment",
+  "핵심감정 검사": "core-emotion",
+};
+
+function getAssessmentResultHref(
+  clientId: string,
+  assessment: Client["assessments"][number]
+) {
+  const slug = ASSESSMENT_RESULT_SLUG_BY_TOOL[assessment.toolName];
+  if (!slug) return null;
+  return `/dashboard/clients/${clientId}/assessments/${slug}/result?aid=${assessment.id}`;
+}
 
 export default function ClientDetail({ client }: { client: Client }) {
   const [showSessionForm, setShowSessionForm] = useState(false);
@@ -517,97 +536,118 @@ export default function ClientDetail({ client }: { client: Client }) {
               </p>
             ) : (
               <div className="space-y-2">
-                {[...client.assessments].reverse().map((assessment) => (
-                  <div
-                    key={assessment.id}
-                    className="border border-border-lighter rounded-[var(--radius-sm)] overflow-hidden"
-                  >
-                    <button
-                      onClick={() =>
-                        setExpandedAssessment(
-                          expandedAssessment === assessment.id
-                            ? null
-                            : assessment.id
-                        )
-                      }
-                      className="w-full flex items-center justify-between p-3.5 hover:bg-bg transition-colors text-left cursor-pointer"
-                    >
-                      <div className="flex items-center gap-3">
-                        <span className="w-8 h-8 rounded-full bg-bg-warm flex items-center justify-center shrink-0">
-                          <FileText
-                            size={14}
-                            className="text-primary"
-                          />
-                        </span>
-                        <div>
-                          <p className="text-sm font-medium text-text">
-                            {assessment.toolName}
-                          </p>
-                          <p className="text-xs text-text-light">
-                            {assessment.date}
-                          </p>
-                        </div>
-                      </div>
-                      {expandedAssessment === assessment.id ? (
-                        <ChevronDown size={16} className="text-text-light shrink-0" />
-                      ) : (
-                        <ChevronRight size={16} className="text-text-light shrink-0" />
-                      )}
-                    </button>
+                {[...client.assessments].reverse().map((assessment) => {
+                  const resultHref = getAssessmentResultHref(
+                    client.id,
+                    assessment
+                  );
 
-                    {expandedAssessment === assessment.id && (
-                      <div className="px-3.5 pb-3.5 border-t border-border-lighter">
-                        <div className="pt-3">
-                          <h4 className="text-xs font-medium text-text-muted mb-1.5">
-                            검사 결과
-                          </h4>
-                          <p className="text-sm text-text whitespace-pre-wrap">
-                            {assessment.result}
-                          </p>
-                        </div>
-                        {assessment.notes && (
-                          <div className="mt-3">
-                            <h4 className="text-xs font-medium text-text-muted mb-1.5">
-                              메모
-                            </h4>
-                            <p className="text-sm text-text whitespace-pre-wrap">
-                              {assessment.notes}
-                            </p>
-                          </div>
-                        )}
-                        <form
-                          action={deleteAssessment}
-                          className="mt-3 pt-3 border-t border-border-lighter"
-                          onSubmit={(e) => {
-                            if (
-                              !confirm(
-                                "이 검사 기록을 삭제하시겠습니까?"
-                              )
-                            )
-                              e.preventDefault();
-                          }}
-                        >
-                          <input
-                            type="hidden"
-                            name="clientId"
-                            value={client.id}
-                          />
-                          <input
-                            type="hidden"
-                            name="assessmentId"
-                            value={assessment.id}
-                          />
-                          <button
-                            type="submit"
-                            className="text-xs text-red-400 hover:text-red-600 transition-colors cursor-pointer"
+                  return (
+                    <div
+                      key={assessment.id}
+                      className="border border-border-lighter rounded-[var(--radius-sm)] overflow-hidden"
+                    >
+                      {resultHref ? (
+                        <div className="flex items-stretch">
+                          <Link
+                            href={resultHref}
+                            className="min-w-0 flex-1 flex items-center justify-between gap-3 p-3.5 hover:bg-bg transition-colors group"
                           >
-                            기록 삭제
+                            <div className="min-w-0 flex items-center gap-3">
+                              <span className="w-8 h-8 rounded-full bg-primary-pale flex items-center justify-center shrink-0">
+                                <FileText
+                                  size={14}
+                                  className="text-primary"
+                                />
+                              </span>
+                              <div className="min-w-0">
+                                <p className="text-sm font-medium text-text truncate group-hover:text-primary transition-colors">
+                                  {assessment.toolName}
+                                </p>
+                                <p className="text-xs text-text-light">
+                                  {assessment.date}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-2 shrink-0 text-primary">
+                              <span className="hidden sm:inline text-xs font-medium">
+                                상세 결과 보기
+                              </span>
+                              <ChevronRight size={16} />
+                            </div>
+                          </Link>
+                          <AssessmentDeleteForm
+                            clientId={client.id}
+                            assessmentId={assessment.id}
+                            compact
+                          />
+                        </div>
+                      ) : (
+                        <>
+                          <button
+                            onClick={() =>
+                              setExpandedAssessment(
+                                expandedAssessment === assessment.id
+                                  ? null
+                                  : assessment.id
+                              )
+                            }
+                            className="w-full flex items-center justify-between p-3.5 hover:bg-bg transition-colors text-left cursor-pointer"
+                          >
+                            <div className="flex items-center gap-3">
+                              <span className="w-8 h-8 rounded-full bg-bg-warm flex items-center justify-center shrink-0">
+                                <FileText
+                                  size={14}
+                                  className="text-primary"
+                                />
+                              </span>
+                              <div>
+                                <p className="text-sm font-medium text-text">
+                                  {assessment.toolName}
+                                </p>
+                                <p className="text-xs text-text-light">
+                                  {assessment.date}
+                                </p>
+                              </div>
+                            </div>
+                            {expandedAssessment === assessment.id ? (
+                              <ChevronDown size={16} className="text-text-light shrink-0" />
+                            ) : (
+                              <ChevronRight size={16} className="text-text-light shrink-0" />
+                            )}
                           </button>
-                        </form>
-                      </div>
-                    )}
-                  </div>
-                ))}
+
+                          {expandedAssessment === assessment.id && (
+                            <div className="px-3.5 pb-3.5 border-t border-border-lighter">
+                              <div className="pt-3">
+                                <h4 className="text-xs font-medium text-text-muted mb-1.5">
+                                  검사 결과
+                                </h4>
+                                <p className="text-sm text-text whitespace-pre-wrap">
+                                  {assessment.result}
+                                </p>
+                              </div>
+                              {assessment.notes && (
+                                <div className="mt-3">
+                                  <h4 className="text-xs font-medium text-text-muted mb-1.5">
+                                    메모
+                                  </h4>
+                                  <p className="text-sm text-text whitespace-pre-wrap">
+                                    {assessment.notes}
+                                  </p>
+                                </div>
+                              )}
+                              <AssessmentDeleteForm
+                                clientId={client.id}
+                                assessmentId={assessment.id}
+                              />
+                            </div>
+                          )}
+                        </>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             )}
           </div>
@@ -623,5 +663,46 @@ function InfoRow({ label, value }: { label: string; value: string }) {
       <span className="text-text-muted">{label}</span>
       <span className="text-text font-medium">{value}</span>
     </div>
+  );
+}
+
+function AssessmentDeleteForm({
+  clientId,
+  assessmentId,
+  compact = false,
+}: {
+  clientId: string;
+  assessmentId: string;
+  compact?: boolean;
+}) {
+  return (
+    <form
+      action={deleteAssessment}
+      className={
+        compact
+          ? "flex border-l border-border-lighter"
+          : "mt-3 pt-3 border-t border-border-lighter"
+      }
+      onSubmit={(e) => {
+        if (!confirm("이 검사 기록을 삭제하시겠습니까?")) {
+          e.preventDefault();
+        }
+      }}
+    >
+      <input type="hidden" name="clientId" value={clientId} />
+      <input type="hidden" name="assessmentId" value={assessmentId} />
+      <button
+        type="submit"
+        aria-label="검사 기록 삭제"
+        className={
+          compact
+            ? "px-3 text-text-light hover:text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
+            : "inline-flex items-center gap-1.5 text-xs text-red-400 hover:text-red-600 transition-colors cursor-pointer"
+        }
+      >
+        <Trash2 size={14} />
+        {!compact && "기록 삭제"}
+      </button>
+    </form>
   );
 }
