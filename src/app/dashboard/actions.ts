@@ -38,7 +38,7 @@ export async function updateClient(formData: FormData) {
   const id = formData.get("id") as string;
   const index = clients.findIndex((c) => c.id === id);
 
-  if (index === -1 || clients[index].deletedAt) redirect("/dashboard/clients");
+  if (index === -1 || clients[index].deletedAt) redirect("/dashboard");
 
   clients[index] = {
     ...clients[index],
@@ -61,11 +61,11 @@ export async function deleteClient(formData: FormData) {
   const clients = await getAllClients();
   const client = clients.find((c) => c.id === id);
 
-  if (!client) redirect("/dashboard/clients");
+  if (!client) redirect("/dashboard");
 
   client.deletedAt = new Date().toISOString();
   await saveClients(clients);
-  redirect("/dashboard/clients");
+  redirect("/dashboard");
 }
 
 export async function addSession(formData: FormData) {
@@ -73,7 +73,7 @@ export async function addSession(formData: FormData) {
   const clients = await getAllClients();
   const client = clients.find((c) => c.id === clientId);
 
-  if (!client || client.deletedAt) redirect("/dashboard/clients");
+  if (!client || client.deletedAt) redirect("/dashboard");
 
   const session: CoachingSession = {
     id: generateId(),
@@ -96,7 +96,7 @@ export async function deleteSession(formData: FormData) {
   const clients = await getAllClients();
   const client = clients.find((c) => c.id === clientId);
 
-  if (!client || client.deletedAt) redirect("/dashboard/clients");
+  if (!client || client.deletedAt) redirect("/dashboard");
 
   client!.sessions = client!.sessions.filter(
     (s) => s.id !== sessionId
@@ -114,7 +114,7 @@ export async function addAssessment(formData: FormData) {
   const clients = await getAllClients();
   const client = clients.find((c) => c.id === clientId);
 
-  if (!client || client.deletedAt) redirect("/dashboard/clients");
+  if (!client || client.deletedAt) redirect("/dashboard");
 
   const assessment: Assessment = {
     id: generateId(),
@@ -136,7 +136,7 @@ export async function deleteAssessment(formData: FormData) {
   const clients = await getAllClients();
   const client = clients.find((c) => c.id === clientId);
 
-  if (!client || client.deletedAt) redirect("/dashboard/clients");
+  if (!client || client.deletedAt) redirect("/dashboard");
 
   client!.assessments = client!.assessments.filter(
     (a) => a.id !== assessmentId

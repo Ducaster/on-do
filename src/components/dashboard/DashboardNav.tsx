@@ -4,19 +4,13 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Logo } from "@/components/ui/Logo";
 import { logout } from "@/app/login/actions";
-import { LayoutDashboard, Users, LogOut, Home } from "lucide-react";
+import { LayoutDashboard, LogOut, Home } from "lucide-react";
 
 const NAV_ITEMS = [
   {
     label: "대시보드",
     href: "/dashboard",
     icon: LayoutDashboard,
-    exact: true,
-  },
-  {
-    label: "내담자 관리",
-    href: "/dashboard/clients",
-    icon: Users,
     exact: false,
   },
 ];

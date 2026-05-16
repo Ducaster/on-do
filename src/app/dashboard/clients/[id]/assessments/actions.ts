@@ -31,7 +31,7 @@ export async function submitPersonalityTest(formData: FormData) {
   // 요약 결과를 검사결과 탭에 저장
   const clients = await getAllClients();
   const client = clients.find((c) => c.id === clientId);
-  if (!client || client.deletedAt) redirect("/dashboard/clients");
+  if (!client || client.deletedAt) redirect("/dashboard");
 
   client!.assessments.push({
     id: assessmentId,
@@ -72,7 +72,7 @@ export async function submitAttachmentTest(formData: FormData) {
 
   const clients = await getAllClients();
   const client = clients.find((c) => c.id === clientId);
-  if (!client || client.deletedAt) redirect("/dashboard/clients");
+  if (!client || client.deletedAt) redirect("/dashboard");
 
   client!.assessments.push({
     id: assessmentId,
@@ -112,7 +112,7 @@ export async function submitCoreEmotionTest(formData: FormData) {
 
   const clients = await getAllClients();
   const client = clients.find((c) => c.id === clientId);
-  if (!client || client.deletedAt) redirect("/dashboard/clients");
+  if (!client || client.deletedAt) redirect("/dashboard");
 
   const topTypes = result.dominantTypes
     .map((t) => t.title)
@@ -164,7 +164,7 @@ export async function submitDrawingTest(formData: FormData) {
   // 검사결과 탭에 저장
   const clients = await getAllClients();
   const client = clients.find((c) => c.id === clientId);
-  if (!client || client.deletedAt) redirect("/dashboard/clients");
+  if (!client || client.deletedAt) redirect("/dashboard");
 
   client!.assessments.push({
     id: assessmentId,

@@ -59,11 +59,11 @@ export function NewClientForm() {
     return (
       <div className="max-w-[640px] mx-auto">
         <Link
-          href="/dashboard/clients"
+          href="/dashboard"
           className="inline-flex items-center gap-1.5 text-sm text-text-muted hover:text-text transition-colors mb-6"
         >
           <ArrowLeft size={16} />
-          내담자 목록
+          내담자 대시보드
         </Link>
 
         <h1 className="font-heading text-2xl font-bold text-text mb-2">
@@ -151,7 +151,7 @@ export function NewClientForm() {
 
         <div className="flex gap-3 mt-8">
           <Link
-            href="/dashboard/clients"
+            href="/dashboard"
             className="flex-1 py-3 text-center rounded-[var(--radius-sm)] border border-border-light text-text-muted text-sm hover:bg-bg transition-colors"
           >
             취소
@@ -172,11 +172,11 @@ export function NewClientForm() {
   return (
     <div className="max-w-[600px] mx-auto">
       <Link
-        href="/dashboard/clients"
+        href="/dashboard"
         className="inline-flex items-center gap-1.5 text-sm text-text-muted hover:text-text transition-colors mb-6"
       >
         <ArrowLeft size={16} />
-        내담자 목록
+        내담자 대시보드
       </Link>
 
       <h1 className="font-heading text-2xl font-bold text-text mb-8">
@@ -312,7 +312,7 @@ export function NewClientForm() {
 
         <div className="flex gap-3 pt-2">
           <Link
-            href="/dashboard/clients"
+            href="/dashboard"
             className="flex-1 py-3 text-center rounded-[var(--radius-sm)] border border-border-light text-text-muted text-sm hover:bg-bg transition-colors"
           >
             취소

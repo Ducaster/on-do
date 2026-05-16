@@ -41,11 +41,11 @@ export default function ClientDetail({ client }: { client: Client }) {
   return (
     <div>
       <Link
-        href="/dashboard/clients"
+        href="/dashboard"
         className="inline-flex items-center gap-1.5 text-sm text-text-muted hover:text-text transition-colors mb-6"
       >
         <ArrowLeft size={16} />
-        내담자 목록
+        내담자 대시보드
       </Link>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
