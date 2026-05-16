@@ -98,11 +98,19 @@ export default function ClientDetail({ client }: { client: Client }) {
                 />
                 <input
                   name="phone"
+                  type="tel"
                   defaultValue={client.phone}
                   required
-                  placeholder="연락처"
+                  inputMode="tel"
+                  pattern="010\d{8}|010-\d{4}-\d{4}"
+                  maxLength={13}
+                  title="01000000000 또는 010-0000-0000 형식으로 입력해주세요."
+                  placeholder="010-0000-0000"
                   className="w-full px-3 py-2 text-sm rounded-[var(--radius-sm)] border border-border-light bg-bg focus:outline-none focus:border-primary"
                 />
+                <p className="-mt-2 text-xs text-text-light">
+                  01000000000 또는 010-0000-0000 형식
+                </p>
                 <input
                   name="email"
                   defaultValue={client.email}

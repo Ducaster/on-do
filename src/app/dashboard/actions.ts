@@ -9,6 +9,19 @@ import {
 } from "@/lib/store";
 import type { Client, CoachingSession, Assessment } from "@/types/client";
 
+const PHONE_PATTERN = /^010(?:\d{8}|-\d{4}-\d{4})$/;
+
+function normalizePhone(phoneValue: FormDataEntryValue | null) {
+  const phone = String(phoneValue ?? "").trim();
+
+  if (!PHONE_PATTERN.test(phone)) {
+    throw new Error("연락처는 01000000000 또는 010-0000-0000 형식으로 입력해주세요.");
+  }
+
+  const digits = phone.replace(/-/g, "");
+  return `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7)}`;
+}
+
 export async function addClient(formData: FormData) {
   const clients = await getAllClients();
   const id = generateId();
@@ -16,7 +29,7 @@ export async function addClient(formData: FormData) {
   const newClient: Client = {
     id,
     name: formData.get("name") as string,
-    phone: formData.get("phone") as string,
+    phone: normalizePhone(formData.get("phone")),
     email: (formData.get("email") as string) || "",
     birthDate: (formData.get("birthDate") as string) || null,
     gender: (formData.get("gender") as string) || "",
@@ -43,7 +56,7 @@ export async function updateClient(formData: FormData) {
   clients[index] = {
     ...clients[index],
     name: formData.get("name") as string,
-    phone: formData.get("phone") as string,
+    phone: normalizePhone(formData.get("phone")),
     email: (formData.get("email") as string) || "",
     birthDate: (formData.get("birthDate") as string) || null,
     gender: (formData.get("gender") as string) || "",
