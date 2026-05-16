@@ -140,9 +140,8 @@ export default function PersonalityResultView({
 
       {/* Score Chart */}
       <div className="bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)] p-6">
-        <div className="flex items-center justify-between gap-4 mb-5">
+        <div className="mb-5">
           <h3 className="font-heading font-bold text-text">유형별 점수</h3>
-          <span className="text-xs text-text-light">별형 프로파일</span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(260px,360px)_1fr] gap-6 items-center">
@@ -225,38 +224,47 @@ export default function PersonalityResultView({
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-2.5">
-            {scoreItems.map(({ type, score, info, isMain }) => (
+            {scoreItems.map(({ type, pct, score, info, isMain }) => (
               <div
                 key={type}
-                className={`grid grid-cols-[28px_1fr_auto] items-center gap-3 rounded-[var(--radius-sm)] border px-3 py-2.5 ${
+                className={`relative overflow-hidden rounded-[var(--radius-sm)] border ${
                   isMain
                     ? "border-primary/25 bg-primary-pale"
                     : "border-border-lighter bg-bg/60"
                 }`}
               >
-                <span
-                  className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold ${
-                    isMain
-                      ? "bg-primary text-white"
-                      : "bg-bg-warm text-text-muted"
+                <div
+                  className={`absolute inset-y-0 left-0 ${
+                    isMain ? "bg-primary/16" : "bg-secondary/18"
                   }`}
-                >
-                  {type}
-                </span>
-                <span
-                  className={`text-xs truncate ${
-                    isMain ? "text-primary font-semibold" : "text-text-muted"
-                  }`}
-                >
-                  {info.name}
-                </span>
-                <span
-                  className={`text-xs text-right ${
-                    isMain ? "text-primary font-bold" : "text-text-muted"
-                  }`}
-                >
-                  {score}점
-                </span>
+                  style={{ width: `${Math.max(0, Math.min(pct, 100))}%` }}
+                  aria-hidden="true"
+                />
+                <div className="relative grid grid-cols-[28px_1fr_auto] items-center gap-3 px-3 py-2.5">
+                  <span
+                    className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold ${
+                      isMain
+                        ? "bg-primary text-white"
+                        : "bg-bg-warm text-text-muted"
+                    }`}
+                  >
+                    {type}
+                  </span>
+                  <span
+                    className={`text-xs truncate ${
+                      isMain ? "text-primary font-semibold" : "text-text-muted"
+                    }`}
+                  >
+                    {info.name}
+                  </span>
+                  <span
+                    className={`text-xs text-right ${
+                      isMain ? "text-primary font-bold" : "text-text-muted"
+                    }`}
+                  >
+                    {score}점
+                  </span>
+                </div>
               </div>
             ))}
           </div>
