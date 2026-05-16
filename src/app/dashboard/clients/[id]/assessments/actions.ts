@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import {
-  getClients,
+  getAllClients,
   saveClients,
   generateId,
   savePersonalityResponse,
@@ -29,9 +29,9 @@ export async function submitPersonalityTest(formData: FormData) {
   const today = new Date().toISOString().split("T")[0];
 
   // 요약 결과를 검사결과 탭에 저장
-  const clients = await getClients();
+  const clients = await getAllClients();
   const client = clients.find((c) => c.id === clientId);
-  if (!client) redirect("/dashboard/clients");
+  if (!client || client.deletedAt) redirect("/dashboard/clients");
 
   client!.assessments.push({
     id: assessmentId,
@@ -70,9 +70,9 @@ export async function submitAttachmentTest(formData: FormData) {
   const assessmentId = generateId();
   const today = new Date().toISOString().split("T")[0];
 
-  const clients = await getClients();
+  const clients = await getAllClients();
   const client = clients.find((c) => c.id === clientId);
-  if (!client) redirect("/dashboard/clients");
+  if (!client || client.deletedAt) redirect("/dashboard/clients");
 
   client!.assessments.push({
     id: assessmentId,
@@ -110,9 +110,9 @@ export async function submitCoreEmotionTest(formData: FormData) {
   const assessmentId = generateId();
   const today = new Date().toISOString().split("T")[0];
 
-  const clients = await getClients();
+  const clients = await getAllClients();
   const client = clients.find((c) => c.id === clientId);
-  if (!client) redirect("/dashboard/clients");
+  if (!client || client.deletedAt) redirect("/dashboard/clients");
 
   const topTypes = result.dominantTypes
     .map((t) => t.title)
@@ -162,9 +162,9 @@ export async function submitDrawingTest(formData: FormData) {
   const { url } = await uploadDrawingImage(imageData, clientId, slug);
 
   // 검사결과 탭에 저장
-  const clients = await getClients();
+  const clients = await getAllClients();
   const client = clients.find((c) => c.id === clientId);
-  if (!client) redirect("/dashboard/clients");
+  if (!client || client.deletedAt) redirect("/dashboard/clients");
 
   client!.assessments.push({
     id: assessmentId,

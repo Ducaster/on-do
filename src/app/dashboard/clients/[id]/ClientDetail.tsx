@@ -179,7 +179,7 @@ export default function ClientDetail({ client }: { client: Client }) {
             onSubmit={(e) => {
               if (
                 !confirm(
-                  `${client.name} 내담자를 정말 삭제하시겠습니까?\n모든 코칭 기록과 검사 결과가 함께 삭제됩니다.`
+                  `${client.name} 내담자를 목록에서 숨김 처리하시겠습니까?\n시트 데이터는 삭제하지 않고 삭제일만 기록됩니다.`
                 )
               ) {
                 e.preventDefault();

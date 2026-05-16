@@ -70,11 +70,12 @@ async function ensureSheets() {
         "이름",
         "연락처",
         "이메일",
-        "출생연도",
+        "생년월일",
         "성별",
         "프로그램",
         "등록일",
         "메모",
+        "삭제일",
       ],
     },
     {
@@ -164,6 +165,13 @@ async function ensureSheets() {
         valueInputOption: "RAW",
         requestBody: { values: [tab.headers] },
       });
+    } else {
+      await sheets.spreadsheets.values.update({
+        spreadsheetId: id,
+        range: `'${tab.title}'!A1`,
+        valueInputOption: "RAW",
+        requestBody: { values: [tab.headers] },
+      });
     }
   }
   sheetsReady = true;
@@ -177,7 +185,7 @@ async function readSheets(): Promise<Client[]> {
   const [cRes, sRes, aRes] = await Promise.all([
     sheets.spreadsheets.values.get({
       spreadsheetId: id,
-      range: "'내담자'!A2:I",
+      range: "'내담자'!A2:J",
     }),
     sheets.spreadsheets.values.get({
       spreadsheetId: id,
@@ -226,6 +234,7 @@ async function readSheets(): Promise<Client[]> {
     program: r[6] || "",
     registeredAt: r[7] || "",
     notes: r[8] || "",
+    deletedAt: r[9] || null,
     sessions: sessMap[r[0]] || [],
     assessments: assMap[r[0]] || [],
   }));
@@ -246,6 +255,7 @@ async function writeSheets(clients: Client[]): Promise<void> {
     c.program,
     c.registeredAt,
     c.notes,
+    c.deletedAt || "",
   ]);
 
   const sRows = clients.flatMap((c) =>
@@ -274,7 +284,7 @@ async function writeSheets(clients: Client[]): Promise<void> {
   await Promise.all([
     sheets.spreadsheets.values.clear({
       spreadsheetId: id,
-      range: "'내담자'!A2:I",
+      range: "'내담자'!A2:J",
     }),
     sheets.spreadsheets.values.clear({
       spreadsheetId: id,
@@ -323,12 +333,19 @@ async function writeSheets(clients: Client[]): Promise<void> {
 // ─── Public API (with error handling) ────────────────────
 
 export async function getClients(): Promise<Client[]> {
+  const clients = await getAllClients();
+  return clients.filter((client) => !client.deletedAt);
+}
+
+export async function getAllClients(): Promise<Client[]> {
   if (!USE_SHEETS) return [];
   try {
     return await readSheets();
   } catch (err) {
     console.error("[store] Google Sheets 읽기 실패:", err);
-    return [];
+    throw new Error(
+      "Google Sheets 데이터를 불러오지 못했습니다. 데이터 손실 방지를 위해 작업을 중단합니다."
+    );
   }
 }
 

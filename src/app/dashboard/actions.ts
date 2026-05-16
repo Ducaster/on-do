@@ -3,14 +3,14 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import {
-  getClients,
+  getAllClients,
   saveClients,
   generateId,
 } from "@/lib/store";
 import type { Client, CoachingSession, Assessment } from "@/types/client";
 
 export async function addClient(formData: FormData) {
-  const clients = await getClients();
+  const clients = await getAllClients();
   const id = generateId();
 
   const newClient: Client = {
@@ -22,6 +22,7 @@ export async function addClient(formData: FormData) {
     gender: (formData.get("gender") as string) || "",
     program: (formData.get("program") as string) || "",
     registeredAt: new Date().toISOString(),
+    deletedAt: null,
     notes: (formData.get("notes") as string) || "",
     sessions: [],
     assessments: [],
@@ -33,11 +34,11 @@ export async function addClient(formData: FormData) {
 }
 
 export async function updateClient(formData: FormData) {
-  const clients = await getClients();
+  const clients = await getAllClients();
   const id = formData.get("id") as string;
   const index = clients.findIndex((c) => c.id === id);
 
-  if (index === -1) redirect("/dashboard/clients");
+  if (index === -1 || clients[index].deletedAt) redirect("/dashboard/clients");
 
   clients[index] = {
     ...clients[index],
@@ -57,17 +58,22 @@ export async function updateClient(formData: FormData) {
 
 export async function deleteClient(formData: FormData) {
   const id = formData.get("id") as string;
-  const clients = (await getClients()).filter((c) => c.id !== id);
+  const clients = await getAllClients();
+  const client = clients.find((c) => c.id === id);
+
+  if (!client) redirect("/dashboard/clients");
+
+  client.deletedAt = new Date().toISOString();
   await saveClients(clients);
   redirect("/dashboard/clients");
 }
 
 export async function addSession(formData: FormData) {
   const clientId = formData.get("clientId") as string;
-  const clients = await getClients();
+  const clients = await getAllClients();
   const client = clients.find((c) => c.id === clientId);
 
-  if (!client) redirect("/dashboard/clients");
+  if (!client || client.deletedAt) redirect("/dashboard/clients");
 
   const session: CoachingSession = {
     id: generateId(),
@@ -87,10 +93,10 @@ export async function addSession(formData: FormData) {
 export async function deleteSession(formData: FormData) {
   const clientId = formData.get("clientId") as string;
   const sessionId = formData.get("sessionId") as string;
-  const clients = await getClients();
+  const clients = await getAllClients();
   const client = clients.find((c) => c.id === clientId);
 
-  if (!client) redirect("/dashboard/clients");
+  if (!client || client.deletedAt) redirect("/dashboard/clients");
 
   client!.sessions = client!.sessions.filter(
     (s) => s.id !== sessionId
@@ -105,10 +111,10 @@ export async function deleteSession(formData: FormData) {
 
 export async function addAssessment(formData: FormData) {
   const clientId = formData.get("clientId") as string;
-  const clients = await getClients();
+  const clients = await getAllClients();
   const client = clients.find((c) => c.id === clientId);
 
-  if (!client) redirect("/dashboard/clients");
+  if (!client || client.deletedAt) redirect("/dashboard/clients");
 
   const assessment: Assessment = {
     id: generateId(),
@@ -127,10 +133,10 @@ export async function addAssessment(formData: FormData) {
 export async function deleteAssessment(formData: FormData) {
   const clientId = formData.get("clientId") as string;
   const assessmentId = formData.get("assessmentId") as string;
-  const clients = await getClients();
+  const clients = await getAllClients();
   const client = clients.find((c) => c.id === clientId);
 
-  if (!client) redirect("/dashboard/clients");
+  if (!client || client.deletedAt) redirect("/dashboard/clients");
 
   client!.assessments = client!.assessments.filter(
     (a) => a.id !== assessmentId

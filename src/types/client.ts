@@ -7,6 +7,7 @@ export interface Client {
   gender: string;
   program: string;
   registeredAt: string;
+  deletedAt?: string | null;
   notes: string;
   sessions: CoachingSession[];
   assessments: Assessment[];
