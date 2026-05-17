@@ -208,7 +208,7 @@ export default function ClientDetail({ client }: { client: Client }) {
             onSubmit={(e) => {
               if (
                 !confirm(
-                  `${client.name} 내담자를 목록에서 숨김 처리하시겠습니까?\n시트 데이터는 삭제하지 않고 삭제일만 기록됩니다.`
+                  `${client.name} 내담자를 목록에서 숨김 처리하시겠습니까?\n기록은 보존되고 삭제일만 남습니다.`
                 )
               ) {
                 e.preventDefault();
@@ -315,7 +315,7 @@ export default function ClientDetail({ client }: { client: Client }) {
                 </div>
                 <PendingSubmitButton
                   pendingText="기록 저장 중..."
-                  pendingDescription="코칭 기록을 구글시트에 저장하고 있어요. 잠시만 기다려주세요."
+                  pendingDescription="코칭 기록을 저장하는 중입니다. 잠시만 기다려주세요."
                   className="w-full py-2 bg-primary text-white rounded-[var(--radius-sm)] text-sm font-medium hover:bg-primary-dark transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {client.sessions.length + 1}회차 기록 저장
@@ -535,7 +535,7 @@ export default function ClientDetail({ client }: { client: Client }) {
                 </div>
                 <PendingSubmitButton
                   pendingText="검사 결과 저장 중..."
-                  pendingDescription="검사 결과를 구글시트에 저장하고 있어요. 잠시만 기다려주세요."
+                  pendingDescription="검사 결과를 저장하는 중입니다. 잠시만 기다려주세요."
                   className="w-full py-2 bg-primary text-white rounded-[var(--radius-sm)] text-sm font-medium hover:bg-primary-dark transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   검사 결과 저장

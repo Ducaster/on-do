@@ -5,17 +5,7 @@ const SA_EMAIL = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
 const SA_KEY = process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY;
 const USE_SHEETS = !!(SHEET_ID && SA_EMAIL && SA_KEY);
 
-// 서버 시작 시 환경변수 진단 로그
-console.log("[store] 환경변수 진단:", {
-  GOOGLE_SHEETS_SPREADSHEET_ID: SHEET_ID ? `✅ 설정됨 (${SHEET_ID.slice(0, 8)}...)` : "❌ 없음",
-  GOOGLE_SERVICE_ACCOUNT_EMAIL: SA_EMAIL ? `✅ 설정됨 (${SA_EMAIL})` : "❌ 없음",
-  GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY: SA_KEY
-    ? `✅ 설정됨 (길이: ${SA_KEY.length}, BEGIN 포함: ${SA_KEY.includes("BEGIN PRIVATE KEY")})`
-    : "❌ 없음",
-  USE_SHEETS,
-});
-
-// ─── Google Sheets Backend ───────────────────────────────
+// ─── Remote Data Store Backend ───────────────────────────
 
 async function getSheetsClient() {
   const { google } = await import("googleapis");
@@ -33,13 +23,6 @@ async function getSheetsClient() {
 
   // 2. Replace literal \n with actual newlines
   privateKey = privateKey.replace(/\\n/g, "\n");
-
-  console.log("[store] Private Key 진단:", {
-    길이: privateKey.length,
-    시작: privateKey.slice(0, 30),
-    끝: privateKey.slice(-30),
-    줄바꿈수: (privateKey.match(/\n/g) || []).length,
-  });
 
   const auth = new google.auth.GoogleAuth({
     credentials: {
@@ -342,22 +325,22 @@ export async function getAllClients(): Promise<Client[]> {
   try {
     return await readSheets();
   } catch (err) {
-    console.error("[store] Google Sheets 읽기 실패:", err);
+    console.error("[store] 데이터 읽기 실패:", err);
     throw new Error(
-      "Google Sheets 데이터를 불러오지 못했습니다. 데이터 손실 방지를 위해 작업을 중단합니다."
+      "데이터를 불러오지 못했습니다. 데이터 보호를 위해 작업을 중단합니다."
     );
   }
 }
 
 export async function saveClients(clients: Client[]): Promise<void> {
   if (!USE_SHEETS) {
-    console.warn("[store] Google Sheets 환경변수가 설정되지 않았습니다.");
+    console.warn("[store] 데이터 저장소 환경변수가 설정되지 않았습니다.");
     return;
   }
   try {
     await writeSheets(clients);
   } catch (err) {
-    console.error("[store] Google Sheets 쓰기 실패:", err);
+    console.error("[store] 데이터 쓰기 실패:", err);
     throw new Error("데이터 저장에 실패했습니다. 잠시 후 다시 시도해주세요.");
   }
 }

@@ -328,7 +328,7 @@ export function NewClientForm() {
           <div className="flex-1">
             <PendingSubmitButton
               pendingText="등록 중..."
-              pendingDescription="구글시트에 저장하고 있어요. 잠시만 기다려주세요."
+              pendingDescription="등록 정보를 저장하는 중입니다. 잠시만 기다려주세요."
               className="w-full py-3 bg-primary text-white rounded-[var(--radius-sm)] text-sm font-medium hover:bg-primary-dark transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             >
               등록하기
