@@ -68,13 +68,13 @@ export default function ClientDetail({ client }: { client: Client }) {
         내담자 대시보드
       </Link>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         {/* Left Column */}
         <div className="space-y-6">
           <GrowthStageCard sessionCount={client.sessions.length} />
 
           {/* Client Info */}
-          <div className="bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)] p-6">
+          <div className="bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)] p-4 sm:p-6">
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-heading font-bold text-text">
                 내담자 정보
@@ -118,7 +118,7 @@ export default function ClientDetail({ client }: { client: Client }) {
                   placeholder="이메일"
                   className="w-full px-3 py-2 text-sm rounded-[var(--radius-sm)] border border-border-light bg-bg focus:outline-none focus:border-primary"
                 />
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   <input
                     name="birthDate"
                     type="date"
@@ -227,10 +227,10 @@ export default function ClientDetail({ client }: { client: Client }) {
         </div>
 
         {/* Right Column */}
-        <div className="lg:col-span-2 space-y-6">
+        <div className="lg:col-span-2 space-y-4 sm:space-y-6">
           {/* Sessions */}
-          <div className="bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)] p-6">
-            <div className="flex items-center justify-between mb-5">
+          <div className="bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)] p-4 sm:p-6">
+            <div className="flex flex-col min-[420px]:flex-row min-[420px]:items-center min-[420px]:justify-between gap-3 mb-5">
               <div className="flex items-center gap-2">
                 <Calendar size={18} className="text-primary" />
                 <h2 className="font-heading text-lg font-bold text-text">
@@ -242,7 +242,7 @@ export default function ClientDetail({ client }: { client: Client }) {
               </div>
               <button
                 onClick={() => setShowSessionForm(!showSessionForm)}
-                className="flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-[var(--radius-sm)] bg-primary text-white hover:bg-primary-dark transition-colors cursor-pointer"
+                className="w-full min-[420px]:w-auto flex items-center justify-center gap-1.5 px-3 py-2 min-[420px]:py-1.5 text-sm rounded-[var(--radius-sm)] bg-primary text-white hover:bg-primary-dark transition-colors cursor-pointer"
               >
                 {showSessionForm ? (
                   <X size={14} />
@@ -256,14 +256,14 @@ export default function ClientDetail({ client }: { client: Client }) {
             {showSessionForm && (
               <form
                 action={addSession}
-                className="mb-5 p-4 bg-bg rounded-[var(--radius-md)] space-y-3"
+                className="mb-5 p-3 sm:p-4 bg-bg rounded-[var(--radius-md)] space-y-3"
               >
                 <input
                   type="hidden"
                   name="clientId"
                   value={client.id}
                 />
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <label className="block text-xs text-text-muted mb-1">
                       날짜
@@ -342,17 +342,17 @@ export default function ClientDetail({ client }: { client: Client }) {
                             : session.id
                         )
                       }
-                      className="w-full flex items-center justify-between p-3.5 hover:bg-bg transition-colors text-left cursor-pointer"
+                      className="w-full flex items-center justify-between gap-3 p-3 sm:p-3.5 hover:bg-bg transition-colors text-left cursor-pointer"
                     >
-                      <div className="flex items-center gap-3">
+                      <div className="min-w-0 flex items-center gap-3">
                         <span className="w-8 h-8 rounded-full bg-primary-pale flex items-center justify-center text-xs font-bold text-primary shrink-0">
                           {session.sessionNumber}
                         </span>
-                        <div>
-                          <p className="text-sm font-medium text-text">
+                        <div className="min-w-0">
+                          <p className="text-sm font-medium text-text truncate">
                             {session.sessionNumber}회차 코칭
                           </p>
-                          <p className="text-xs text-text-light">
+                          <p className="text-xs text-text-light truncate">
                             {session.date} &middot; {session.duration}분
                           </p>
                         </div>
@@ -424,17 +424,17 @@ export default function ClientDetail({ client }: { client: Client }) {
           {/* Assessment Curriculum Link */}
           <Link
             href={`/dashboard/clients/${client.id}/assessments`}
-            className="flex items-center justify-between p-5 bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)] border border-primary/15 hover:border-primary/40 hover:shadow-[var(--shadow-md)] transition-all group"
+            className="flex items-center justify-between gap-3 p-4 sm:p-5 bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)] border border-primary/15 hover:border-primary/40 hover:shadow-[var(--shadow-md)] transition-all group"
           >
-            <div className="flex items-center gap-3">
+            <div className="min-w-0 flex items-center gap-3">
               <span className="w-10 h-10 rounded-full bg-primary flex items-center justify-center shrink-0">
                 <ClipboardList size={18} className="text-white" />
               </span>
-              <div>
+              <div className="min-w-0">
                 <h3 className="font-heading font-bold text-text group-hover:text-primary transition-colors">
                   검사 커리큘럼
                 </h3>
-                <p className="text-xs text-text-muted">
+                <p className="text-xs text-text-muted truncate">
                   5개 검사 진행 &middot; {client.assessments.length}건 완료
                 </p>
               </div>
@@ -443,8 +443,8 @@ export default function ClientDetail({ client }: { client: Client }) {
           </Link>
 
           {/* Assessments */}
-          <div className="bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)] p-6">
-            <div className="flex items-center justify-between mb-5">
+          <div className="bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)] p-4 sm:p-6">
+            <div className="flex flex-col min-[420px]:flex-row min-[420px]:items-center min-[420px]:justify-between gap-3 mb-5">
               <div className="flex items-center gap-2">
                 <ClipboardList size={18} className="text-primary" />
                 <h2 className="font-heading text-lg font-bold text-text">
@@ -458,7 +458,7 @@ export default function ClientDetail({ client }: { client: Client }) {
                 onClick={() =>
                   setShowAssessmentForm(!showAssessmentForm)
                 }
-                className="flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-[var(--radius-sm)] bg-primary text-white hover:bg-primary-dark transition-colors cursor-pointer"
+                className="w-full min-[420px]:w-auto flex items-center justify-center gap-1.5 px-3 py-2 min-[420px]:py-1.5 text-sm rounded-[var(--radius-sm)] bg-primary text-white hover:bg-primary-dark transition-colors cursor-pointer"
               >
                 {showAssessmentForm ? (
                   <X size={14} />
@@ -472,14 +472,14 @@ export default function ClientDetail({ client }: { client: Client }) {
             {showAssessmentForm && (
               <form
                 action={addAssessment}
-                className="mb-5 p-4 bg-bg rounded-[var(--radius-md)] space-y-3"
+                className="mb-5 p-3 sm:p-4 bg-bg rounded-[var(--radius-md)] space-y-3"
               >
                 <input
                   type="hidden"
                   name="clientId"
                   value={client.id}
                 />
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <label className="block text-xs text-text-muted mb-1">
                       검사 도구
@@ -564,7 +564,7 @@ export default function ClientDetail({ client }: { client: Client }) {
                         <div className="flex items-stretch">
                           <Link
                             href={resultHref}
-                            className="min-w-0 flex-1 flex items-center justify-between gap-3 p-3.5 hover:bg-bg transition-colors group"
+                            className="min-w-0 flex-1 flex items-center justify-between gap-3 p-3 sm:p-3.5 hover:bg-bg transition-colors group"
                           >
                             <div className="min-w-0 flex items-center gap-3">
                               <span className="w-8 h-8 rounded-full bg-primary-pale flex items-center justify-center shrink-0">
@@ -605,17 +605,17 @@ export default function ClientDetail({ client }: { client: Client }) {
                                   : assessment.id
                               )
                             }
-                            className="w-full flex items-center justify-between p-3.5 hover:bg-bg transition-colors text-left cursor-pointer"
+                            className="w-full flex items-center justify-between gap-3 p-3 sm:p-3.5 hover:bg-bg transition-colors text-left cursor-pointer"
                           >
-                            <div className="flex items-center gap-3">
+                            <div className="min-w-0 flex items-center gap-3">
                               <span className="w-8 h-8 rounded-full bg-bg-warm flex items-center justify-center shrink-0">
                                 <FileText
                                   size={14}
                                   className="text-primary"
                                 />
                               </span>
-                              <div>
-                                <p className="text-sm font-medium text-text">
+                              <div className="min-w-0">
+                                <p className="text-sm font-medium text-text truncate">
                                   {assessment.toolName}
                                 </p>
                                 <p className="text-xs text-text-light">
@@ -672,9 +672,11 @@ export default function ClientDetail({ client }: { client: Client }) {
 
 function InfoRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex justify-between">
-      <span className="text-text-muted">{label}</span>
-      <span className="text-text font-medium">{value}</span>
+    <div className="flex flex-col gap-0.5 sm:flex-row sm:justify-between sm:gap-4">
+      <span className="text-text-muted shrink-0">{label}</span>
+      <span className="text-text font-medium break-words sm:text-right">
+        {value}
+      </span>
     </div>
   );
 }

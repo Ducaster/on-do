@@ -26,10 +26,10 @@ export default async function PersonalityPage({
       </Link>
 
       <div className="mb-6">
-        <h1 className="font-heading text-2xl font-bold text-text mb-1">
+        <h1 className="font-heading text-xl sm:text-2xl font-bold text-text mb-1">
           성격유형 검사
         </h1>
-        <p className="text-sm text-text-muted">
+        <p className="text-sm text-text-muted leading-relaxed">
           {client.name}님 &mdash; 에니어그램 기반 99문항 검사입니다. 각 문항에 솔직하게 응답해주세요.
         </p>
       </div>

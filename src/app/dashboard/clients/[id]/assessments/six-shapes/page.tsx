@@ -26,15 +26,15 @@ export default async function SixShapesPage({
       </Link>
 
       <div className="mb-6">
-        <h1 className="font-heading text-2xl font-bold text-text mb-1">
+        <h1 className="font-heading text-xl sm:text-2xl font-bold text-text mb-1">
           6도형 검사
         </h1>
-        <p className="text-sm text-text-muted">
+        <p className="text-sm text-text-muted leading-relaxed">
           {client.name}님 &mdash; 캔버스의 6개 도형을 활용하여 자유롭게 그림을 그려주세요
         </p>
       </div>
 
-      <div className="bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)] p-6">
+      <div className="bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)] p-3 sm:p-6">
         <DrawingTestForm clientId={id} slug="six-shapes" template="six-shapes" />
       </div>
     </div>

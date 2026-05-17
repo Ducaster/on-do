@@ -67,13 +67,13 @@ export default function PersonalityResultView({
   return (
     <div className="space-y-6">
       {/* Main Type Card */}
-      <div className="bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-md)] p-6 border border-primary/20">
-        <div className="flex items-start gap-4 mb-4">
-          <div className="w-16 h-16 rounded-full bg-primary flex items-center justify-center shrink-0">
-            <span className="text-2xl font-bold text-white">{mainType}</span>
+      <div className="bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-md)] p-4 sm:p-6 border border-primary/20">
+        <div className="flex items-start gap-3 sm:gap-4 mb-4">
+          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-primary flex items-center justify-center shrink-0">
+            <span className="text-xl sm:text-2xl font-bold text-white">{mainType}</span>
           </div>
-          <div>
-            <h2 className="font-heading text-xl font-bold text-text">
+          <div className="min-w-0">
+            <h2 className="font-heading text-lg sm:text-xl font-bold text-text">
               {mainType}유형: {mainTypeInfo.name}
             </h2>
             <p className="text-sm text-text-muted">
@@ -84,7 +84,7 @@ export default function PersonalityResultView({
         <p className="text-sm text-text leading-relaxed mb-4">
           {mainTypeInfo.summary}
         </p>
-        <div className="grid grid-cols-2 gap-3 text-sm">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
           <div className="p-3 bg-bg-warm rounded-[var(--radius-sm)]">
             <span className="text-xs text-text-muted block mb-1">핵심 욕구</span>
             <p className="text-text font-medium">{mainTypeInfo.coreDesire}</p>
@@ -139,13 +139,13 @@ export default function PersonalityResultView({
       </div>
 
       {/* Score Chart */}
-      <div className="bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)] p-6">
+      <div className="bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)] p-4 sm:p-6">
         <div className="mb-5">
           <h3 className="font-heading font-bold text-text">유형별 점수</h3>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[minmax(260px,360px)_1fr] gap-6 items-center">
-          <div className="relative mx-auto w-full max-w-[360px] aspect-square">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(260px,360px)_1fr] gap-5 sm:gap-6 items-center">
+          <div className="relative mx-auto w-full max-w-[320px] sm:max-w-[360px] aspect-square">
             <svg
               viewBox="0 0 300 300"
               role="img"
@@ -273,7 +273,7 @@ export default function PersonalityResultView({
 
       {/* Traits */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="bg-card rounded-[var(--radius-md)] shadow-[var(--shadow-sm)] p-5">
+        <div className="bg-card rounded-[var(--radius-md)] shadow-[var(--shadow-sm)] p-4 sm:p-5">
           <h3 className="font-heading font-bold text-text mb-3">긍정적 특성</h3>
           <ul className="space-y-1.5">
             {mainTypeInfo.positiveTraits.map((trait) => (
@@ -285,7 +285,7 @@ export default function PersonalityResultView({
           </ul>
         </div>
 
-        <div className="bg-card rounded-[var(--radius-md)] shadow-[var(--shadow-sm)] p-5">
+        <div className="bg-card rounded-[var(--radius-md)] shadow-[var(--shadow-sm)] p-4 sm:p-5">
           <h3 className="font-heading font-bold text-text mb-3">주의할 특성</h3>
           <ul className="space-y-1.5">
             {mainTypeInfo.negativeTraits.map((trait) => (
@@ -300,7 +300,7 @@ export default function PersonalityResultView({
 
       {/* Strengths / Weaknesses */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="bg-card rounded-[var(--radius-md)] shadow-[var(--shadow-sm)] p-5">
+        <div className="bg-card rounded-[var(--radius-md)] shadow-[var(--shadow-sm)] p-4 sm:p-5">
           <h3 className="font-heading font-bold text-text mb-3">강점</h3>
           <ul className="space-y-1.5">
             {mainTypeInfo.strengths.map((s) => (
@@ -312,7 +312,7 @@ export default function PersonalityResultView({
           </ul>
         </div>
 
-        <div className="bg-card rounded-[var(--radius-md)] shadow-[var(--shadow-sm)] p-5">
+        <div className="bg-card rounded-[var(--radius-md)] shadow-[var(--shadow-sm)] p-4 sm:p-5">
           <h3 className="font-heading font-bold text-text mb-3">성장 포인트</h3>
           <ul className="space-y-1.5">
             {mainTypeInfo.weaknesses.map((w) => (
@@ -326,7 +326,7 @@ export default function PersonalityResultView({
       </div>
 
       {/* Core Values + Motivation */}
-      <div className="bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)] p-6">
+      <div className="bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)] p-4 sm:p-6">
         <h3 className="font-heading font-bold text-text mb-3">핵심 가치와 동기</h3>
         <div className="flex flex-wrap gap-2 mb-4">
           {mainTypeInfo.coreValues.map((v) => (

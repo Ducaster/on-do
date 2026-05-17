@@ -122,7 +122,7 @@ export default function PersonalityTestForm({ clientId }: PersonalityTestFormPro
     <div>
       {/* Progress Bar */}
       <div className="mb-6">
-        <div className="flex items-center justify-between text-xs text-text-muted mb-2">
+        <div className="flex flex-col gap-1 min-[420px]:flex-row min-[420px]:items-center min-[420px]:justify-between text-xs text-text-muted mb-2">
           <span>{currentPage + 1} / {totalPages} 그룹</span>
           <span>{totalAnswered} / {PERSONALITY_QUESTIONS.length} 문항 ({progress}%)</span>
         </div>
@@ -158,7 +158,7 @@ export default function PersonalityTestForm({ clientId }: PersonalityTestFormPro
                 questionRefs.current[globalIdx] = node;
               }}
               tabIndex={-1}
-              className={`bg-card rounded-[var(--radius-md)] border p-4 scroll-mt-24 transition-colors focus:outline-none ${
+              className={`bg-card rounded-[var(--radius-md)] border p-3 sm:p-4 scroll-mt-24 transition-colors focus:outline-none ${
                 isMissing
                   ? "border-red-300 bg-red-50/40 ring-2 ring-red-100"
                   : "border-border-lighter"
@@ -180,7 +180,7 @@ export default function PersonalityTestForm({ clientId }: PersonalityTestFormPro
                 </p>
               </div>
 
-              <div className="flex gap-1.5">
+              <div className="grid grid-cols-1 min-[420px]:grid-cols-5 gap-1.5">
                 {SCALE_LABELS.map((label, scaleIdx) => {
                   const value = scaleIdx + 1;
                   const selected = answers[globalIdx] === value;
@@ -189,7 +189,7 @@ export default function PersonalityTestForm({ clientId }: PersonalityTestFormPro
                       key={scaleIdx}
                       onClick={() => setAnswer(globalIdx, value)}
                       disabled={submitting}
-                      className={`flex-1 py-2 px-1 text-xs rounded-[var(--radius-sm)] border transition-all cursor-pointer ${
+                      className={`min-h-10 py-2 px-2 text-xs rounded-[var(--radius-sm)] border transition-all cursor-pointer ${
                         selected
                           ? "bg-primary text-white border-primary"
                           : "bg-bg border-border-lighter hover:border-primary/40 text-text-muted"
@@ -211,11 +211,11 @@ export default function PersonalityTestForm({ clientId }: PersonalityTestFormPro
       </div>
 
       {/* Navigation */}
-      <div className="flex items-center justify-between mt-6 gap-3">
+      <div className="flex flex-col-reverse min-[420px]:flex-row min-[420px]:items-center min-[420px]:justify-between mt-6 gap-3">
         <button
           onClick={() => setCurrentPage((p) => Math.max(0, p - 1))}
           disabled={currentPage === 0 || submitting}
-          className="flex items-center gap-1 px-4 py-2.5 text-sm rounded-[var(--radius-sm)] border border-border-light hover:bg-bg-warm transition-colors disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
+          className="w-full min-[420px]:w-auto justify-center flex items-center gap-1 px-4 py-2.5 text-sm rounded-[var(--radius-sm)] border border-border-light hover:bg-bg-warm transition-colors disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
         >
           <ChevronLeft size={16} />
           이전
@@ -225,7 +225,7 @@ export default function PersonalityTestForm({ clientId }: PersonalityTestFormPro
           <button
             onClick={handleNext}
             disabled={submitting}
-            className={`flex items-center gap-1 px-4 py-2.5 text-sm rounded-[var(--radius-sm)] transition-colors cursor-pointer ${
+            className={`w-full min-[420px]:w-auto justify-center flex items-center gap-1 px-4 py-2.5 text-sm rounded-[var(--radius-sm)] transition-colors cursor-pointer ${
               pageComplete
                 ? "bg-primary text-white hover:bg-primary-dark"
                 : "border border-border-light hover:bg-bg-warm"
@@ -238,7 +238,7 @@ export default function PersonalityTestForm({ clientId }: PersonalityTestFormPro
           <button
             onClick={handleSubmit}
             disabled={!allComplete || submitting}
-            className={`px-6 py-2.5 text-sm rounded-[var(--radius-sm)] transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer ${
+            className={`w-full min-[420px]:w-auto px-6 py-2.5 text-sm rounded-[var(--radius-sm)] transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer ${
               allComplete
                 ? "bg-primary text-white hover:bg-primary-dark"
                 : "border border-border-light hover:bg-bg-warm"

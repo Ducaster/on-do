@@ -51,8 +51,8 @@ export default async function AttachmentResultPage({
         검사 커리큘럼
       </Link>
 
-      <div className="mb-8">
-        <h1 className="font-heading text-2xl font-bold text-text mb-1">
+      <div className="mb-6 sm:mb-8">
+        <h1 className="font-heading text-xl sm:text-2xl font-bold text-text mb-1">
           애착유형 검사 결과
         </h1>
         <p className="text-sm text-text-muted">
@@ -62,8 +62,8 @@ export default async function AttachmentResultPage({
 
       <div className="space-y-6">
         {/* Main Result */}
-        <div className="bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-md)] p-6 border border-primary/20">
-          <h2 className="font-heading text-xl font-bold text-text mb-2">
+        <div className="bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-md)] p-4 sm:p-6 border border-primary/20">
+          <h2 className="font-heading text-lg sm:text-xl font-bold text-text mb-2">
             {typeInfo.label}
           </h2>
           <p className="text-sm text-text-secondary leading-relaxed">
@@ -73,7 +73,7 @@ export default async function AttachmentResultPage({
 
         {/* Scores */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-card rounded-[var(--radius-md)] shadow-[var(--shadow-sm)] p-5">
+          <div className="bg-card rounded-[var(--radius-md)] shadow-[var(--shadow-sm)] p-4 sm:p-5">
             <h3 className="text-xs font-medium text-text-muted mb-3">회피 차원 (Avoidance)</h3>
             <div className="flex items-end gap-2">
               <span className="text-3xl font-bold text-text">{resultData.avoidanceMean}</span>
@@ -92,7 +92,7 @@ export default async function AttachmentResultPage({
             </p>
           </div>
 
-          <div className="bg-card rounded-[var(--radius-md)] shadow-[var(--shadow-sm)] p-5">
+          <div className="bg-card rounded-[var(--radius-md)] shadow-[var(--shadow-sm)] p-4 sm:p-5">
             <h3 className="text-xs font-medium text-text-muted mb-3">불안 차원 (Anxiety)</h3>
             <div className="flex items-end gap-2">
               <span className="text-3xl font-bold text-text">{resultData.anxietyMean}</span>
@@ -113,9 +113,9 @@ export default async function AttachmentResultPage({
         </div>
 
         {/* 2x2 Matrix Visual */}
-        <div className="bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)] p-6">
+        <div className="bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)] p-4 sm:p-6">
           <h3 className="font-heading font-bold text-text mb-4">애착유형 매트릭스</h3>
-          <div className="relative aspect-square max-w-md mx-auto">
+          <div className="relative aspect-square max-w-[min(100%,20rem)] sm:max-w-md mx-auto my-8 sm:my-7">
             {/* Axes */}
             <div className="absolute inset-0 border border-border-light rounded-[var(--radius-sm)]">
               <div className="absolute left-1/2 top-0 bottom-0 w-px bg-border-lighter" />
@@ -123,24 +123,24 @@ export default async function AttachmentResultPage({
             </div>
 
             {/* Labels */}
-            <span className="absolute -top-6 left-1/2 -translate-x-1/2 text-xs text-text-muted">
+            <span className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] sm:text-xs text-text-muted whitespace-nowrap">
               불안 낮음
             </span>
-            <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-text-muted">
+            <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] sm:text-xs text-text-muted whitespace-nowrap">
               불안 높음
             </span>
-            <span className="absolute top-1/2 -left-12 -translate-y-1/2 text-xs text-text-muted">
+            <span className="absolute top-1/2 -left-8 sm:-left-12 -translate-y-1/2 text-[10px] sm:text-xs text-text-muted whitespace-nowrap">
               회피 낮음
             </span>
-            <span className="absolute top-1/2 -right-12 -translate-y-1/2 text-xs text-text-muted">
+            <span className="absolute top-1/2 -right-8 sm:-right-12 -translate-y-1/2 text-[10px] sm:text-xs text-text-muted whitespace-nowrap">
               회피 높음
             </span>
 
             {/* Quadrant labels */}
-            <span className="absolute top-4 left-4 text-xs text-[#547E68] font-medium">안정형</span>
-            <span className="absolute top-4 right-4 text-xs text-[#506E8E] font-medium">회피형</span>
-            <span className="absolute bottom-4 left-4 text-xs text-[#9C5030] font-medium">불안형</span>
-            <span className="absolute bottom-4 right-4 text-xs text-[#7E5E78] font-medium">공포형</span>
+            <span className="absolute top-3 left-3 sm:top-4 sm:left-4 text-[10px] sm:text-xs text-[#547E68] font-medium">안정형</span>
+            <span className="absolute top-3 right-3 sm:top-4 sm:right-4 text-[10px] sm:text-xs text-[#506E8E] font-medium">회피형</span>
+            <span className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4 text-[10px] sm:text-xs text-[#9C5030] font-medium">불안형</span>
+            <span className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 text-[10px] sm:text-xs text-[#7E5E78] font-medium">공포형</span>
 
             {/* Dot */}
             <div
@@ -154,7 +154,7 @@ export default async function AttachmentResultPage({
         </div>
 
         {/* All Types Info */}
-        <div className="bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)] p-6">
+        <div className="bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)] p-4 sm:p-6">
           <h3 className="font-heading font-bold text-text mb-4">4가지 애착유형 안내</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {(Object.entries(ATTACHMENT_TYPE_INFO) as [AttachmentType, typeof typeInfo][]).map(

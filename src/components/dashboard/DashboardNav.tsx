@@ -21,17 +21,17 @@ export default function DashboardNav() {
 
   return (
     <nav className="bg-card border-b border-border-light sticky top-0 z-50">
-      <div className="max-w-[1200px] mx-auto px-6 h-16 flex items-center justify-between">
-        <div className="flex items-center gap-8">
+      <div className="max-w-[1200px] mx-auto px-4 py-3 sm:px-6 sm:h-16 sm:py-0 flex flex-wrap items-center justify-between gap-3">
+        <div className="min-w-0 flex items-center gap-3 sm:gap-8">
           <Link
             href="/dashboard"
-            className="flex items-center gap-2.5"
+            className="min-w-0 flex items-center gap-2.5"
           >
             <Logo size={26} />
-            <span className="font-heading font-bold text-text">
+            <span className="font-heading font-bold text-text truncate">
               ON-DO
             </span>
-            <span className="text-[10px] px-2 py-0.5 rounded-full bg-primary-pale text-primary font-medium tracking-wider uppercase">
+            <span className="hidden min-[380px]:inline text-[10px] px-2 py-0.5 rounded-full bg-primary-pale text-primary font-medium tracking-wider uppercase">
               Coach
             </span>
           </Link>
@@ -47,7 +47,7 @@ export default function DashboardNav() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`flex items-center gap-2 px-3.5 py-2 rounded-[var(--radius-sm)] text-sm transition-colors ${
+                  className={`flex items-center gap-2 px-2.5 py-2 sm:px-3.5 rounded-[var(--radius-sm)] text-sm transition-colors ${
                     isActive
                       ? "bg-primary-pale text-primary font-medium"
                       : "text-text-muted hover:text-text hover:bg-bg"
@@ -63,10 +63,10 @@ export default function DashboardNav() {
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-1.5 sm:gap-3">
           <Link
             href="/"
-            className="flex items-center gap-1.5 text-xs text-text-light hover:text-text-muted transition-colors"
+            className="flex items-center gap-1.5 px-2 py-1.5 rounded-[var(--radius-sm)] text-xs text-text-light hover:text-text-muted hover:bg-bg transition-colors"
           >
             <Home size={13} />
             <span className="max-[640px]:hidden">홈페이지</span>
@@ -74,7 +74,7 @@ export default function DashboardNav() {
           <form action={logout}>
             <PendingSubmitButton
               pendingText="로그아웃 중..."
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--radius-sm)] text-sm text-text-muted hover:text-red-600 hover:bg-red-50 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 rounded-[var(--radius-sm)] text-sm text-text-muted hover:text-red-600 hover:bg-red-50 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <LogOut size={14} />
               <span className="max-[640px]:hidden">로그아웃</span>

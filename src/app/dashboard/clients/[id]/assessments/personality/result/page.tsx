@@ -54,8 +54,8 @@ export default async function PersonalityResultPage({
         검사 커리큘럼
       </Link>
 
-      <div className="mb-8">
-        <h1 className="font-heading text-2xl font-bold text-text mb-1">
+      <div className="mb-6 sm:mb-8">
+        <h1 className="font-heading text-xl sm:text-2xl font-bold text-text mb-1">
           성격유형 검사 결과
         </h1>
         <p className="text-sm text-text-muted">

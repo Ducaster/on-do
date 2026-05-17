@@ -353,13 +353,13 @@ export default function DrawingCanvas({
   return (
     <div className="space-y-3">
       {/* Toolbar */}
-      <div className="flex items-center gap-3 flex-wrap">
-        <div className="flex items-center gap-1.5">
+      <div className="flex items-center gap-2 sm:gap-3 flex-wrap rounded-[var(--radius-md)] border border-border-lighter bg-bg/60 p-2">
+        <div className="grid grid-cols-4 min-[360px]:grid-cols-8 gap-1.5">
           {colors.map((c) => (
             <button
               key={c}
               onClick={() => { setColor(c); setTool("pen"); }}
-              className="w-7 h-7 rounded-full border-2 transition-transform cursor-pointer"
+              className="w-8 h-8 sm:w-7 sm:h-7 rounded-full border-2 transition-transform cursor-pointer"
               style={{
                 backgroundColor: c,
                 borderColor: color === c && tool === "pen" ? "var(--color-primary)" : "transparent",
@@ -369,7 +369,7 @@ export default function DrawingCanvas({
           ))}
         </div>
 
-        <div className="w-px h-6 bg-border-light" />
+        <div className="hidden sm:block w-px h-6 bg-border-light" />
 
         <div className="flex items-center gap-1">
           <button
@@ -387,7 +387,7 @@ export default function DrawingCanvas({
           </button>
         </div>
 
-        <div className="w-px h-6 bg-border-light" />
+        <div className="hidden sm:block w-px h-6 bg-border-light" />
 
         <button
           onClick={() => setTool(tool === "eraser" ? "pen" : "eraser")}

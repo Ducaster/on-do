@@ -45,8 +45,8 @@ export default async function AssessmentsPage({
         {client.name} 상세보기
       </Link>
 
-      <div className="mb-8">
-        <h1 className="font-heading text-2xl font-bold text-text mb-1">
+      <div className="mb-6 sm:mb-8">
+        <h1 className="font-heading text-xl sm:text-2xl font-bold text-text mb-1">
           검사 커리큘럼
         </h1>
         <p className="text-sm text-text-muted">
@@ -67,14 +67,14 @@ export default async function AssessmentsPage({
             <Link
               key={assessment.slug}
               href={href}
-              className={`group flex items-center gap-4 p-5 rounded-[var(--radius-md)] border transition-all ${
+              className={`group flex items-start sm:items-center gap-3 sm:gap-4 p-4 sm:p-5 rounded-[var(--radius-md)] border transition-all ${
                 isDone
                   ? "bg-card border-border-lighter hover:border-primary/30"
                   : "bg-card border-border-light hover:border-primary hover:shadow-[var(--shadow-sm)]"
               }`}
             >
               <span
-                className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 text-sm font-bold ${
+                className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shrink-0 text-sm font-bold ${
                   isDone
                     ? "bg-primary/10 text-primary"
                     : "bg-bg-warm text-text-muted group-hover:bg-primary-pale group-hover:text-primary"
@@ -90,7 +90,7 @@ export default async function AssessmentsPage({
                     {assessment.title}
                   </h3>
                 </div>
-                <p className="text-xs text-text-muted mt-0.5">
+                <p className="text-xs text-text-muted mt-0.5 leading-relaxed">
                   {assessment.subtitle}
                 </p>
               </div>

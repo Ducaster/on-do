@@ -59,8 +59,8 @@ export default async function LifeGraphResultPage({
         검사 커리큘럼
       </Link>
 
-      <div className="mb-8">
-        <h1 className="font-heading text-2xl font-bold text-text mb-1">
+      <div className="mb-6 sm:mb-8">
+        <h1 className="font-heading text-xl sm:text-2xl font-bold text-text mb-1">
           인생그래프 결과
         </h1>
         <p className="text-sm text-text-muted">
@@ -70,7 +70,7 @@ export default async function LifeGraphResultPage({
 
       <div className="space-y-6">
         {/* Drawing Image */}
-        <div className="bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-md)] p-4 border border-border-lighter">
+        <div className="bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-md)] p-2 sm:p-4 border border-border-lighter">
           <div className="relative w-full aspect-[4/3] rounded-[var(--radius-sm)] overflow-hidden bg-white">
             <Image
               src={imageUrl}
@@ -84,14 +84,14 @@ export default async function LifeGraphResultPage({
 
         {/* Notes */}
         {assessment.notes && (
-          <div className="bg-card rounded-[var(--radius-md)] shadow-[var(--shadow-sm)] p-5 border border-border-lighter">
+          <div className="bg-card rounded-[var(--radius-md)] shadow-[var(--shadow-sm)] p-4 sm:p-5 border border-border-lighter">
             <h3 className="text-xs font-medium text-text-muted mb-2">코치 메모</h3>
             <p className="text-sm text-text leading-relaxed whitespace-pre-wrap">{assessment.notes}</p>
           </div>
         )}
 
         {/* About the test */}
-        <div className="bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)] p-6 border border-primary/15">
+        <div className="bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)] p-4 sm:p-6 border border-primary/15">
           <h3 className="font-heading font-bold text-text mb-3">검사 안내</h3>
           <p className="text-sm text-text-secondary leading-[1.85]">
             인생그래프는 태어나서 현재까지의 삶에서 중요한 사건들과 그에 따른 감정의 변화를
@@ -102,7 +102,7 @@ export default async function LifeGraphResultPage({
         </div>
 
         {/* Interpretation Guide */}
-        <div className="bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)] p-6">
+        <div className="bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)] p-4 sm:p-6">
           <h3 className="font-heading font-bold text-text mb-5">해석 포인트</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {INTERPRETATION_POINTS.map((point) => {
@@ -110,7 +110,7 @@ export default async function LifeGraphResultPage({
               return (
                 <div
                   key={point.title}
-                  className="flex gap-3 p-4 rounded-[var(--radius-sm)] bg-bg border border-border-lighter"
+                  className="flex gap-3 p-3 sm:p-4 rounded-[var(--radius-sm)] bg-bg border border-border-lighter"
                 >
                   <div className="w-9 h-9 rounded-full bg-primary/8 flex items-center justify-center shrink-0">
                     <Icon size={16} className="text-primary" />

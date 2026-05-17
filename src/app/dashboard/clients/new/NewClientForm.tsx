@@ -67,23 +67,23 @@ export function NewClientForm() {
           내담자 대시보드
         </Link>
 
-        <h1 className="font-heading text-2xl font-bold text-text mb-2">
+        <h1 className="font-heading text-xl sm:text-2xl font-bold text-text mb-2">
           새 내담자 등록
         </h1>
-        <p className="text-sm text-text-muted mb-8">
+        <p className="text-sm text-text-muted mb-6 sm:mb-8">
           등록 전 아래 서약서 및 방침에 동의해 주세요.
         </p>
 
-        <div className="space-y-5">
+        <div className="space-y-4 sm:space-y-5">
           {/* 비밀유지서약서 */}
           <div className="bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)] overflow-hidden">
-            <div className="flex items-center gap-2.5 px-6 py-4 border-b border-border-lighter bg-bg-warm/50">
+            <div className="flex items-center gap-2.5 px-4 py-4 sm:px-6 border-b border-border-lighter bg-bg-warm/50">
               <ShieldCheck size={18} className="text-primary shrink-0" />
               <h2 className="font-heading text-[1.02rem] font-bold text-text">
                 비밀유지서약서
               </h2>
             </div>
-            <div className="px-6 py-5">
+            <div className="px-4 py-5 sm:px-6">
               <p className="text-[0.85rem] text-text-secondary leading-[1.85] mb-5 break-keep">
                 본인은 프로그램 참여 과정에서 알게 된 정보 및 제공받은 자료의
                 중요성을 이해하고, 아래 사항을 준수할 것을 서약합니다.
@@ -101,7 +101,7 @@ export function NewClientForm() {
                 ))}
               </div>
             </div>
-            <label className="flex items-center gap-3 px-6 py-4 border-t border-border-lighter cursor-pointer hover:bg-bg-warm/30 transition-colors">
+            <label className="flex items-start gap-3 px-4 py-4 sm:px-6 border-t border-border-lighter cursor-pointer hover:bg-bg-warm/30 transition-colors">
               <input
                 type="checkbox"
                 checked={ndaChecked}
@@ -116,13 +116,13 @@ export function NewClientForm() {
 
           {/* 개인정보처리방침 */}
           <div className="bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)] overflow-hidden">
-            <div className="flex items-center gap-2.5 px-6 py-4 border-b border-border-lighter bg-bg-warm/50">
+            <div className="flex items-center gap-2.5 px-4 py-4 sm:px-6 border-b border-border-lighter bg-bg-warm/50">
               <FileText size={18} className="text-primary shrink-0" />
               <h2 className="font-heading text-[1.02rem] font-bold text-text">
                 개인정보 수집 및 이용 동의
               </h2>
             </div>
-            <div className="px-6 py-5">
+            <div className="px-4 py-5 sm:px-6">
               <div className="space-y-4">
                 {PRIVACY_CONTENT.map((item) => (
                   <div key={item.title}>
@@ -136,7 +136,7 @@ export function NewClientForm() {
                 ))}
               </div>
             </div>
-            <label className="flex items-center gap-3 px-6 py-4 border-t border-border-lighter cursor-pointer hover:bg-bg-warm/30 transition-colors">
+            <label className="flex items-start gap-3 px-4 py-4 sm:px-6 border-t border-border-lighter cursor-pointer hover:bg-bg-warm/30 transition-colors">
               <input
                 type="checkbox"
                 checked={privacyChecked}
@@ -150,7 +150,7 @@ export function NewClientForm() {
           </div>
         </div>
 
-        <div className="flex gap-3 mt-8">
+        <div className="flex flex-col min-[420px]:flex-row gap-3 mt-6 sm:mt-8">
           <Link
             href="/dashboard"
             className="flex-1 py-3 text-center rounded-[var(--radius-sm)] border border-border-light text-text-muted text-sm hover:bg-bg transition-colors"
@@ -180,13 +180,13 @@ export function NewClientForm() {
         내담자 대시보드
       </Link>
 
-      <h1 className="font-heading text-2xl font-bold text-text mb-8">
+      <h1 className="font-heading text-xl sm:text-2xl font-bold text-text mb-6 sm:mb-8">
         새 내담자 등록
       </h1>
 
       <form
         action={addClient}
-        className="bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)] p-8 space-y-5"
+        className="bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)] p-5 sm:p-8 space-y-5"
       >
         <div>
           <label
@@ -245,7 +245,7 @@ export function NewClientForm() {
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label
               htmlFor="birthDate"
@@ -318,7 +318,7 @@ export function NewClientForm() {
           />
         </div>
 
-        <div className="flex gap-3 pt-2">
+        <div className="flex flex-col min-[420px]:flex-row gap-3 pt-2">
           <Link
             href="/dashboard"
             className="flex-1 py-3 text-center rounded-[var(--radius-sm)] border border-border-light text-text-muted text-sm hover:bg-bg transition-colors"

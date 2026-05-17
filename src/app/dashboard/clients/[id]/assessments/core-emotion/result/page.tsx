@@ -46,8 +46,8 @@ export default async function CoreEmotionResultPage({
         검사 커리큘럼
       </Link>
 
-      <div className="mb-8">
-        <h1 className="font-heading text-2xl font-bold text-text mb-1">
+      <div className="mb-6 sm:mb-8">
+        <h1 className="font-heading text-xl sm:text-2xl font-bold text-text mb-1">
           핵심감정 검사 결과
         </h1>
         <p className="text-sm text-text-muted">
@@ -57,7 +57,7 @@ export default async function CoreEmotionResultPage({
 
       <div className="space-y-6">
         {/* Summary */}
-        <div className="bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-md)] p-6 border border-primary/20">
+        <div className="bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-md)] p-4 sm:p-6 border border-primary/20">
           <h2 className="font-heading text-lg font-bold text-text mb-3">
             주요 감정 유형
           </h2>
@@ -71,9 +71,9 @@ export default async function CoreEmotionResultPage({
                 <span className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-sm font-bold text-white shrink-0">
                   {i + 1}
                 </span>
-                <div className="flex-1">
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-sm font-medium text-text">
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-col gap-0.5 min-[420px]:flex-row min-[420px]:items-center min-[420px]:justify-between mb-1">
+                    <span className="text-sm font-medium text-text truncate">
                       {t.title}
                     </span>
                     <span className="text-xs text-text-muted">{t.count}개 선택</span>

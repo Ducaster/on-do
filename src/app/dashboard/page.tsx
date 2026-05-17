@@ -35,7 +35,7 @@ export default async function DashboardPage() {
     <div>
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-8">
         <div>
-          <h1 className="font-heading text-2xl font-bold text-text">
+          <h1 className="font-heading text-xl sm:text-2xl font-bold text-text">
             내담자 대시보드
           </h1>
           <p className="text-sm text-text-muted mt-1">
@@ -44,7 +44,7 @@ export default async function DashboardPage() {
         </div>
         <Link
           href="/dashboard/clients/new"
-          className="shrink-0 inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-primary text-white rounded-[var(--radius-sm)] text-sm font-medium hover:bg-primary-dark transition-colors"
+          className="w-full sm:w-auto shrink-0 inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-primary text-white rounded-[var(--radius-sm)] text-sm font-medium hover:bg-primary-dark transition-colors"
         >
           <Plus size={16} />
           새 내담자 등록
@@ -52,8 +52,8 @@ export default async function DashboardPage() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-        <div className="bg-card rounded-[var(--radius-md)] shadow-[var(--shadow-xs)] p-5">
+      <div className="grid grid-cols-1 min-[520px]:grid-cols-3 gap-3 sm:gap-4 mb-8">
+        <div className="bg-card rounded-[var(--radius-md)] shadow-[var(--shadow-xs)] p-4 sm:p-5">
           <div className="flex items-center gap-3 mb-3">
             <div className="p-2 rounded-[var(--radius-sm)] bg-primary-pale">
               <Users size={18} className="text-primary" />
@@ -67,7 +67,7 @@ export default async function DashboardPage() {
             </span>
           </p>
         </div>
-        <div className="bg-card rounded-[var(--radius-md)] shadow-[var(--shadow-xs)] p-5">
+        <div className="bg-card rounded-[var(--radius-md)] shadow-[var(--shadow-xs)] p-4 sm:p-5">
           <div className="flex items-center gap-3 mb-3">
             <div className="p-2 rounded-[var(--radius-sm)] bg-primary-pale">
               <Calendar size={18} className="text-primary" />
@@ -81,7 +81,7 @@ export default async function DashboardPage() {
             </span>
           </p>
         </div>
-        <div className="bg-card rounded-[var(--radius-md)] shadow-[var(--shadow-xs)] p-5">
+        <div className="bg-card rounded-[var(--radius-md)] shadow-[var(--shadow-xs)] p-4 sm:p-5">
           <div className="flex items-center gap-3 mb-3">
             <div className="p-2 rounded-[var(--radius-sm)] bg-primary-pale">
               <TrendingUp size={18} className="text-primary" />
@@ -99,9 +99,9 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-8">
         {/* Growth Stage Distribution */}
-        <div className="bg-card rounded-[var(--radius-md)] shadow-[var(--shadow-xs)] p-6">
+        <div className="bg-card rounded-[var(--radius-md)] shadow-[var(--shadow-xs)] p-4 sm:p-6">
           <h2 className="font-heading text-lg font-bold text-text mb-4">
             성장 단계 분포
           </h2>
@@ -112,8 +112,8 @@ export default async function DashboardPage() {
           ) : (
             <div className="space-y-3">
               {stageDistribution.map((stage) => (
-                <div key={stage.key} className="flex items-center gap-3">
-                  <span className="text-xs text-text-muted w-24 shrink-0">
+                <div key={stage.key} className="grid grid-cols-[74px_1fr] min-[420px]:grid-cols-[96px_1fr] items-center gap-2 min-[420px]:gap-3">
+                  <span className="text-xs text-text-muted truncate">
                     {stage.label}
                   </span>
                   <div className="flex-1 h-6 bg-bg rounded-full overflow-hidden">
@@ -141,7 +141,7 @@ export default async function DashboardPage() {
         </div>
 
         {/* Recent Sessions */}
-        <div className="bg-card rounded-[var(--radius-md)] shadow-[var(--shadow-xs)] p-6">
+        <div className="bg-card rounded-[var(--radius-md)] shadow-[var(--shadow-xs)] p-4 sm:p-6">
           <h2 className="font-heading text-lg font-bold text-text mb-4">
             최근 코칭 기록
           </h2>
@@ -155,18 +155,18 @@ export default async function DashboardPage() {
                 <Link
                   key={session.id}
                   href={`/dashboard/clients/${session.clientId}`}
-                  className="flex items-center justify-between p-3 rounded-[var(--radius-sm)] hover:bg-bg transition-colors"
+                  className="flex flex-col gap-1 min-[480px]:flex-row min-[480px]:items-center min-[480px]:justify-between p-3 rounded-[var(--radius-sm)] hover:bg-bg transition-colors"
                 >
-                  <div>
+                  <div className="min-w-0">
                     <p className="text-sm font-medium text-text">
                       {session.clientName}
                     </p>
-                    <p className="text-xs text-text-light">
+                    <p className="text-xs text-text-light truncate">
                       {session.sessionNumber}회차 &middot;{" "}
                       {session.content?.slice(0, 30)}
                     </p>
                   </div>
-                  <span className="text-xs text-text-light shrink-0 ml-3">
+                  <span className="text-xs text-text-light shrink-0 min-[480px]:ml-3">
                     {session.date}
                   </span>
                 </Link>
@@ -178,7 +178,7 @@ export default async function DashboardPage() {
 
       {/* Client Management */}
       <section className="bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)] overflow-hidden">
-        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 px-6 py-5 border-b border-border-lighter">
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 px-4 py-4 sm:px-6 sm:py-5 border-b border-border-lighter">
           <div>
             <h2 className="font-heading text-lg font-bold text-text">
               내담자 관리
@@ -191,7 +191,7 @@ export default async function DashboardPage() {
           </div>
           <Link
             href="/dashboard/clients/new"
-            className="shrink-0 inline-flex items-center justify-center gap-2 px-3.5 py-2 rounded-[var(--radius-sm)] border border-border-light text-sm font-medium text-text-muted hover:text-primary hover:border-primary/40 hover:bg-primary-pale transition-colors"
+            className="w-full sm:w-auto shrink-0 inline-flex items-center justify-center gap-2 px-3.5 py-2 rounded-[var(--radius-sm)] border border-border-light text-sm font-medium text-text-muted hover:text-primary hover:border-primary/40 hover:bg-primary-pale transition-colors"
           >
             <Plus size={15} />
             등록
@@ -199,7 +199,7 @@ export default async function DashboardPage() {
         </div>
 
         {clients.length === 0 ? (
-          <div className="px-6 py-12 text-center">
+          <div className="px-4 py-10 sm:px-6 sm:py-12 text-center">
             <div className="text-5xl mb-4 opacity-60">&#127330;</div>
             <h3 className="font-heading text-lg font-bold text-text mb-2">
               아직 등록된 내담자가 없습니다
@@ -209,7 +209,7 @@ export default async function DashboardPage() {
             </p>
             <Link
               href="/dashboard/clients/new"
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white rounded-[var(--radius-sm)] text-sm font-medium hover:bg-primary-dark transition-colors"
+              className="inline-flex w-full min-[420px]:w-auto items-center justify-center gap-2 px-5 py-2.5 bg-primary text-white rounded-[var(--radius-sm)] text-sm font-medium hover:bg-primary-dark transition-colors"
             >
               <Plus size={16} />
               내담자 등록하기
@@ -227,9 +227,9 @@ export default async function DashboardPage() {
                 <Link
                   key={client.id}
                   href={`/dashboard/clients/${client.id}`}
-                  className="grid grid-cols-[1fr_auto] gap-4 px-6 py-4 hover:bg-bg-warm/45 transition-colors group"
+                  className="grid grid-cols-[1fr_auto] gap-3 px-4 py-4 sm:gap-4 sm:px-6 hover:bg-bg-warm/45 transition-colors group"
                 >
-                  <div className="min-w-0 flex items-center gap-4">
+                  <div className="min-w-0 flex items-center gap-3 sm:gap-4">
                     <div className="w-11 h-11 rounded-full bg-bg-warm flex items-center justify-center shrink-0">
                       <span className="text-sm font-bold text-primary">
                         {client.name.slice(0, 1)}

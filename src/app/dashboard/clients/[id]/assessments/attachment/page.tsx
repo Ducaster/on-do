@@ -26,10 +26,10 @@ export default async function AttachmentPage({
       </Link>
 
       <div className="mb-6">
-        <h1 className="font-heading text-2xl font-bold text-text mb-1">
+        <h1 className="font-heading text-xl sm:text-2xl font-bold text-text mb-1">
           애착유형 검사
         </h1>
-        <p className="text-sm text-text-muted">
+        <p className="text-sm text-text-muted leading-relaxed">
           {client.name}님 &mdash; ECR-R 기반 36문항 검사입니다. 평소 대인관계에서 느끼는 것을 솔직하게 응답해주세요.
         </p>
       </div>

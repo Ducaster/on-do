@@ -80,7 +80,7 @@ export default function CoreEmotionTestForm({ clientId }: CoreEmotionTestFormPro
     <div>
       {/* Progress */}
       <div className="mb-6">
-        <div className="flex items-center justify-between text-xs text-text-muted mb-2">
+        <div className="flex items-center justify-between gap-3 text-xs text-text-muted mb-2">
           <span>{currentPage + 1} / {totalPages} 페이지</span>
           <span>총 {totalSelected}개 선택</span>
         </div>
@@ -97,9 +97,9 @@ export default function CoreEmotionTestForm({ clientId }: CoreEmotionTestFormPro
         {pageTypes.map((emotionType) => (
           <div
             key={emotionType.id}
-            className="bg-card rounded-[var(--radius-md)] border border-border-lighter p-5"
+            className="bg-card rounded-[var(--radius-md)] border border-border-lighter p-4 sm:p-5"
           >
-            <div className="flex items-center gap-2 mb-4">
+            <div className="flex flex-wrap items-center gap-2 mb-4">
               <span className="w-7 h-7 rounded-full bg-primary-pale flex items-center justify-center text-xs font-bold text-primary">
                 {emotionType.id}
               </span>
@@ -127,7 +127,7 @@ export default function CoreEmotionTestForm({ clientId }: CoreEmotionTestFormPro
                           key={item}
                           onClick={() => toggleItem(emotionType.id, item)}
                           disabled={submitting}
-                          className={`inline-flex items-center gap-1 px-3 py-1.5 text-xs rounded-full border transition-all cursor-pointer ${
+                          className={`inline-flex min-h-9 items-center gap-1 px-3 py-1.5 text-xs rounded-full border transition-all cursor-pointer ${
                             selected
                               ? "bg-primary text-white border-primary"
                               : "bg-bg border-border-lighter hover:border-primary/40 text-text-muted"
@@ -147,11 +147,11 @@ export default function CoreEmotionTestForm({ clientId }: CoreEmotionTestFormPro
       </div>
 
       {/* Navigation */}
-      <div className="flex items-center justify-between mt-6 gap-3">
+      <div className="flex flex-col-reverse min-[420px]:flex-row min-[420px]:items-center min-[420px]:justify-between mt-6 gap-3">
         <button
           onClick={() => setCurrentPage((p) => Math.max(0, p - 1))}
           disabled={currentPage === 0 || submitting}
-          className="flex items-center gap-1 px-4 py-2.5 text-sm rounded-[var(--radius-sm)] border border-border-light hover:bg-bg-warm transition-colors disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
+          className="w-full min-[420px]:w-auto justify-center flex items-center gap-1 px-4 py-2.5 text-sm rounded-[var(--radius-sm)] border border-border-light hover:bg-bg-warm transition-colors disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
         >
           <ChevronLeft size={16} />
           이전
@@ -161,7 +161,7 @@ export default function CoreEmotionTestForm({ clientId }: CoreEmotionTestFormPro
           <button
             onClick={() => setCurrentPage((p) => Math.min(totalPages - 1, p + 1))}
             disabled={submitting}
-            className="flex items-center gap-1 px-4 py-2.5 text-sm rounded-[var(--radius-sm)] bg-primary text-white hover:bg-primary-dark transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+            className="w-full min-[420px]:w-auto justify-center flex items-center gap-1 px-4 py-2.5 text-sm rounded-[var(--radius-sm)] bg-primary text-white hover:bg-primary-dark transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
           >
             다음
             <ChevronRight size={16} />
@@ -170,7 +170,7 @@ export default function CoreEmotionTestForm({ clientId }: CoreEmotionTestFormPro
           <button
             onClick={handleSubmit}
             disabled={totalSelected === 0 || submitting}
-            className="px-6 py-2.5 text-sm rounded-[var(--radius-sm)] bg-primary text-white hover:bg-primary-dark transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+            className="w-full min-[420px]:w-auto px-6 py-2.5 text-sm rounded-[var(--radius-sm)] bg-primary text-white hover:bg-primary-dark transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
           >
             {submitting ? "제출 중..." : "검사 완료"}
           </button>

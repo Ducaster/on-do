@@ -63,7 +63,7 @@ export default function AttachmentTestForm({ clientId }: AttachmentTestFormProps
     <div>
       {/* Progress */}
       <div className="mb-6">
-        <div className="flex items-center justify-between text-xs text-text-muted mb-2">
+        <div className="flex flex-col gap-1 min-[420px]:flex-row min-[420px]:items-center min-[420px]:justify-between text-xs text-text-muted mb-2">
           <span>{currentPage + 1} / {totalPages} 페이지</span>
           <span>{totalAnswered} / {ATTACHMENT_QUESTIONS.length} 문항 ({progress}%)</span>
         </div>
@@ -80,7 +80,7 @@ export default function AttachmentTestForm({ clientId }: AttachmentTestFormProps
         {pageQuestions.map((q) => (
           <div
             key={q.number}
-            className="bg-card rounded-[var(--radius-md)] border border-border-lighter p-4"
+            className="bg-card rounded-[var(--radius-md)] border border-border-lighter p-3 sm:p-4"
           >
             <div className="flex gap-2 mb-3">
               <span className="text-xs font-bold text-primary shrink-0 mt-0.5">
@@ -91,7 +91,7 @@ export default function AttachmentTestForm({ clientId }: AttachmentTestFormProps
               </p>
             </div>
 
-            <div className="flex gap-1.5">
+            <div className="grid grid-cols-1 min-[420px]:grid-cols-5 gap-1.5">
               {SCALE_LABELS.map((label, idx) => {
                 const value = idx + 1;
                 const selected = answers[q.number - 1] === value;
@@ -100,7 +100,7 @@ export default function AttachmentTestForm({ clientId }: AttachmentTestFormProps
                     key={idx}
                     onClick={() => setAnswer(q.number, value)}
                     disabled={submitting}
-                    className={`flex-1 py-2 px-1 text-xs rounded-[var(--radius-sm)] border transition-all cursor-pointer ${
+                    className={`min-h-10 py-2 px-2 text-xs rounded-[var(--radius-sm)] border transition-all cursor-pointer ${
                       selected
                         ? "bg-primary text-white border-primary"
                         : "bg-bg border-border-lighter hover:border-primary/40 text-text-muted"
@@ -116,11 +116,11 @@ export default function AttachmentTestForm({ clientId }: AttachmentTestFormProps
       </div>
 
       {/* Navigation */}
-      <div className="flex items-center justify-between mt-6 gap-3">
+      <div className="flex flex-col-reverse min-[420px]:flex-row min-[420px]:items-center min-[420px]:justify-between mt-6 gap-3">
         <button
           onClick={() => setCurrentPage((p) => Math.max(0, p - 1))}
           disabled={currentPage === 0 || submitting}
-          className="flex items-center gap-1 px-4 py-2.5 text-sm rounded-[var(--radius-sm)] border border-border-light hover:bg-bg-warm transition-colors disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
+          className="w-full min-[420px]:w-auto justify-center flex items-center gap-1 px-4 py-2.5 text-sm rounded-[var(--radius-sm)] border border-border-light hover:bg-bg-warm transition-colors disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
         >
           <ChevronLeft size={16} />
           이전
@@ -130,7 +130,7 @@ export default function AttachmentTestForm({ clientId }: AttachmentTestFormProps
           <button
             onClick={() => setCurrentPage((p) => Math.min(totalPages - 1, p + 1))}
             disabled={submitting}
-            className={`flex items-center gap-1 px-4 py-2.5 text-sm rounded-[var(--radius-sm)] transition-colors cursor-pointer ${
+            className={`w-full min-[420px]:w-auto justify-center flex items-center gap-1 px-4 py-2.5 text-sm rounded-[var(--radius-sm)] transition-colors cursor-pointer ${
               pageComplete
                 ? "bg-primary text-white hover:bg-primary-dark"
                 : "border border-border-light hover:bg-bg-warm"
@@ -143,7 +143,7 @@ export default function AttachmentTestForm({ clientId }: AttachmentTestFormProps
           <button
             onClick={handleSubmit}
             disabled={!allComplete || submitting}
-            className="px-6 py-2.5 text-sm rounded-[var(--radius-sm)] bg-primary text-white hover:bg-primary-dark transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+            className="w-full min-[420px]:w-auto px-6 py-2.5 text-sm rounded-[var(--radius-sm)] bg-primary text-white hover:bg-primary-dark transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
           >
             {submitting ? "제출 중..." : "검사 완료"}
           </button>
