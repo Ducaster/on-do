@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import { EMOTION_TYPES } from "@/data/assessments/core-emotion-test";
 import { submitCoreEmotionTest } from "../actions";
 import { ChevronLeft, ChevronRight, Check } from "lucide-react";
@@ -22,7 +22,9 @@ export default function CoreEmotionTestForm({ clientId }: CoreEmotionTestFormPro
     }
   );
   const [currentPage, setCurrentPage] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isPending, startTransition] = useTransition();
+  const submitLockRef = useRef(false);
 
   const totalPages = Math.ceil(EMOTION_TYPES.length / TYPES_PER_PAGE);
   const startIdx = currentPage * TYPES_PER_PAGE;
@@ -31,6 +33,7 @@ export default function CoreEmotionTestForm({ clientId }: CoreEmotionTestFormPro
   const totalSelected = Object.values(selections).reduce(
     (sum, s) => sum + s.size, 0
   );
+  const submitting = isSubmitting || isPending;
 
   function toggleItem(typeId: number, item: string) {
     setSelections((prev) => {
@@ -47,19 +50,29 @@ export default function CoreEmotionTestForm({ clientId }: CoreEmotionTestFormPro
   }
 
   function handleSubmit() {
-    startTransition(async () => {
-      const serialized: Record<number, string[]> = {};
-      for (const [typeId, items] of Object.entries(selections)) {
-        const arr = Array.from(items);
-        if (arr.length > 0) {
-          serialized[Number(typeId)] = arr;
-        }
-      }
+    if (totalSelected === 0 || submitting || submitLockRef.current) return;
 
-      const formData = new FormData();
-      formData.set("clientId", clientId);
-      formData.set("selections", JSON.stringify(serialized));
-      await submitCoreEmotionTest(formData);
+    submitLockRef.current = true;
+    setIsSubmitting(true);
+    startTransition(async () => {
+      try {
+        const serialized: Record<number, string[]> = {};
+        for (const [typeId, items] of Object.entries(selections)) {
+          const arr = Array.from(items);
+          if (arr.length > 0) {
+            serialized[Number(typeId)] = arr;
+          }
+        }
+
+        const formData = new FormData();
+        formData.set("clientId", clientId);
+        formData.set("selections", JSON.stringify(serialized));
+        await submitCoreEmotionTest(formData);
+      } catch (error) {
+        submitLockRef.current = false;
+        setIsSubmitting(false);
+        throw error;
+      }
     });
   }
 
@@ -113,11 +126,12 @@ export default function CoreEmotionTestForm({ clientId }: CoreEmotionTestFormPro
                         <button
                           key={item}
                           onClick={() => toggleItem(emotionType.id, item)}
+                          disabled={submitting}
                           className={`inline-flex items-center gap-1 px-3 py-1.5 text-xs rounded-full border transition-all cursor-pointer ${
                             selected
                               ? "bg-primary text-white border-primary"
                               : "bg-bg border-border-lighter hover:border-primary/40 text-text-muted"
-                          }`}
+                          } disabled:opacity-50 disabled:cursor-not-allowed`}
                         >
                           {selected && <Check size={12} />}
                           {item}
@@ -136,7 +150,7 @@ export default function CoreEmotionTestForm({ clientId }: CoreEmotionTestFormPro
       <div className="flex items-center justify-between mt-6 gap-3">
         <button
           onClick={() => setCurrentPage((p) => Math.max(0, p - 1))}
-          disabled={currentPage === 0}
+          disabled={currentPage === 0 || submitting}
           className="flex items-center gap-1 px-4 py-2.5 text-sm rounded-[var(--radius-sm)] border border-border-light hover:bg-bg-warm transition-colors disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
         >
           <ChevronLeft size={16} />
@@ -146,7 +160,8 @@ export default function CoreEmotionTestForm({ clientId }: CoreEmotionTestFormPro
         {currentPage < totalPages - 1 ? (
           <button
             onClick={() => setCurrentPage((p) => Math.min(totalPages - 1, p + 1))}
-            className="flex items-center gap-1 px-4 py-2.5 text-sm rounded-[var(--radius-sm)] bg-primary text-white hover:bg-primary-dark transition-colors cursor-pointer"
+            disabled={submitting}
+            className="flex items-center gap-1 px-4 py-2.5 text-sm rounded-[var(--radius-sm)] bg-primary text-white hover:bg-primary-dark transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
           >
             다음
             <ChevronRight size={16} />
@@ -154,13 +169,22 @@ export default function CoreEmotionTestForm({ clientId }: CoreEmotionTestFormPro
         ) : (
           <button
             onClick={handleSubmit}
-            disabled={totalSelected === 0 || isPending}
+            disabled={totalSelected === 0 || submitting}
             className="px-6 py-2.5 text-sm rounded-[var(--radius-sm)] bg-primary text-white hover:bg-primary-dark transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
           >
-            {isPending ? "분석 중..." : "검사 완료"}
+            {submitting ? "제출 중..." : "검사 완료"}
           </button>
         )}
       </div>
+      {submitting && (
+        <p
+          className="mt-3 text-center text-xs text-text-light"
+          role="status"
+          aria-live="polite"
+        >
+          검사 결과를 저장하고 있어요. 잠시만 기다려주세요.
+        </p>
+      )}
     </div>
   );
 }

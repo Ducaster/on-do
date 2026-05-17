@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import { ATTACHMENT_QUESTIONS, SCALE_LABELS } from "@/data/assessments/attachment-test";
 import { submitAttachmentTest } from "../actions";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -16,7 +16,9 @@ export default function AttachmentTestForm({ clientId }: AttachmentTestFormProps
     () => Array(ATTACHMENT_QUESTIONS.length).fill(null)
   );
   const [currentPage, setCurrentPage] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isPending, startTransition] = useTransition();
+  const submitLockRef = useRef(false);
 
   const totalPages = Math.ceil(ATTACHMENT_QUESTIONS.length / QUESTIONS_PER_PAGE);
   const startIdx = currentPage * QUESTIONS_PER_PAGE;
@@ -28,6 +30,7 @@ export default function AttachmentTestForm({ clientId }: AttachmentTestFormProps
   const totalAnswered = answers.filter((a) => a !== null).length;
   const allComplete = totalAnswered === ATTACHMENT_QUESTIONS.length;
   const progress = Math.round((totalAnswered / ATTACHMENT_QUESTIONS.length) * 100);
+  const submitting = isSubmitting || isPending;
 
   function setAnswer(qNumber: number, value: number) {
     setAnswers((prev) => {
@@ -38,12 +41,21 @@ export default function AttachmentTestForm({ clientId }: AttachmentTestFormProps
   }
 
   function handleSubmit() {
-    if (!allComplete) return;
+    if (!allComplete || submitting || submitLockRef.current) return;
+
+    submitLockRef.current = true;
+    setIsSubmitting(true);
     startTransition(async () => {
-      const formData = new FormData();
-      formData.set("clientId", clientId);
-      formData.set("answers", JSON.stringify(answers));
-      await submitAttachmentTest(formData);
+      try {
+        const formData = new FormData();
+        formData.set("clientId", clientId);
+        formData.set("answers", JSON.stringify(answers));
+        await submitAttachmentTest(formData);
+      } catch (error) {
+        submitLockRef.current = false;
+        setIsSubmitting(false);
+        throw error;
+      }
     });
   }
 
@@ -87,11 +99,12 @@ export default function AttachmentTestForm({ clientId }: AttachmentTestFormProps
                   <button
                     key={idx}
                     onClick={() => setAnswer(q.number, value)}
+                    disabled={submitting}
                     className={`flex-1 py-2 px-1 text-xs rounded-[var(--radius-sm)] border transition-all cursor-pointer ${
                       selected
                         ? "bg-primary text-white border-primary"
                         : "bg-bg border-border-lighter hover:border-primary/40 text-text-muted"
-                    }`}
+                    } disabled:opacity-50 disabled:cursor-not-allowed`}
                   >
                     {label}
                   </button>
@@ -106,7 +119,7 @@ export default function AttachmentTestForm({ clientId }: AttachmentTestFormProps
       <div className="flex items-center justify-between mt-6 gap-3">
         <button
           onClick={() => setCurrentPage((p) => Math.max(0, p - 1))}
-          disabled={currentPage === 0}
+          disabled={currentPage === 0 || submitting}
           className="flex items-center gap-1 px-4 py-2.5 text-sm rounded-[var(--radius-sm)] border border-border-light hover:bg-bg-warm transition-colors disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
         >
           <ChevronLeft size={16} />
@@ -116,11 +129,12 @@ export default function AttachmentTestForm({ clientId }: AttachmentTestFormProps
         {currentPage < totalPages - 1 ? (
           <button
             onClick={() => setCurrentPage((p) => Math.min(totalPages - 1, p + 1))}
+            disabled={submitting}
             className={`flex items-center gap-1 px-4 py-2.5 text-sm rounded-[var(--radius-sm)] transition-colors cursor-pointer ${
               pageComplete
                 ? "bg-primary text-white hover:bg-primary-dark"
                 : "border border-border-light hover:bg-bg-warm"
-            }`}
+            } disabled:opacity-40 disabled:cursor-not-allowed`}
           >
             다음
             <ChevronRight size={16} />
@@ -128,13 +142,22 @@ export default function AttachmentTestForm({ clientId }: AttachmentTestFormProps
         ) : (
           <button
             onClick={handleSubmit}
-            disabled={!allComplete || isPending}
+            disabled={!allComplete || submitting}
             className="px-6 py-2.5 text-sm rounded-[var(--radius-sm)] bg-primary text-white hover:bg-primary-dark transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
           >
-            {isPending ? "채점 중..." : "검사 완료"}
+            {submitting ? "제출 중..." : "검사 완료"}
           </button>
         )}
       </div>
+      {submitting && (
+        <p
+          className="mt-3 text-center text-xs text-text-light"
+          role="status"
+          aria-live="polite"
+        >
+          검사 결과를 저장하고 있어요. 잠시만 기다려주세요.
+        </p>
+      )}
     </div>
   );
 }

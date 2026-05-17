@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Logo } from "@/components/ui/Logo";
+import { PendingSubmitButton } from "@/components/ui/PendingSubmitButton";
 import { logout } from "@/app/login/actions";
 import { LayoutDashboard, LogOut, Home } from "lucide-react";
 
@@ -71,13 +72,13 @@ export default function DashboardNav() {
             <span className="max-[640px]:hidden">홈페이지</span>
           </Link>
           <form action={logout}>
-            <button
-              type="submit"
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--radius-sm)] text-sm text-text-muted hover:text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
+            <PendingSubmitButton
+              pendingText="로그아웃 중..."
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--radius-sm)] text-sm text-text-muted hover:text-red-600 hover:bg-red-50 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <LogOut size={14} />
               <span className="max-[640px]:hidden">로그아웃</span>
-            </button>
+            </PendingSubmitButton>
           </form>
         </div>
       </div>

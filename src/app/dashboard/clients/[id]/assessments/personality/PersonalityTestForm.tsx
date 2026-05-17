@@ -20,8 +20,10 @@ export default function PersonalityTestForm({ clientId }: PersonalityTestFormPro
   const [missingQuestionIndex, setMissingQuestionIndex] = useState<number | null>(null);
   const [validationMessage, setValidationMessage] = useState("");
   const [pendingScrollIndex, setPendingScrollIndex] = useState<number | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isPending, startTransition] = useTransition();
   const questionRefs = useRef<Record<number, HTMLDivElement | null>>({});
+  const submitLockRef = useRef(false);
 
   const totalPages = TOTAL_GROUPS;
   const startIdx = currentPage * QUESTIONS_PER_PAGE;
@@ -33,6 +35,7 @@ export default function PersonalityTestForm({ clientId }: PersonalityTestFormPro
   const totalAnswered = answers.filter((a) => a !== null).length;
   const allComplete = totalAnswered === PERSONALITY_QUESTIONS.length;
   const progress = Math.round((totalAnswered / PERSONALITY_QUESTIONS.length) * 100);
+  const submitting = isSubmitting || isPending;
 
   function setAnswer(qIndex: number, value: number) {
     setAnswers((prev) => {
@@ -90,6 +93,8 @@ export default function PersonalityTestForm({ clientId }: PersonalityTestFormPro
   }
 
   function handleSubmit() {
+    if (submitting || submitLockRef.current) return;
+
     const firstMissingIndex = findFirstMissingIndex(0, PERSONALITY_QUESTIONS.length);
 
     if (firstMissingIndex !== null) {
@@ -97,11 +102,19 @@ export default function PersonalityTestForm({ clientId }: PersonalityTestFormPro
       return;
     }
 
+    submitLockRef.current = true;
+    setIsSubmitting(true);
     startTransition(async () => {
-      const formData = new FormData();
-      formData.set("clientId", clientId);
-      formData.set("answers", JSON.stringify(answers));
-      await submitPersonalityTest(formData);
+      try {
+        const formData = new FormData();
+        formData.set("clientId", clientId);
+        formData.set("answers", JSON.stringify(answers));
+        await submitPersonalityTest(formData);
+      } catch (error) {
+        submitLockRef.current = false;
+        setIsSubmitting(false);
+        throw error;
+      }
     });
   }
 
@@ -175,11 +188,12 @@ export default function PersonalityTestForm({ clientId }: PersonalityTestFormPro
                     <button
                       key={scaleIdx}
                       onClick={() => setAnswer(globalIdx, value)}
+                      disabled={submitting}
                       className={`flex-1 py-2 px-1 text-xs rounded-[var(--radius-sm)] border transition-all cursor-pointer ${
                         selected
                           ? "bg-primary text-white border-primary"
                           : "bg-bg border-border-lighter hover:border-primary/40 text-text-muted"
-                      }`}
+                      } disabled:opacity-50 disabled:cursor-not-allowed`}
                     >
                       {label}
                     </button>
@@ -200,7 +214,7 @@ export default function PersonalityTestForm({ clientId }: PersonalityTestFormPro
       <div className="flex items-center justify-between mt-6 gap-3">
         <button
           onClick={() => setCurrentPage((p) => Math.max(0, p - 1))}
-          disabled={currentPage === 0}
+          disabled={currentPage === 0 || submitting}
           className="flex items-center gap-1 px-4 py-2.5 text-sm rounded-[var(--radius-sm)] border border-border-light hover:bg-bg-warm transition-colors disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
         >
           <ChevronLeft size={16} />
@@ -210,11 +224,12 @@ export default function PersonalityTestForm({ clientId }: PersonalityTestFormPro
         {currentPage < totalPages - 1 ? (
           <button
             onClick={handleNext}
+            disabled={submitting}
             className={`flex items-center gap-1 px-4 py-2.5 text-sm rounded-[var(--radius-sm)] transition-colors cursor-pointer ${
               pageComplete
                 ? "bg-primary text-white hover:bg-primary-dark"
                 : "border border-border-light hover:bg-bg-warm"
-            }`}
+            } disabled:opacity-40 disabled:cursor-not-allowed`}
           >
             다음
             <ChevronRight size={16} />
@@ -222,17 +237,26 @@ export default function PersonalityTestForm({ clientId }: PersonalityTestFormPro
         ) : (
           <button
             onClick={handleSubmit}
-            disabled={isPending}
+            disabled={!allComplete || submitting}
             className={`px-6 py-2.5 text-sm rounded-[var(--radius-sm)] transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer ${
               allComplete
                 ? "bg-primary text-white hover:bg-primary-dark"
                 : "border border-border-light hover:bg-bg-warm"
             }`}
           >
-            {isPending ? "채점 중..." : "검사 완료"}
+            {submitting ? "제출 중..." : "검사 완료"}
           </button>
         )}
       </div>
+      {submitting && (
+        <p
+          className="mt-3 text-center text-xs text-text-light"
+          role="status"
+          aria-live="polite"
+        >
+          검사 결과를 저장하고 있어요. 잠시만 기다려주세요.
+        </p>
+      )}
     </div>
   );
 }

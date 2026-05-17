@@ -5,6 +5,7 @@ import Link from "next/link";
 import type { Client } from "@/types/client";
 import type { AssessmentSlug } from "@/data/assessments";
 import { GrowthStageCard } from "@/components/dashboard/GrowthStage";
+import { PendingSubmitButton } from "@/components/ui/PendingSubmitButton";
 import {
   addSession,
   addAssessment,
@@ -154,12 +155,13 @@ export default function ClientDetail({ client }: { client: Client }) {
                   rows={2}
                   className="w-full px-3 py-2 text-sm rounded-[var(--radius-sm)] border border-border-light bg-bg focus:outline-none focus:border-primary resize-none"
                 />
-                <button
-                  type="submit"
-                  className="w-full py-2 bg-primary text-white rounded-[var(--radius-sm)] text-sm font-medium hover:bg-primary-dark transition-colors cursor-pointer"
+                <PendingSubmitButton
+                  pendingText="저장 중..."
+                  pendingDescription="내담자 정보를 저장하고 있어요. 잠시만 기다려주세요."
+                  className="w-full py-2 bg-primary text-white rounded-[var(--radius-sm)] text-sm font-medium hover:bg-primary-dark transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   저장
-                </button>
+                </PendingSubmitButton>
               </form>
             ) : (
               <div className="space-y-3 text-sm">
@@ -214,12 +216,13 @@ export default function ClientDetail({ client }: { client: Client }) {
             }}
           >
             <input type="hidden" name="id" value={client.id} />
-            <button
-              type="submit"
-              className="w-full py-2.5 text-sm text-red-400 hover:text-red-600 hover:bg-red-50 rounded-[var(--radius-sm)] transition-colors cursor-pointer"
+            <PendingSubmitButton
+              pendingText="삭제 처리 중..."
+              pendingDescription="목록에서 숨김 처리하고 있어요. 잠시만 기다려주세요."
+              className="w-full py-2.5 text-sm text-red-400 hover:text-red-600 hover:bg-red-50 rounded-[var(--radius-sm)] transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             >
               내담자 삭제
-            </button>
+            </PendingSubmitButton>
           </form>
         </div>
 
@@ -310,12 +313,13 @@ export default function ClientDetail({ client }: { client: Client }) {
                     className="w-full px-3 py-2 text-sm rounded-[var(--radius-sm)] border border-border-light bg-white focus:outline-none focus:border-primary resize-none"
                   />
                 </div>
-                <button
-                  type="submit"
-                  className="w-full py-2 bg-primary text-white rounded-[var(--radius-sm)] text-sm font-medium hover:bg-primary-dark transition-colors cursor-pointer"
+                <PendingSubmitButton
+                  pendingText="기록 저장 중..."
+                  pendingDescription="코칭 기록을 구글시트에 저장하고 있어요. 잠시만 기다려주세요."
+                  className="w-full py-2 bg-primary text-white rounded-[var(--radius-sm)] text-sm font-medium hover:bg-primary-dark transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {client.sessions.length + 1}회차 기록 저장
-                </button>
+                </PendingSubmitButton>
               </form>
             )}
 
@@ -402,12 +406,12 @@ export default function ClientDetail({ client }: { client: Client }) {
                             name="sessionId"
                             value={session.id}
                           />
-                          <button
-                            type="submit"
-                            className="text-xs text-red-400 hover:text-red-600 transition-colors cursor-pointer"
+                          <PendingSubmitButton
+                            pendingText="삭제 중..."
+                            className="text-xs text-red-400 hover:text-red-600 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                           >
                             기록 삭제
-                          </button>
+                          </PendingSubmitButton>
                         </form>
                       </div>
                     )}
@@ -529,12 +533,13 @@ export default function ClientDetail({ client }: { client: Client }) {
                     className="w-full px-3 py-2 text-sm rounded-[var(--radius-sm)] border border-border-light bg-white focus:outline-none focus:border-primary resize-none"
                   />
                 </div>
-                <button
-                  type="submit"
-                  className="w-full py-2 bg-primary text-white rounded-[var(--radius-sm)] text-sm font-medium hover:bg-primary-dark transition-colors cursor-pointer"
+                <PendingSubmitButton
+                  pendingText="검사 결과 저장 중..."
+                  pendingDescription="검사 결과를 구글시트에 저장하고 있어요. 잠시만 기다려주세요."
+                  className="w-full py-2 bg-primary text-white rounded-[var(--radius-sm)] text-sm font-medium hover:bg-primary-dark transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   검사 결과 저장
-                </button>
+                </PendingSubmitButton>
               </form>
             )}
 
@@ -699,18 +704,18 @@ function AssessmentDeleteForm({
     >
       <input type="hidden" name="clientId" value={clientId} />
       <input type="hidden" name="assessmentId" value={assessmentId} />
-      <button
-        type="submit"
+      <PendingSubmitButton
         aria-label="검사 기록 삭제"
+        pendingText={compact ? "삭제 중" : "삭제 중..."}
         className={
           compact
-            ? "px-3 text-text-light hover:text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
-            : "inline-flex items-center gap-1.5 text-xs text-red-400 hover:text-red-600 transition-colors cursor-pointer"
+            ? "px-3 text-xs text-text-light hover:text-red-600 hover:bg-red-50 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            : "inline-flex items-center gap-1.5 text-xs text-red-400 hover:text-red-600 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
         }
       >
         <Trash2 size={14} />
         {!compact && "기록 삭제"}
-      </button>
+      </PendingSubmitButton>
     </form>
   );
 }

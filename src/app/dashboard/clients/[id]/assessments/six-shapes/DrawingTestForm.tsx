@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import DrawingCanvas from "@/components/assessments/DrawingCanvas";
 import { submitDrawingTest } from "../actions";
 
@@ -13,23 +13,35 @@ interface DrawingTestFormProps {
 export default function DrawingTestForm({ clientId, slug, template }: DrawingTestFormProps) {
   const [notes, setNotes] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const submitLockRef = useRef(false);
 
   async function handleExport(dataUrl: string) {
-    if (submitting) return;
+    if (submitting || submitLockRef.current) return;
+    submitLockRef.current = true;
     setSubmitting(true);
 
-    const formData = new FormData();
-    formData.set("clientId", clientId);
-    formData.set("slug", slug);
-    formData.set("imageData", dataUrl);
-    formData.set("notes", notes);
+    try {
+      const formData = new FormData();
+      formData.set("clientId", clientId);
+      formData.set("slug", slug);
+      formData.set("imageData", dataUrl);
+      formData.set("notes", notes);
 
-    await submitDrawingTest(formData);
+      await submitDrawingTest(formData);
+    } catch (error) {
+      submitLockRef.current = false;
+      setSubmitting(false);
+      throw error;
+    }
   }
 
   return (
     <div className="space-y-4">
-      <DrawingCanvas template={template} onExport={handleExport} />
+      <DrawingCanvas
+        template={template}
+        onExport={handleExport}
+        submitting={submitting}
+      />
 
       {submitting && (
         <div className="text-center py-4">
@@ -42,9 +54,10 @@ export default function DrawingTestForm({ clientId, slug, template }: DrawingTes
         <textarea
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
+          disabled={submitting}
           rows={2}
           placeholder="관찰 소견이나 메모를 남겨주세요"
-          className="w-full px-3 py-2 text-sm rounded-[var(--radius-sm)] border border-border-light bg-bg focus:outline-none focus:border-primary resize-none"
+          className="w-full px-3 py-2 text-sm rounded-[var(--radius-sm)] border border-border-light bg-bg focus:outline-none focus:border-primary resize-none disabled:opacity-50 disabled:cursor-not-allowed"
         />
       </div>
     </div>

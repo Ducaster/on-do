@@ -8,6 +8,7 @@ interface DrawingCanvasProps {
   height?: number;
   template?: "six-shapes" | "life-graph";
   onExport: (dataUrl: string) => void;
+  submitting?: boolean;
 }
 
 function drawSixShapesTemplate(ctx: CanvasRenderingContext2D, w: number, h: number) {
@@ -169,6 +170,7 @@ export default function DrawingCanvas({
   height = 600,
   template,
   onExport,
+  submitting = false,
 }: DrawingCanvasProps) {
   const bgCanvasRef = useRef<HTMLCanvasElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -436,9 +438,10 @@ export default function DrawingCanvas({
 
       <button
         onClick={handleExport}
-        className="w-full py-3 bg-primary text-white rounded-[var(--radius-sm)] text-sm font-medium hover:bg-primary-dark transition-colors cursor-pointer"
+        disabled={submitting}
+        className="w-full py-3 bg-primary text-white rounded-[var(--radius-sm)] text-sm font-medium hover:bg-primary-dark transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        검사 완료 및 저장
+        {submitting ? "저장 중..." : "검사 완료 및 저장"}
       </button>
     </div>
   );
