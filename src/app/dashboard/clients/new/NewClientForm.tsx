@@ -55,6 +55,10 @@ export function NewClientForm() {
   const [privacyChecked, setPrivacyChecked] = useState(false);
 
   const canProceed = ndaChecked && privacyChecked;
+  const proceedToForm = () => {
+    window.scrollTo({ top: 0, behavior: "auto" });
+    setAgreed(true);
+  };
 
   if (!agreed) {
     return (
@@ -160,7 +164,7 @@ export function NewClientForm() {
           <button
             type="button"
             disabled={!canProceed}
-            onClick={() => setAgreed(true)}
+            onClick={proceedToForm}
             className="flex-1 py-3 bg-primary text-white rounded-[var(--radius-sm)] text-sm font-medium hover:bg-primary-dark transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
           >
             동의하고 등록하기

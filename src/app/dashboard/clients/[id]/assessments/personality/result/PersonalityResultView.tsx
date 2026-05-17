@@ -189,7 +189,10 @@ export default function PersonalityResultView({
                 const point = getRadarPoint(type, (Math.max(0, pct) / 100) * RADAR_MAX_RADIUS);
                 const label = getRadarPoint(type, RADAR_LABEL_RADIUS);
                 return (
-                  <g key={type}>
+                  <g
+                    key={type}
+                    aria-label={`${type}유형 ${score}점`}
+                  >
                     <circle
                       cx={point.x}
                       cy={point.y}
@@ -214,9 +217,6 @@ export default function PersonalityResultView({
                     >
                       {type}
                     </text>
-                    <title>
-                      {type}유형 {score}점
-                    </title>
                   </g>
                 );
               })}
