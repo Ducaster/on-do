@@ -44,3 +44,12 @@ __pycache__/
 
 # client data (sensitive)
 /data/clients.json
+
+# local agent/browser artifacts
+/.agents/
+/.codex/
+/.playwright-cli/
+/.playwright-mcp/
+/output/
+/env.txt
+/*.png

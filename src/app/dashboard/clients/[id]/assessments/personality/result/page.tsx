@@ -33,6 +33,7 @@ export default async function PersonalityResultPage({
     disintegrationTo: number;
     scores: Record<string, number>;
     percentages: Record<string, number>;
+    answers?: unknown;
   };
 
   try {
@@ -43,6 +44,10 @@ export default async function PersonalityResultPage({
 
   const mainTypeInfo = ENNEAGRAM_TYPES[resultData.mainType];
   const wingInfo = ENNEAGRAM_TYPES[resultData.wing];
+  const detail = await getAssessmentDetail(assessment.id, "personality");
+  const answerChoices =
+    parseAnswerChoices(resultData.answers) ??
+    parseAnswerChoices(detail?.["응답JSON"]);
 
   return (
     <div>
@@ -72,7 +77,29 @@ export default async function PersonalityResultPage({
         percentages={resultData.percentages}
         integrationTo={resultData.integrationTo}
         disintegrationTo={resultData.disintegrationTo}
+        answers={answerChoices}
       />
     </div>
   );
+}
+
+function parseAnswerChoices(value: unknown): number[] | null {
+  if (!value) return null;
+
+  let parsed: unknown = value;
+  if (typeof value === "string") {
+    try {
+      parsed = JSON.parse(value);
+    } catch {
+      return null;
+    }
+  }
+
+  if (!Array.isArray(parsed)) return null;
+
+  const answers = parsed.map((item) => Number(item));
+  if (answers.some((answer) => !Number.isInteger(answer) || answer < 1 || answer > 5)) {
+    return null;
+  }
+  return answers;
 }

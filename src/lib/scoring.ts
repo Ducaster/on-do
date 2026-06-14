@@ -268,7 +268,10 @@ export function scoreCoreEmotion(
 /**
  * 에니어그램 결과를 JSON 문자열로 직렬화
  */
-export function serializeEnneagramResult(result: EnneagramResult): string {
+export function serializeEnneagramResult(
+  result: EnneagramResult,
+  answers?: number[]
+): string {
   return JSON.stringify({
     mainType: result.mainType,
     wing: result.wing,
@@ -276,6 +279,7 @@ export function serializeEnneagramResult(result: EnneagramResult): string {
     disintegrationTo: result.disintegrationTo,
     scores: result.scores,
     percentages: result.percentages,
+    ...(answers ? { answers } : {}),
   });
 }
 

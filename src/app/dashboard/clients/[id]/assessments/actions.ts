@@ -37,7 +37,7 @@ export async function submitPersonalityTest(formData: FormData) {
     id: assessmentId,
     toolName: "성격유형 검사",
     date: today,
-    result: serializeEnneagramResult(result),
+    result: serializeEnneagramResult(result, answers),
     notes: `${result.mainType}유형(${result.mainTypeInfo.name}) / 날개: ${result.wing}유형`,
   });
 

@@ -1,5 +1,8 @@
 "use client";
 
+import { useState } from "react";
+import { ChevronDown, ChevronUp, ListChecks } from "lucide-react";
+import { PERSONALITY_QUESTIONS, TYPE_ORDER } from "@/data/assessments/personality-test";
 import type { EnneagramTypeInfo } from "@/data/assessments/enneagram-types";
 import { ENNEAGRAM_TYPES } from "@/data/assessments/enneagram-types";
 
@@ -12,9 +15,11 @@ interface PersonalityResultViewProps {
   percentages: Record<string, number>;
   integrationTo: number;
   disintegrationTo: number;
+  answers?: number[] | null;
 }
 
 const TYPE_NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8, 9] as const;
+const SCALE_LABELS = ["전혀 아니다", "아니다", "보통이다", "그렇다", "매우 그렇다"];
 const RADAR_CENTER = 150;
 const RADAR_MAX_RADIUS = 96;
 const RADAR_LABEL_RADIUS = 124;
@@ -43,7 +48,9 @@ export default function PersonalityResultView({
   percentages,
   integrationTo,
   disintegrationTo,
+  answers,
 }: PersonalityResultViewProps) {
+  const [showAnswerDetails, setShowAnswerDetails] = useState(false);
   const integrationInfo = ENNEAGRAM_TYPES[integrationTo];
   const disintegrationInfo = ENNEAGRAM_TYPES[disintegrationTo];
   const scoreItems = TYPE_NUMBERS.map((type) => {
@@ -63,6 +70,29 @@ export default function PersonalityResultView({
       return `${point.x},${point.y}`;
     })
     .join(" ");
+  const answerItems = PERSONALITY_QUESTIONS.map((question, index) => {
+    const answer = answers?.[index];
+    const hasValidAnswer =
+      typeof answer === "number" &&
+      Number.isInteger(answer) &&
+      answer >= 1 &&
+      answer <= SCALE_LABELS.length;
+    const type = TYPE_ORDER[question.groupIndex];
+
+    return {
+      question,
+      index,
+      type,
+      answer: hasValidAnswer ? answer : null,
+      selectedLabel: hasValidAnswer ? SCALE_LABELS[answer - 1] : "미응답",
+    };
+  });
+  const hasAnswerDetails = answerItems.some((item) => item.answer !== null);
+  const answerGroups = TYPE_ORDER.map((type, groupIndex) => ({
+    type,
+    info: ENNEAGRAM_TYPES[type],
+    items: answerItems.filter((item) => item.question.groupIndex === groupIndex),
+  }));
 
   return (
     <div className="space-y-6">
@@ -269,6 +299,107 @@ export default function PersonalityResultView({
             ))}
           </div>
         </div>
+      </div>
+
+      <div className="bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)] p-4 sm:p-6 border border-border-lighter">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h3 className="font-heading font-bold text-text">문항별 선택 내역</h3>
+            <p className="mt-1 text-xs text-text-muted">
+              검사 당시 각 문항에서 선택한 응답을 원문과 함께 확인합니다.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setShowAnswerDetails((open) => !open)}
+            disabled={!hasAnswerDetails}
+            aria-expanded={showAnswerDetails}
+            className="inline-flex items-center justify-center gap-2 rounded-[var(--radius-sm)] border border-primary/20 bg-primary-pale px-3 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary/12 disabled:cursor-not-allowed disabled:border-border-lighter disabled:bg-bg-warm disabled:text-text-light"
+          >
+            <ListChecks size={16} />
+            {showAnswerDetails ? "선택 내역 닫기" : "선택 내역 보기"}
+            {showAnswerDetails ? <ChevronUp size={15} /> : <ChevronDown size={15} />}
+          </button>
+        </div>
+
+        {!hasAnswerDetails && (
+          <p className="mt-4 rounded-[var(--radius-sm)] bg-bg-warm px-3 py-2 text-sm text-text-muted">
+            이 결과에는 저장된 문항별 응답이 없어 선택 내역을 표시할 수 없습니다.
+          </p>
+        )}
+
+        {hasAnswerDetails && showAnswerDetails && (
+          <div className="mt-5 max-h-[680px] space-y-4 overflow-y-auto pr-1">
+            {answerGroups.map((group) => (
+              <section
+                key={group.type}
+                className="rounded-[var(--radius-md)] border border-border-lighter bg-bg/60 p-3 sm:p-4"
+              >
+                <div className="mb-3 flex flex-wrap items-center gap-2">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-primary text-xs font-bold text-white">
+                    {group.type}
+                  </span>
+                  <h4 className="text-sm font-semibold text-text">
+                    {group.type}유형 {group.info.name}
+                  </h4>
+                  <span className="rounded-full bg-bg-warm px-2 py-0.5 text-[11px] text-text-muted">
+                    {group.items.length}문항
+                  </span>
+                </div>
+
+                <ol className="space-y-2.5">
+                  {group.items.map((item) => (
+                    <li
+                      key={item.index}
+                      className="rounded-[var(--radius-sm)] border border-border-lighter bg-card px-3 py-3"
+                    >
+                      <div className="flex gap-2">
+                        <span className="shrink-0 text-xs font-bold text-primary">
+                          {item.index + 1}.
+                        </span>
+                        <div className="min-w-0 flex-1">
+                          <div className="flex flex-wrap items-start gap-2">
+                            <p className="min-w-0 flex-1 text-sm leading-relaxed text-text">
+                              {item.question.text}
+                            </p>
+                            {item.question.isReverse && (
+                              <span className="rounded-full bg-secondary/12 px-2 py-0.5 text-[11px] font-medium text-secondary">
+                                역채점
+                              </span>
+                            )}
+                          </div>
+
+                          <div className="mt-2 flex flex-wrap gap-1.5">
+                            {SCALE_LABELS.map((label, scaleIdx) => {
+                              const value = scaleIdx + 1;
+                              const selected = item.answer === value;
+                              return (
+                                <span
+                                  key={value}
+                                  className={`rounded-full border px-2 py-1 text-[11px] ${
+                                    selected
+                                      ? "border-primary bg-primary text-white"
+                                      : "border-border-lighter bg-bg-warm text-text-light"
+                                  }`}
+                                >
+                                  {value}. {label}
+                                </span>
+                              );
+                            })}
+                          </div>
+
+                          <p className="mt-2 text-xs font-medium text-text-muted">
+                            선택: <span className="text-primary">{item.selectedLabel}</span>
+                          </p>
+                        </div>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              </section>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Traits */}
