@@ -96,7 +96,7 @@ export default async function SixShapesResultPage({
           <p className="text-sm text-text-secondary leading-[1.85]">
             6도형 검사는 원, 사각형, 삼각형, 마름모, 십자, 물결 등 6개의 기본 도형을 활용하여
             자유롭게 그림을 그리는 투사적 그림 검사입니다. 그림의 구성, 도형의 배치, 크기, 필압
-            등을 통해 내담자의 심리적 특성과 대인관계 패턴을 이해하는 데 도움을 줍니다.
+            등을 통해 참여자의 심리적 특성과 대인관계 패턴을 이해하는 데 도움을 줍니다.
           </p>
         </div>
 

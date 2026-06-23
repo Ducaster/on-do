@@ -65,7 +65,7 @@ export default function ClientDetail({ client }: { client: Client }) {
         className="inline-flex items-center gap-1.5 text-sm text-text-muted hover:text-text transition-colors mb-6"
       >
         <ArrowLeft size={16} />
-        내담자 대시보드
+        참여자 대시보드
       </Link>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
@@ -77,7 +77,7 @@ export default function ClientDetail({ client }: { client: Client }) {
           <div className="bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)] p-4 sm:p-6">
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-heading font-bold text-text">
-                내담자 정보
+                참여자 정보
               </h3>
               <button
                 onClick={() => setShowEditForm(!showEditForm)}
@@ -157,7 +157,7 @@ export default function ClientDetail({ client }: { client: Client }) {
                 />
                 <PendingSubmitButton
                   pendingText="저장 중..."
-                  pendingDescription="내담자 정보를 저장하고 있어요. 잠시만 기다려주세요."
+                  pendingDescription="참여자 정보를 저장하는 중입니다. 잠시만 기다려주세요."
                   className="w-full py-2 bg-primary text-white rounded-[var(--radius-sm)] text-sm font-medium hover:bg-primary-dark transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   저장
@@ -208,7 +208,7 @@ export default function ClientDetail({ client }: { client: Client }) {
             onSubmit={(e) => {
               if (
                 !confirm(
-                  `${client.name} 내담자를 목록에서 숨김 처리하시겠습니까?\n기록은 보존되고 삭제일만 남습니다.`
+                  `${client.name} 참여자를 목록에서 숨김 처리하시겠습니까?\n기록은 보존되고 삭제일만 남습니다.`
                 )
               ) {
                 e.preventDefault();
@@ -218,10 +218,10 @@ export default function ClientDetail({ client }: { client: Client }) {
             <input type="hidden" name="id" value={client.id} />
             <PendingSubmitButton
               pendingText="삭제 처리 중..."
-              pendingDescription="목록에서 숨김 처리하고 있어요. 잠시만 기다려주세요."
+              pendingDescription="목록에서 숨김 처리하는 중입니다. 잠시만 기다려주세요."
               className="w-full py-2.5 text-sm text-red-400 hover:text-red-600 hover:bg-red-50 rounded-[var(--radius-sm)] transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              내담자 삭제
+              참여자 삭제
             </PendingSubmitButton>
           </form>
         </div>

@@ -1,55 +1,63 @@
-import Image from "next/image";
+import { ArrowRight, Gauge, ShieldCheck } from "lucide-react";
 import { Container } from "@/components/ui/Container";
+import { TemperatureScene } from "@/components/sections/TemperatureScene";
 
 export function Hero() {
   return (
-    <section className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden">
-      <Image
-        src="https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=1920&q=80"
-        alt=""
-        fill
-        className="object-cover"
-        priority
-      />
-      <div className="absolute inset-0 bg-bg-warm/80" />
+    <section className="relative isolate min-h-[100dvh] overflow-hidden bg-bg-cream">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_14%,rgba(255,90,61,0.20),transparent_30%),radial-gradient(circle_at_74%_18%,rgba(31,211,180,0.16),transparent_28%),radial-gradient(circle_at_82%_72%,rgba(47,91,234,0.14),transparent_34%),linear-gradient(135deg,var(--color-bg-cream),var(--color-bg)_46%,var(--color-bg-warm))]" />
+      <div className="absolute inset-x-0 top-[18%] h-44 signal-band blur-3xl animate-[signalDrift_16s_linear_infinite]" />
+      <div className="pointer-events-none absolute bottom-0 -right-[30%] h-[54%] w-[96%] opacity-45 md:inset-y-0 md:right-0 md:h-auto md:w-[58%] md:opacity-95">
+        <TemperatureScene />
+      </div>
 
-      <Container className="relative z-10 text-center py-20">
-        <p className="text-[0.82rem] tracking-[0.25em] text-text-muted mb-10 font-body">
-          20대를 위한 코칭센터
-        </p>
+      <Container className="relative z-10 flex min-h-[100dvh] items-center pb-16 pt-28">
+        <div className="w-full max-w-[680px]">
+          <div className="mb-8 inline-flex items-center gap-2 rounded-sm border border-border-light bg-bg-cream/60 px-3 py-2 text-sm font-semibold text-text-secondary backdrop-blur">
+            <Gauge size={16} className="text-primary" />
+            20대를 위한 대화와 검사 코칭
+          </div>
 
-        <h1 className="font-heading text-[clamp(2.8rem,8vw,5.5rem)] font-bold leading-[1.15] text-text mb-10 tracking-[-0.02em]">
-          지금, 당신의
-          <br />
-          <span className="text-primary relative inline-block">
-            온도
-            <span className="absolute -bottom-1 left-0 right-0 h-[3px] bg-primary/20 rounded-full" />
-          </span>
-          는
-          <br />
-          몇 도인가요?
-        </h1>
+          <h1 className="text-[44px] font-extrabold leading-[1.06] text-text text-pretty md:text-[64px] md:leading-[1.02] lg:text-[72px]">
+            <span className="block md:inline">요즘 내가 왜</span>{" "}
+            <span className="block md:inline">이러는지,</span>{" "}
+            <span className="block md:inline">혼자 넘기지</span>{" "}
+            <span className="block md:inline">않게</span>
+          </h1>
 
-        <p className="text-[1.08rem] text-text-secondary max-w-[380px] mx-auto mb-14 leading-[1.9]">
-          따뜻할 溫, 실천할 DO.
-          <br />
-          나다운 삶의 온도를 찾아가는 시간.
-        </p>
+          <p className="mt-8 max-w-[560px] text-lg font-medium leading-[1.8] text-text-secondary text-pretty">
+            남들과 비교하다 지치고, 정작 내가 뭘 원하는지는 모르겠는 요즘.
+            온도는 대화와 심리검사로 지금 내 상태부터 같이 정리하는 코칭이에요.
+          </p>
 
-        <a
-          href="#about"
-          className="inline-flex items-center px-10 py-4 bg-primary text-white rounded-full text-[0.9rem] font-medium tracking-[0.02em] transition-all duration-300 hover:bg-primary-dark hover:shadow-lg hover:-translate-y-0.5"
-        >
-          더 알아보기
-        </a>
+          <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+            <a
+              href="/start"
+              className="focus-ring inline-flex min-h-12 items-center justify-center gap-2 rounded-sm bg-primary px-6 py-3 text-base font-bold text-white shadow-lg transition duration-300 hover:-translate-y-0.5 hover:bg-primary-dark active:translate-y-0"
+            >
+              내 상황부터 짚어보기
+              <ArrowRight size={18} />
+            </a>
+            <a
+              href="/programs"
+              className="focus-ring inline-flex min-h-12 items-center justify-center rounded-sm border border-border-light bg-bg-cream/70 px-6 py-3 text-base font-bold text-text transition duration-300 hover:-translate-y-0.5 hover:border-primary hover:text-primary active:translate-y-0"
+            >
+              프로그램 먼저 보기
+            </a>
+          </div>
+
+          <div className="mt-8 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-sm font-semibold text-text-muted">
+            <ShieldCheck size={16} className="text-primary" />
+            <span className="text-text-secondary">비밀유지</span>
+            <span aria-hidden className="text-border">·</span>
+            <span className="text-text-secondary">검사는 점수 아닌 단서로</span>
+            <span aria-hidden className="text-border">·</span>
+            <span className="text-text-secondary">지금 주제에 맞춘 코치</span>
+          </div>
+        </div>
       </Container>
 
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2">
-        <span className="text-[0.65rem] tracking-[0.15em] text-text-light/60">
-          scroll
-        </span>
-        <div className="w-px h-8 bg-gradient-to-b from-text-light/40 to-transparent animate-[scrollHint_2s_ease-in-out_infinite]" />
-      </div>
+      <div className="pointer-events-none absolute bottom-0 left-0 right-0 z-10 h-24 bg-gradient-to-t from-bg to-transparent" />
     </section>
   );
 }

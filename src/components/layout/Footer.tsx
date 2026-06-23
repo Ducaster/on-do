@@ -1,66 +1,69 @@
 import { Logo } from "@/components/ui/Logo";
 import { Container } from "@/components/ui/Container";
+import { NAV_LINKS, PAGE_LINKS } from "@/lib/constants";
 
 export function Footer() {
   return (
-    <footer className="bg-bg-dark py-12">
+    <footer className="bg-bg-dark py-12 text-text-inverse">
       <Container>
-        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-10 mb-10">
+        <div className="grid gap-10 border-b border-white/10 pb-10 md:grid-cols-[1fr_auto_auto]">
           <div>
-            <div className="flex items-center gap-2 mb-3">
-              <Logo size={20} />
-              <span className="font-heading text-[0.9rem] font-bold text-text-inverse/80">
-                온도
-              </span>
+            <div className="mb-4 flex items-center gap-2">
+              <Logo size={24} />
+              <span className="text-lg font-extrabold">온도</span>
             </div>
-            <p className="text-[0.78rem] leading-[1.75] text-text-inverse/45 max-w-[260px]">
-              따뜻할 溫과 실천할 DO.
-              <br />
-              20대의 지금, 나다운 온도를 찾아가는 코칭센터.
+            <p className="max-w-[340px] text-sm font-medium leading-[1.8] text-text-inverse/58">
+              요즘 내가 왜 이러는지 혼자 넘기지 않도록, 장면에서 시작하는
+              대화와 검사 코칭.
             </p>
           </div>
 
-          <div>
-            <div className="text-[0.68rem] font-medium text-text-inverse/40 mb-3 tracking-[0.08em] uppercase">
-              바로가기
-            </div>
-            <ul className="list-none flex flex-col gap-2">
-              {(
-                [
-                  ["소개", "#about"],
-                  ["프로그램", "#programs"],
-                  ["멘토", "#mentors"],
-                  ["FAQ", "#faq"],
-                ] as const
-              ).map(([label, href]) => (
-                <li key={href}>
+          <nav aria-label="홈 섹션">
+            <p className="mb-3 text-xs font-extrabold text-primary-light">
+              홈
+            </p>
+            <ul className="grid gap-2">
+              {NAV_LINKS.map((link) => (
+                <li key={link.href}>
                   <a
-                    href={href}
-                    className="text-[0.78rem] text-text-inverse/55 hover:text-text-inverse/80 transition-opacity"
+                    href={link.href}
+                    className="text-sm font-bold text-text-inverse/58 transition hover:text-text-inverse"
                   >
-                    {label}
+                    {link.label}
                   </a>
                 </li>
               ))}
             </ul>
-          </div>
+          </nav>
+
+          <nav aria-label="상세 페이지">
+            <p className="mb-3 text-xs font-extrabold text-primary-light">
+              더 보기
+            </p>
+            <ul className="grid gap-2">
+              {PAGE_LINKS.map((link) => (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    className="text-sm font-bold text-text-inverse/58 transition hover:text-text-inverse"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
 
-        <div className="border-t border-text-inverse/10 pt-6 flex flex-col sm:flex-row sm:justify-between gap-3">
-          <div className="text-[0.68rem] text-text-inverse/35 leading-[1.8]">
-            온도 코칭센터
-            <br />
-            <a
-              href="/privacy"
-              target="_blank"
-              className="underline underline-offset-2 text-text-inverse/50 hover:text-text-inverse/70"
-            >
-              개인정보처리방침
-            </a>
-          </div>
-          <div className="text-[0.68rem] text-text-inverse/30">
-            &copy; 2026 ON-DO
-          </div>
+        <div className="flex flex-col gap-3 pt-6 text-xs font-semibold text-text-inverse/38 sm:flex-row sm:items-center sm:justify-between">
+          <a
+            href="/privacy"
+            target="_blank"
+            className="underline underline-offset-4 transition hover:text-text-inverse/70"
+          >
+            개인정보처리방침
+          </a>
+          <span>&copy; 2026 ON-DO</span>
         </div>
       </Container>
     </footer>

@@ -1,93 +1,66 @@
-"use client";
-
-import { useEffect, useRef } from "react";
+import { Quote } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { testimonials } from "@/data/testimonials";
 
 export function Testimonials() {
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-
-    let animationId: number;
-    let pos = 0;
-    let paused = false;
-
-    function tick() {
-      if (!paused) {
-        pos += 0.8;
-        const half = el!.scrollWidth / 2;
-        if (half > 0 && pos >= half) pos = 0;
-        el!.style.transform = `translateX(-${pos}px)`;
-      }
-      animationId = requestAnimationFrame(tick);
-    }
-
-    animationId = requestAnimationFrame(tick);
-
-    const handleEnter = () => { paused = true; };
-    const handleLeave = () => { paused = false; };
-
-    el.addEventListener("mouseenter", handleEnter);
-    el.addEventListener("mouseleave", handleLeave);
-
-    return () => {
-      cancelAnimationFrame(animationId);
-      el.removeEventListener("mouseenter", handleEnter);
-      el.removeEventListener("mouseleave", handleLeave);
-    };
-  }, []);
-
-  const doubled = [...testimonials, ...testimonials];
+  const featured = testimonials[0] ?? testimonials[1];
+  const rest = testimonials.slice(1, 6);
 
   return (
-    <section className="py-28 md:py-36 bg-bg overflow-hidden" id="testimonials">
+    <section className="bg-bg py-24 md:py-32" id="stories">
       <Container>
-        <ScrollReveal>
-          <div className="mb-12 text-center">
-            <h2 className="font-heading text-[clamp(1.6rem,3vw,2.2rem)] font-bold text-text mb-4">
-              코칭 후기
-            </h2>
-            <p className="text-[0.92rem] text-text-secondary max-w-[400px] mx-auto leading-[1.85]">
-              온도를 경험한 분들의 이야기예요
-            </p>
-          </div>
-        </ScrollReveal>
-      </Container>
-
-      <div className="relative">
-        <div ref={scrollRef} className="flex gap-8 w-max will-change-transform">
-          {doubled.map((t, i) => (
-            <div
-              key={`${t.id}-${i}`}
-              className="shrink-0 w-[340px] h-[260px] bg-card rounded-[var(--radius-md)] p-7 border border-border-lighter flex flex-col"
-            >
-              <span className="font-caption text-[2rem] text-primary/12 italic block leading-none select-none">
-                &ldquo;
-              </span>
-              <p className="text-[0.88rem] text-text leading-[1.9] mt-2 flex-1 break-keep line-clamp-4">
-                {t.quote}
+        <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr]">
+          <ScrollReveal>
+            <div className="glass-panel rounded-lg p-7 md:p-9">
+              <Quote size={28} className="text-primary" />
+              <p className="mt-8 text-2xl font-extrabold leading-[1.45] text-text md:text-3xl">
+                {featured.quote}
               </p>
-              <div className="text-[0.82rem] text-text-muted pt-4 border-t border-border-lighter mt-auto">
-                <span className="font-medium text-text">{t.name}</span>
-                <span className="mx-1.5 text-border">·</span>
-                <span>{t.detail}</span>
+              <div className="mt-8 flex items-center justify-between border-t border-border-light pt-5">
+                <div>
+                  <p className="text-base font-extrabold text-text">
+                    {featured.name}
+                  </p>
+                  <p className="mt-1 text-sm font-bold text-text-muted">
+                    {featured.detail}
+                  </p>
+                </div>
+                <span className="rounded-sm bg-primary-soft px-3 py-1 text-xs font-extrabold text-primary">
+                  동의 후 익명 게재
+                </span>
               </div>
             </div>
-          ))}
+          </ScrollReveal>
+
+          <ScrollReveal delay={120}>
+            <div>
+              <p className="mb-5 text-sm font-extrabold text-primary">
+                실제 코칭 후기
+              </p>
+              <h2 className="max-w-[560px] text-[34px] font-extrabold leading-[1.12] text-text md:text-[44px]">
+                온도를 만난 20대들의 이야기
+              </h2>
+              <div className="mt-8 grid gap-3">
+                {rest.map((item) => (
+                  <article
+                    key={item.id}
+                    className="rounded-sm border border-border-lighter bg-bg-cream p-5"
+                  >
+                    <p className="text-sm font-medium leading-[1.75] text-text-secondary text-pretty">
+                      {item.quote}
+                    </p>
+                    <div className="mt-4 flex items-center gap-2 text-xs font-extrabold text-text-muted">
+                      <span>{item.name}</span>
+                      <span className="h-1 w-1 rounded-sm bg-border" />
+                      <span>{item.detail}</span>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </ScrollReveal>
         </div>
-
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-bg to-transparent z-10" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-bg to-transparent z-10" />
-      </div>
-
-      <Container>
-        <p className="mt-10 text-[0.72rem] text-text-light italic text-center">
-          * 동의를 받아 게재하였으며, 개인 식별 정보는 비공개 처리되었습니다.
-        </p>
       </Container>
     </section>
   );

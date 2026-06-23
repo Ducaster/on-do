@@ -42,7 +42,7 @@ export const GROWTH_STAGES: {
   {
     key: "acorn",
     label: "도토리",
-    description: "코칭 여정의 시작",
+    description: "이제 막 시작하다",
     minSessions: 0,
     color: "#C9A07A",
   },

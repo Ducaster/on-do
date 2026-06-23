@@ -1,19 +1,12 @@
 export const NAV_LINKS = [
-  { label: "소개", href: "#about", section: "about" },
-  { label: "프로그램", href: "#programs", section: "programs" },
-  { label: "멘토", href: "#mentors", section: "mentors" },
-  { label: "FAQ", href: "#faq", section: "faq" },
+  { label: "상태 고르기", href: "/#pulse-check", section: "pulse-check" },
+  { label: "프로그램", href: "/programs" },
+  { label: "심리검사", href: "/assessments" },
+  { label: "코치", href: "/coaches" },
+  { label: "후기", href: "/#stories", section: "stories" },
 ] as const;
 
-export const CONTACT_INFO = {
-  phone: "02-000-0000",
-  kakao: "@온도코칭",
-  email: "hello@on-do.kr",
-  address: "서울특별시 OO구 OO로 000, 0층",
-} as const;
-
-export const OPERATING_HOURS = [
-  { label: "평일 (월–금)", value: "10:00 – 20:00" },
-  { label: "토요일", value: "10:00 – 17:00" },
-  { label: "일요일 · 공휴일", value: "휴무" },
+export const PAGE_LINKS = [
+  { label: "코칭 방향 찾기", href: "/start" },
+  { label: "10분 사전 확인", href: "/#contact" },
 ] as const;

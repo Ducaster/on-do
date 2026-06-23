@@ -14,7 +14,7 @@ const NDA_CONTENT = [
   },
   {
     title: "2. 정보 사용 제한",
-    body: "프로그램을 통해 제공받은 자료 및 정보는 참여 목적 범위 내에서만 사용하며, 임의로 외부에 유출하거나 다른 목적으로 활용하지 않습니다. 내담자 연구 시에는 참여 거부나 중단 시 해로운 결과가 없도록 보호합니다.",
+    body: "프로그램을 통해 제공받은 자료 및 정보는 참여 목적 범위 내에서만 사용하며, 임의로 외부에 유출하거나 다른 목적으로 활용하지 않습니다.",
   },
   {
     title: "3. 저작권 보호",
@@ -33,7 +33,7 @@ const PRIVACY_CONTENT = [
   },
   {
     title: "2. 수집 및 이용 목적",
-    body: "코칭 프로그램 운영, 내담자 관리, 코칭 기록 관리, 검사 결과 분석 등 서비스 제공 목적으로만 이용합니다.",
+    body: "코칭 프로그램 운영, 참여자 관리, 코칭 기록 관리, 검사 결과 분석 등 서비스 제공 목적으로만 이용합니다.",
   },
   {
     title: "3. 보유 및 이용 기간",
@@ -45,7 +45,7 @@ const PRIVACY_CONTENT = [
   },
   {
     title: "5. 정보주체의 권리",
-    body: "내담자는 언제든지 자신의 개인정보에 대해 열람, 정정, 삭제, 처리 정지를 요청할 수 있습니다.",
+    body: "참여자는 언제든지 자신의 개인정보에 대해 열람, 정정, 삭제, 처리 정지를 요청할 수 있습니다.",
   },
 ];
 
@@ -68,11 +68,11 @@ export function NewClientForm() {
           className="inline-flex items-center gap-1.5 text-sm text-text-muted hover:text-text transition-colors mb-6"
         >
           <ArrowLeft size={16} />
-          내담자 대시보드
+          참여자 대시보드
         </Link>
 
         <h1 className="font-heading text-xl sm:text-2xl font-bold text-text mb-2">
-          새 내담자 등록
+          새 참여자 등록
         </h1>
         <p className="text-sm text-text-muted mb-6 sm:mb-8">
           등록 전 아래 서약서 및 방침에 동의해 주세요.
@@ -181,11 +181,11 @@ export function NewClientForm() {
         className="inline-flex items-center gap-1.5 text-sm text-text-muted hover:text-text transition-colors mb-6"
       >
         <ArrowLeft size={16} />
-        내담자 대시보드
+        참여자 대시보드
       </Link>
 
       <h1 className="font-heading text-xl sm:text-2xl font-bold text-text mb-6 sm:mb-8">
-        새 내담자 등록
+        새 참여자 등록
       </h1>
 
       <form
@@ -205,7 +205,7 @@ export function NewClientForm() {
             name="name"
             required
             className="w-full px-4 py-3 rounded-[var(--radius-sm)] border border-border-light bg-bg text-text placeholder:text-text-light focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-pale transition-colors"
-            placeholder="내담자 이름"
+            placeholder="참여자 이름"
           />
         </div>
 

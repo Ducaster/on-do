@@ -36,10 +36,10 @@ export default async function DashboardPage() {
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-8">
         <div>
           <h1 className="font-heading text-xl sm:text-2xl font-bold text-text">
-            내담자 대시보드
+            참여자 대시보드
           </h1>
           <p className="text-sm text-text-muted mt-1">
-            코칭 현황과 내담자 관리를 한 화면에서 확인하세요
+            코칭 현황과 참여자 관리를 한 화면에서 확인하세요
           </p>
         </div>
         <Link
@@ -47,7 +47,7 @@ export default async function DashboardPage() {
           className="w-full sm:w-auto shrink-0 inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-primary text-white rounded-[var(--radius-sm)] text-sm font-medium hover:bg-primary-dark transition-colors"
         >
           <Plus size={16} />
-          새 내담자 등록
+          새 참여자 등록
         </Link>
       </div>
 
@@ -58,7 +58,7 @@ export default async function DashboardPage() {
             <div className="p-2 rounded-[var(--radius-sm)] bg-primary-pale">
               <Users size={18} className="text-primary" />
             </div>
-            <span className="text-sm text-text-muted">전체 내담자</span>
+            <span className="text-sm text-text-muted">전체 참여자</span>
           </div>
           <p className="text-2xl font-bold text-text">
             {clients.length}
@@ -107,7 +107,7 @@ export default async function DashboardPage() {
           </h2>
           {clients.length === 0 ? (
             <p className="text-sm text-text-light py-4">
-              등록된 내담자가 없습니다
+              등록된 참여자가 없습니다
             </p>
           ) : (
             <div className="space-y-3">
@@ -181,12 +181,12 @@ export default async function DashboardPage() {
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 px-4 py-4 sm:px-6 sm:py-5 border-b border-border-lighter">
           <div>
             <h2 className="font-heading text-lg font-bold text-text">
-              내담자 관리
+              참여자 관리
             </h2>
             <p className="text-sm text-text-muted mt-1">
               {clients.length > 0
-                ? `총 ${clients.length}명의 내담자가 등록되어 있습니다`
-                : "등록된 내담자가 없습니다"}
+                ? `총 ${clients.length}명의 참여자가 등록되어 있습니다`
+                : "등록된 참여자가 없습니다"}
             </p>
           </div>
           <Link
@@ -202,17 +202,17 @@ export default async function DashboardPage() {
           <div className="px-4 py-10 sm:px-6 sm:py-12 text-center">
             <div className="text-5xl mb-4 opacity-60">&#127330;</div>
             <h3 className="font-heading text-lg font-bold text-text mb-2">
-              아직 등록된 내담자가 없습니다
+              아직 등록된 참여자가 없습니다
             </h3>
             <p className="text-sm text-text-muted mb-6">
-              첫 내담자를 등록하고 코칭 여정을 시작하세요
+              첫 참여자를 등록하고 코칭을 시작하세요
             </p>
             <Link
               href="/dashboard/clients/new"
               className="inline-flex w-full min-[420px]:w-auto items-center justify-center gap-2 px-5 py-2.5 bg-primary text-white rounded-[var(--radius-sm)] text-sm font-medium hover:bg-primary-dark transition-colors"
             >
               <Plus size={16} />
-              내담자 등록하기
+              참여자 등록하기
             </Link>
           </div>
         ) : (

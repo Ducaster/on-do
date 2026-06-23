@@ -1,16 +1,9 @@
-import { Gowun_Batang, Cormorant_Garamond } from "next/font/google";
+import { Cormorant_Garamond } from "next/font/google";
 
-export const gowunBatang = Gowun_Batang({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  display: "swap",
-  variable: "--font-heading",
-});
-
+// 큰 장식 숫자(01~04 등) 전용 세리프. 본문/제목은 Pretendard를 사용한다.
 export const cormorantGaramond = Cormorant_Garamond({
   subsets: ["latin"],
-  weight: ["300", "400", "500"],
-  style: ["normal", "italic"],
+  weight: ["400", "500", "600"],
   display: "swap",
-  variable: "--font-caption",
+  variable: "--font-cormorant",
 });

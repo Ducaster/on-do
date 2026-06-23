@@ -1,38 +1,49 @@
-export const coaches = [
+import { MessageCircle, Route, ShieldCheck } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+
+export type CoachPrinciple = {
+  readonly id: string;
+  readonly label: string;
+  readonly title: string;
+  readonly body: string;
+  readonly icon: LucideIcon;
+};
+
+export const coachPrinciples = [
   {
-    id: "1",
-    name: "김온도",
-    title: "코칭 전문 · 센터장",
-    photoSrc:
-      "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=480&h=520&q=85",
-    photoAlt: "김온도 코치",
-    credentials: ["상담심리사 1급", "한국심리학회 정회원"],
-    specialties: ["인간관계", "자존감", "심리코칭", "진로탐색"],
-    bio: "대학 상담센터와 청년 코칭 프로그램에서 10년간 활동했어요. 관계와 진로 사이에서 흔들리는 20대에게 나만의 중심을 찾는 방법을 함께 고민합니다.",
-    education: "OO대학교 상담심리학 석사",
+    id: "listen-first",
+    label: "듣는 방식",
+    title: "먼저 판단하지 않습니다",
+    body: "처음부터 답을 정해놓고 끌고 가지 않아요. 요즘 있었던 장면을 듣고, 그 안에서 자꾸 반복되는 말이랑 감정을 같이 찾습니다.",
+    icon: MessageCircle,
   },
   {
-    id: "2",
-    name: "이따뜻",
-    title: "소통 전문코치",
-    photoSrc:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=480&h=520&q=85",
-    photoAlt: "이따뜻 코치",
-    credentials: ["전문상담사 2급", "NLP 마스터 프랙티셔너"],
-    specialties: ["소통", "대인관계", "자기표현", "갈등 관리"],
-    bio: "친구, 연인, 직장 동료 — 관계마다 다른 '나'를 발견하게 돼요. 내 마음을 잘 전하고, 상대의 마음도 읽을 수 있는 소통 역량을 함께 키워갑니다.",
-    education: "OO대학교 커뮤니케이션학 석사",
+    id: "keep-safe",
+    label: "안전한 진행",
+    title: "말한 내용은 동의 없이 옮기지 않습니다",
+    body: "검사 결과랑 대화 내용은 조심스럽게 다뤄요. 불편한 주제는 속도를 늦추고, 필요하면 진행 방식을 다시 맞춥니다.",
+    icon: ShieldCheck,
   },
   {
-    id: "3",
-    name: "박실천",
-    title: "철학코칭 전문코치",
-    photoSrc:
-      "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=480&h=520&q=85",
-    photoAlt: "박실천 코치",
-    credentials: ["코칭심리사", "철학상담사 자격"],
-    specialties: ["철학코칭", "자기이해", "삶의 방향", "가치관 탐색"],
-    bio: '"나는 뭘 하고 싶은 걸까?"라는 질문 앞에서 함께 생각해요. 철학적 대화와 코칭을 결합해서, 나만의 삶의 방향을 세우는 여정을 돕습니다.',
-    education: "OO대학교 철학과 박사과정",
+    id: "match-context",
+    label: "매칭 기준",
+    title: "지금 내 주제에 맞춰 연결해요",
+    body: "관계·진로·감정·자기이해 중 지금 제일 가까운 주제를 보고, 말이 잘 통하는 코치로 연결해드려요.",
+    icon: Route,
+  },
+] as const satisfies readonly CoachPrinciple[];
+
+export const coachMatchingChecks = [
+  {
+    title: "지금 가장 가까운 주제",
+    body: "관계·진로·감정·자기이해 중에 요즘 어디서 제일 많이 흔들리는지 먼저 봐요.",
+  },
+  {
+    title: "말하기 편한 속도",
+    body: "바로 깊게 들어가도 괜찮은지, 검사부터 보는 게 편한지 사전 확인 때 맞춰요.",
+  },
+  {
+    title: "끝나고 남기고 싶은 것",
+    body: "위로가 필요한지, 표현 연습이 필요한지, 선택 기준이 필요한지에 따라 첫 만남 방향을 잡아요.",
   },
 ] as const;

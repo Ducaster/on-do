@@ -1,61 +1,48 @@
 import { Container } from "@/components/ui/Container";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
-
-const steps = [
-  { num: "01", title: "문의하기", desc: "홈페이지나 카톡으로 편하게 연락해주세요" },
-  { num: "02", title: "사전 대화", desc: "코치와 짧은 통화로 고민과 기대를 나눠요" },
-  {
-    num: "03",
-    title: "프로그램 매칭",
-    desc: "나에게 맞는 프로그램과 코치를 매칭해드려요",
-  },
-  {
-    num: "04",
-    title: "정기 코칭",
-    desc: "주 1회 코칭으로 나만의 온도를 찾아가요",
-  },
-];
+import { journeySteps } from "@/data/home";
 
 export function Process() {
   return (
-    <section className="py-20 md:py-28 bg-bg-cream" id="process">
+    <section className="bg-bg py-24 md:py-32" id="process">
       <Container>
-        <ScrollReveal>
-          <div className="text-center mb-14">
-            <h2 className="font-heading text-[clamp(1.4rem,3vw,1.8rem)] font-bold text-text mb-3">
-              이렇게 시작해요
-            </h2>
-            <p className="text-[0.88rem] text-text-muted">처음이어도 괜찮아요</p>
-          </div>
-        </ScrollReveal>
+        <div className="grid gap-12 lg:grid-cols-[360px_1fr]">
+          <ScrollReveal>
+            <div className="lg:sticky lg:top-28">
+              <p className="mb-5 text-sm font-extrabold text-primary">
+                시작 흐름
+              </p>
+              <h2 className="text-[34px] font-extrabold leading-[1.12] text-text md:text-[44px]">
+                문의 후에 바로 이렇게 진행돼요
+              </h2>
+              <p className="mt-6 text-base font-medium leading-[1.85] text-text-secondary text-pretty">
+                막연한 신청처럼 느껴지지 않게, 첫 대화 앞뒤로 뭘 확인하는지 미리
+                보여드릴게요.
+              </p>
+            </div>
+          </ScrollReveal>
 
-        <ScrollReveal>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {steps.map((step, i) => (
-              <div
-                key={step.num}
-                className="relative bg-card rounded-[var(--radius-md)] p-6 pt-8 border border-border-lighter text-center"
-              >
-                <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-primary/8 mb-5">
-                  <span className="text-[0.82rem] font-bold text-primary tracking-wide">
-                    {step.num}
-                  </span>
-                </div>
-                <h3 className="text-[0.92rem] font-semibold text-text mb-2">
-                  {step.title}
-                </h3>
-                <p className="text-[0.82rem] text-text-muted leading-[1.7] break-keep">
-                  {step.desc}
-                </p>
-                {i < steps.length - 1 && (
-                  <div className="hidden md:block absolute top-1/2 -right-3 -translate-y-1/2 text-border-light text-[0.7rem]">
-                    →
+          <div className="relative">
+            <div className="absolute left-4 top-4 hidden h-[calc(100%-2rem)] w-px bg-border-light md:block" />
+            {journeySteps.map((step, index) => (
+              <ScrollReveal key={step.step} delay={index * 90}>
+                <article className="relative grid gap-5 border-t border-border-light py-8 first:border-t-0 md:grid-cols-[72px_1fr] md:pl-0">
+                  <div className="relative z-10 flex h-9 w-9 items-center justify-center rounded-sm bg-text text-sm font-extrabold text-text-inverse md:mt-1">
+                    {step.step}
                   </div>
-                )}
-              </div>
+                  <div className="max-w-[660px]">
+                    <h3 className="text-2xl font-extrabold text-text">
+                      {step.title}
+                    </h3>
+                    <p className="mt-3 text-base font-medium leading-[1.8] text-text-secondary text-pretty">
+                      {step.body}
+                    </p>
+                  </div>
+                </article>
+              </ScrollReveal>
             ))}
           </div>
-        </ScrollReveal>
+        </div>
       </Container>
     </section>
   );

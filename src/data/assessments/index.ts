@@ -43,7 +43,7 @@ export const ASSESSMENTS: AssessmentInfo[] = [
     slug: "attachment",
     order: 4,
     title: "애착유형 검사",
-    subtitle: "대인관계 패턴 및 정서적 유대 분석",
+    subtitle: "관계 방식과 정서적 유대 분석",
     type: "survey",
   },
   {
