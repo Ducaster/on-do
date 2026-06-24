@@ -1,4 +1,4 @@
-import { ArrowRight, Gauge, ShieldCheck } from "lucide-react";
+import { ArrowRight, Gauge } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { TemperatureScene } from "@/components/sections/TemperatureScene";
 
@@ -46,14 +46,19 @@ export function Hero() {
             </a>
           </div>
 
-          <div className="mt-8 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-sm font-semibold text-text-muted">
-            <ShieldCheck size={16} className="text-primary" />
-            <span className="text-text-secondary">비밀유지</span>
-            <span aria-hidden className="text-border">·</span>
-            <span className="text-text-secondary">검사는 점수 아닌 단서로</span>
-            <span aria-hidden className="text-border">·</span>
-            <span className="text-text-secondary">지금 주제에 맞춘 코치</span>
-          </div>
+          <ul className="mt-8 flex flex-col gap-2 text-sm font-semibold text-text-secondary sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-5 sm:gap-y-2">
+            {["비밀유지", "검사는 점수 아닌 단서로", "지금 주제에 맞춘 코치"].map(
+              (item) => (
+                <li key={item} className="inline-flex items-center gap-2">
+                  <span
+                    aria-hidden
+                    className="h-1.5 w-1.5 shrink-0 rounded-full bg-primary/60"
+                  />
+                  {item}
+                </li>
+              )
+            )}
+          </ul>
         </div>
       </Container>
 
