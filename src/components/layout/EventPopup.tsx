@@ -5,18 +5,33 @@ import { X, MapPin, CalendarDays } from "lucide-react";
 
 const STORAGE_KEY = "ondo-lecture-popup-hidden-until";
 
+function readHiddenUntil(): number {
+  try {
+    return Number(window.localStorage.getItem(STORAGE_KEY)) || 0;
+  } catch (error) {
+    if (error instanceof DOMException) return 0;
+    throw error;
+  }
+}
+
+function writeHiddenUntil(hiddenUntil: number): void {
+  try {
+    window.localStorage.setItem(STORAGE_KEY, String(hiddenUntil));
+  } catch (error) {
+    if (error instanceof DOMException) return;
+    throw error;
+  }
+}
+
 export function EventPopup() {
   const [open, setOpen] = useState(false);
 
   // 마운트 후 localStorage 확인 — '하루 보지 않기' 기간이 지났으면 표시
   useEffect(() => {
-    let hiddenUntil = 0;
-    try {
-      hiddenUntil = Number(localStorage.getItem(STORAGE_KEY)) || 0;
-    } catch {
-      hiddenUntil = 0;
-    }
-    if (Date.now() > hiddenUntil) setOpen(true);
+    const timerId = window.setTimeout(() => {
+      if (Date.now() > readHiddenUntil()) setOpen(true);
+    }, 0);
+    return () => window.clearTimeout(timerId);
   }, []);
 
   // 열려 있는 동안 ESC 닫기 + 배경 스크롤 잠금
@@ -38,14 +53,7 @@ export function EventPopup() {
   const close = () => setOpen(false);
 
   const hideForDay = () => {
-    try {
-      localStorage.setItem(
-        STORAGE_KEY,
-        String(Date.now() + 24 * 60 * 60 * 1000)
-      );
-    } catch {
-      /* localStorage 사용 불가 시에도 일단 닫기 */
-    }
+    writeHiddenUntil(Date.now() + 24 * 60 * 60 * 1000);
     setOpen(false);
   };
 
@@ -63,7 +71,7 @@ export function EventPopup() {
         className="absolute inset-0 bg-bg-dark/55 backdrop-blur-sm"
       />
 
-      <div className="relative z-10 flex max-h-[90dvh] w-full max-w-[860px] flex-col overflow-hidden rounded-lg bg-bg-cream shadow-xl md:flex-row">
+      <div className="relative z-10 flex max-h-[calc(100dvh-2rem)] w-full max-w-[860px] flex-col overflow-y-auto rounded-lg bg-bg-cream shadow-xl md:max-h-[90dvh] md:flex-row md:overflow-hidden">
         <button
           type="button"
           aria-label="닫기"
@@ -86,7 +94,7 @@ export function EventPopup() {
           />
         </div>
 
-        <div className="flex min-h-0 flex-col overflow-y-auto p-6 md:p-8">
+        <div className="flex flex-col overflow-visible p-6 md:min-h-0 md:overflow-y-auto md:p-8">
           <p className="text-xs font-extrabold uppercase tracking-wider text-primary">
             ego &amp; self · 인문학 강연
           </p>
