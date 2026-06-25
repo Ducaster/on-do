@@ -1,5 +1,27 @@
 export const programs = [
   {
+    id: "6",
+    name: "Value-On",
+    theme: "방학 특별 프로모션",
+    icon: "Gauge",
+    description:
+      "방학에도 할 일은 많지만, 이번에는 해야 할 일을 하나 더 늘리기보다 지금 내 마음이 어디쯤 와 있는지 먼저 확인해요. 강연을 듣고, 읽고, 쓰고, 말하면서 나만의 이야기를 차곡차곡 정리합니다.",
+    recommendedFor:
+      "학점, 자격증, 취업 준비 사이에서 내 마음을 돌볼 시간이 없었을 때",
+    firstSession:
+      "요즘 나를 가장 바쁘게 몰아가는 일과 내 마음 온도를 함께 적어봐요.",
+    takeaway:
+      "방학 동안 쌓아갈 나만의 마인드 포인트와 실천 방향을 정해요.",
+    duration: "120분",
+    frequency: "7/3–7/20 · 19:30–21:30",
+    participantType: "대학생",
+    color: "var(--color-primary)",
+    gradientTo: "#1FD3B4",
+    ctaHref: "https://event-us.kr/ondo/event/128982",
+    ctaLabel: "이벤터스에서 신청하기",
+    ctaExternal: true,
+  },
+  {
     id: "1",
     name: "마음 탕후루",
     theme: "인간관계 프로그램",

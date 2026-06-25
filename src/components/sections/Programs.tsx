@@ -85,7 +85,7 @@ export function Programs() {
           </ScrollReveal>
         </div>
 
-        <div className="mt-16 grid gap-3 md:grid-cols-5">
+        <div className="mt-16 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
           {programs.map((program, index) => (
             <ScrollReveal key={program.id} delay={index * 70} className="h-full">
               <a
